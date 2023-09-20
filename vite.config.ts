@@ -12,11 +12,11 @@ export default defineConfig({
             sassVariables: 'src/quasar-variables.sass',
 
         })
-    ]
+    ],
+    base: '/jawerly-store/',
+    build: {
+        outDir: 'dist'
+    }
 })
 
-module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
-        ? '/jawerly-store/'
-        : '/'
-}
+

@@ -1,4 +1,5 @@
-<script lang="ts" setup>
+@ts-ignore
+<script setup>
 import {date} from 'quasar'
 import {computed, onMounted, ref} from "vue";
 import {getNews, getProducts} from '../api.js'

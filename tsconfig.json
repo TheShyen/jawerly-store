@@ -9,6 +9,7 @@
       "./node_modules/@types",
       "./types"
     ],
+    "allowJs": true,
     /* Bundler mode */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
@@ -16,6 +17,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
+
 
     /* Linting */
     "strict": true,
