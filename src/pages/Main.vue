@@ -6,8 +6,7 @@ import {getNews, getProducts} from '../api.js'
 import { useNewsStore } from '../stores/NewsStore'
 const store = useNewsStore()
 const timeStamp = Date.now()
-const products = ref(null);
-const formattedString = date.formatDate(timeStamp, 'DD.MM.YYYY,HH:mm')
+const products = ref(null)
 onMounted(() => {
   getProducts()
     .then((data) => {
@@ -34,10 +33,10 @@ const getImgUrl = (id)=> {
 </script>
 
 <template>
-  <div>
+  <div class="products__wrapper">
     <div class="lent">Последние товары</div>
-    <div class="products__wrapper column ">
-        <q-card v-for="card in lastProducts" class="card" flat>
+    <div class="products__card column ">
+        <q-card v-for="card in lastProducts" class="card" flat bordered square>
           <q-img :src = getImgUrl(card.previewImageId)>
             <div class="card__info absolute-bottom text-h6">
               <div class="card__price text-white">
@@ -52,14 +51,14 @@ const getImgUrl = (id)=> {
         </q-card>
     </div>
   </div>
-  
-
-
 </template>
 
 
 <style scoped>
 .products__wrapper {
+  padding: 80px 0;
+}
+.products__card {
   max-width: 950px;
   margin: 0 auto;
   display: flex;
@@ -70,24 +69,17 @@ const getImgUrl = (id)=> {
 .lent {
   display: flex;
   justify-content: center;
-  font-family: "Noto Serif";
+  color: var(--accent, #333);
+  text-align: center;
+  font-family: Noto Serif;
   font-size: 30px;
+  font-style: normal;
   font-weight: 700;
+  line-height: normal;
+  padding-bottom: 20px;
 }
 
-.news_list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 
-}
-
-.news_item {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 100px;
-  width: 50vw;
-}
 
 .card {
   margin-top: 10px;
@@ -97,6 +89,9 @@ const getImgUrl = (id)=> {
 
 .card__price {
   font-size: 24px;
+}
+.card__info {
+  min-height: 130px;
 }
 .card__title {
     font-size: 16px;

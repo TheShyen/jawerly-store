@@ -3,7 +3,11 @@ import {ref} from "vue";
 export const useNewsStore = defineStore('newsStore', ()=> {
   const news = ref(null);
 
+  function dispatch() {
+
+  }
   return {
-    news
+    news,
+    dispatch
   }
 })

@@ -31,8 +31,19 @@ import Main from "./pages/Main.vue";
       <div class="products">
         <Main/>
       </div>
-      
-    
+    <div class="questions">
+      <div>
+        <div class="questions__subhead">Есть вопросы?</div>
+        <div class="questions__head">Напишите нам в социальных сетях</div>
+        <q-btn class="questions__btn">Наши соцсети</q-btn>
+      </div>
+    </div>
+    <div class="posts">
+      <div>
+        <div class="questions__subhead">Есть вопросы?</div>
+        <div class="questions__head">Напишите нам в социальных сетях</div>
+      </div>
+    </div>
   
   </q-layout>
 </template>
@@ -71,6 +82,35 @@ import Main from "./pages/Main.vue";
     background: var(--accent, #333)
 .products
   background-color: #F9F9F9
-  
 
+.questions
+  background: url(./static/Rectangle.png) center (center/cover) no-repeat
+  min-height: 400px
+  padding: 100px 0
+  
+  &__subhead
+    color: var(--white, #FFF)
+    text-align: center
+    font-family: Raleway, serif
+    font-size: 21px
+    font-weight: 400
+  &__head
+    color: var(--white, #FFF)
+    text-align: center
+    font-family: 'Noto Serif'
+    font-size: 30px
+    font-weight: 700
+    margin-top: 15px
+  &__btn
+    display: flex
+    margin: 20px auto
+    font-family: Raleway, serif
+    font-size: 18px
+    font-weight: 500
+    text-transform: uppercase
+    border: 1px solid var(--accent, #333)
+    background: var(--white, #FFF)
+.posts
+  background-color: #F9F9F9
+  min-height: 700px
 </style>
