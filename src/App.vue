@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-
-import Main from "./pages/Main.vue";
+  import router from "./router/router.js";
+  
 </script>
 
 
@@ -10,41 +10,18 @@ import Main from "./pages/Main.vue";
       <q-toolbar class="justify-center">
         <q-toolbar-title class="text-h4" shrink>
           <q-avatar>
-            <img alt="logo" src="../src/static/logo-svgrepo-com.svg">
+            <img alt="logo" src="./static/logo-svgrepo-com.svg">
           </q-avatar>
           SaRoS BiJoU
         </q-toolbar-title>
         <q-tabs class="text-h7 q-mt-xs">
-          <q-tab name="images">Главная</q-tab>
-          <q-tab name="videos">Каталог</q-tab>
+          <q-tab @click="router.push('/')" name="images">Главная</q-tab>
+          <q-tab @click="router.push('/catalog')" name="videos">Каталог</q-tab>
           <q-tab name="articles">Articles</q-tab>
         </q-tabs>
       </q-toolbar>
     </q-header>
-    
-      <div class="promo">
-        <div class="promo__wrapper">
-          <div class="promo__slogan">Стильно, дорого, богато!</div>
-          <q-btn class="promo__btn" >каталог изделий</q-btn>
-        </div>
-      </div>
-      <div class="products">
-        <Main/>
-      </div>
-    <div class="questions">
-      <div>
-        <div class="questions__subhead">Есть вопросы?</div>
-        <div class="questions__head">Напишите нам в социальных сетях</div>
-        <q-btn class="questions__btn">Наши соцсети</q-btn>
-      </div>
-    </div>
-    <div class="posts">
-      <div>
-        <div class="questions__subhead">Есть вопросы?</div>
-        <div class="questions__head">Напишите нам в социальных сетях</div>
-      </div>
-    </div>
-  
+    <router-view></router-view>
   </q-layout>
 </template>
 
@@ -52,65 +29,4 @@ import Main from "./pages/Main.vue";
 <style lang="sass" scoped>
 .header
   background: linear-gradient(0deg, rgba(51, 51, 51, 0.87) 0%, rgba(51, 51, 51, 0.87) 100%), lightgray 50% / cover no-repeat
-
-.promo
-  min-height: 730px
-  margin: 0 auto
-  color: #fff
-  background: url(./static/bgc.png) center (center/cover) no-repeat
-  &__wrapper
-    display: flex
-    flex-direction: column
-    
-  &__slogan
-    display: flex
-    justify-content: center
-    color: #FFF
-    margin-top: 500px
-    font-family:'Noto Serif', serif
-    font-size: 36px
-    font-weight: 700
-  
-  &__btn
-    display: flex
-    margin: 20px auto
-    font-family: Raleway, serif
-    font-size: 18px
-    font-weight: 500
-    text-transform: uppercase
-    border: 2px solid var(--white, #FFF)
-    background: var(--accent, #333)
-.products
-  background-color: #F9F9F9
-
-.questions
-  background: url(./static/Rectangle.png) center (center/cover) no-repeat
-  min-height: 400px
-  padding: 100px 0
-  
-  &__subhead
-    color: var(--white, #FFF)
-    text-align: center
-    font-family: Raleway, serif
-    font-size: 21px
-    font-weight: 400
-  &__head
-    color: var(--white, #FFF)
-    text-align: center
-    font-family: 'Noto Serif'
-    font-size: 30px
-    font-weight: 700
-    margin-top: 15px
-  &__btn
-    display: flex
-    margin: 20px auto
-    font-family: Raleway, serif
-    font-size: 18px
-    font-weight: 500
-    text-transform: uppercase
-    border: 1px solid var(--accent, #333)
-    background: var(--white, #FFF)
-.posts
-  background-color: #F9F9F9
-  min-height: 700px
 </style>

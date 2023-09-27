@@ -13,10 +13,14 @@ export default defineConfig({
 
         })
     ],
+    server: {
+
+    },
     base: '/jawerly-store/',
     build: {
         outDir: 'dist'
-    }
+    },
+
 })
 
 
