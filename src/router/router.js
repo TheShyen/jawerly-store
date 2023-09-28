@@ -14,7 +14,7 @@ const routes = [
     component: Catalog
   },
   {
-    path: '/product',
+    path: '/product/:productId',
     component: Product
   }
 ];

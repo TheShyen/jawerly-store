@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import axios from "axios";
 export const useAppStore = defineStore('appStore', ()=> {
   const news = ref([]);
@@ -21,11 +21,17 @@ export const useAppStore = defineStore('appStore', ()=> {
       console.error('Произошла ошибка:', error);
     }
   }
+  const getCurrentProduct = computed(() => {
+    return (id) => {
+      return products.value.find((item) => item.id == id.value)
+    }
+  })
   return {
     news,
     products,
     posts,
     getProducts,
-    getPosts
+    getPosts,
+    getCurrentProduct
   }
 })

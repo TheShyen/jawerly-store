@@ -22,7 +22,7 @@ const getImgUrl = (id) => {
         <q-select :options="options" class="catalog__filter__option" label="Standard"/>
       </div>
       <div class="catalog__cards column ">
-        <q-card @click="router.push('/product')" v-for="card in store.products" class="catalog__card" :key="card.id" flat square>
+        <q-card @click="router.push('/product/' + card.id)" v-for="card in store.products" class="catalog__card" :key="card.id" flat square>
           <q-img :src=getImgUrl(card.previewImageId) class="catalog__card__img"></q-img>
           <q-card-section class="catalog__card__section">
             <div class="catalog__card__category">{{ card.category }}</div>
