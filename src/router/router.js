@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Main from "../pages/Main.vue";
 import Catalog from "../pages/Catalog.vue";
 import Product from "../pages/Product.vue";
+import Posts from "../pages/Posts.vue";
+import Post from "../pages/Post.vue";
+import Authorization from "../pages/Authorization.vue";
 
 const routes = [
   {
@@ -14,8 +17,20 @@ const routes = [
     component: Catalog
   },
   {
+    path: '/posts',
+    component: Posts
+  },
+  {
     path: '/product/:productId',
     component: Product
+  },
+  {
+    path: '/posts/:postId',
+    component: Post
+  },
+  {
+    path: '/login',
+    component: Authorization
   }
 ];
 

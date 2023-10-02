@@ -23,7 +23,7 @@ const getImgUrl = (id) => {
       </div>
       <div class="catalog__cards column ">
         <q-card @click="router.push('/product/' + card.id)" v-for="card in store.products" class="catalog__card" :key="card.id" flat square>
-          <q-img :src=getImgUrl(card.previewImageId) class="catalog__card__img"></q-img>
+          <q-img :src=getImgUrl(card.previewImageId) class="catalog__card__img" ></q-img>
           <q-card-section class="catalog__card__section">
             <div class="catalog__card__category">{{ card.category }}</div>
             <div class="catalog__card__title">{{ card.title }}</div>
@@ -42,7 +42,7 @@ const getImgUrl = (id) => {
   min-height: 800px
   
   &__wrapper
-    max-width: 950px
+    max-width: 1050px
     margin: 0 auto
   
   &__filter
@@ -63,7 +63,7 @@ const getImgUrl = (id) => {
   
   &__card
     margin-top: 15px
-    width: 280px
+    width: 300px
     height: 400px
     background: #F9F9F9
     

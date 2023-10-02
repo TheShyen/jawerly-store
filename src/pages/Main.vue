@@ -68,7 +68,6 @@ const getImgUrl = (id)=> {
         </q-card>
       </div>
     </div>
-    
   </div>
   
 </template>

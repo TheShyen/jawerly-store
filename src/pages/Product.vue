@@ -1,16 +1,17 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.js";
-const slide = ref(1)
+
+const slide = ref('')
 const route = useRoute();
 const productId = computed(() => route.params.productId);
 const store = useAppStore()
 const product = ref({});
 
 onMounted(() => {
-  product.value = store.getCurrentProduct(productId)
-  console.log(product.value)
+  product.value = store.getCurrentProduct(productId);
+  slide.value = product.value.previewImageId;
 })
 function getUrlImg(id) {
   return `https://saros-api-v3-production.up.railway.app/api/v3/images/${id}`
@@ -24,15 +25,18 @@ function getUrlImg(id) {
       <div class="product__main">
         <div class="product__main__carousel">
           <q-carousel
-            height="580px"
+            v-model="slide"
             swipeable
             animated
-            v-model="slide"
-            thumbnails
-            infinite
+            arrows
+            control-color="white"
+            height="580px"
+            navigation
           >
-            <q-carousel-slide :name="img" :img-src="getUrlImg(img)" v-for="img in product?.imagesIds"/>
-            
+            <q-carousel-slide v-for="img in product?.imagesIds" :name="img" class="product__main__carousel__slide">
+              <q-img :src="getUrlImg(img)" class="full-height"/>
+            </q-carousel-slide>
+
           </q-carousel>
         </div>
         <div class="product__main__border__one">
@@ -70,7 +74,8 @@ function getUrlImg(id) {
     justify-content: space-between
     &__carousel
       width: 540px
-      height: 580px
+      &__slide
+        padding: 0 0
     &__border
       display: flex
       justify-content: space-between

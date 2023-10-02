@@ -21,17 +21,20 @@ export const useAppStore = defineStore('appStore', ()=> {
       console.error('Произошла ошибка:', error);
     }
   }
-  const getCurrentProduct = computed(() => {
-    return (id) => {
-      return products.value.find((item) => item.id == id.value)
-    }
-  })
+  function getCurrentProduct(id) {
+    return products.value.find((item) => item.id == id.value)
+  }
+  function getCurrentPost(id) {
+    return posts.value.find((item) => item.id == id.value)
+  }
+
   return {
     news,
     products,
     posts,
     getProducts,
     getPosts,
-    getCurrentProduct
+    getCurrentProduct,
+    getCurrentPost
   }
 })

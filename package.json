@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pages": "npm run build && git add dist && git commit -m 'deploying' && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.6",
