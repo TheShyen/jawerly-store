@@ -64,7 +64,7 @@ function getUrlImg(id) {
 <style lang="sass" scoped>
 .product
   background-color: #F9F9F9
-  min-height: 800px
+  min-height: 100vh
   &__wrapper
     padding: 120px 0
     margin: 0 auto

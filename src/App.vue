@@ -33,7 +33,9 @@
         <div class="login">
           <q-btn color="white" flat label="Войти" @click="removeActiveClassAndRedirect()">
             <q-icon class="q-ml-xs" left name="login"></q-icon>
+            <div class="login__info">( только для администраторов )</div>
           </q-btn>
+          
         </div>
       
       </q-toolbar>
@@ -49,6 +51,7 @@
 
 .logo
   width: 300px
+  
 
 .tabs
   width: 500px
@@ -56,4 +59,13 @@
 .login
   display: flex
   width: 300px
+  flex-direction: column
+  flex-wrap: wrap
+  &__info
+    display: flex
+    text-align: center
+    font-family: Raleway, serif
+    font-weight: 400
+    font-size: 11px
+
 </style>

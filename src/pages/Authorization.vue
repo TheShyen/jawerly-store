@@ -1,20 +1,24 @@
 <script setup>
 import {useQuasar} from "quasar";
 import {ref} from "vue";
+import {useAuthStore} from "../stores/auth.js";
 
 const $q = useQuasar()
+const authStore = useAuthStore();
 
-const login = ref(null)
+const email = ref(null)
 const password = ref(null)
 
-
+async function signIn() {
+  await authStore.signIn({email: email.value, password: password.value})
+}
 
 function onSubmit() {
 
 }
 
 function onReset() {
-  login.value = null
+  email.value = null
   password.value = null
   
 }
@@ -23,17 +27,18 @@ function onReset() {
 <template>
   <div class="form">
     <div class="form__wrapper">
+      <div class="form__text">Авторизация</div>
       <q-form
         class=" q-gutter-md"
         @reset="onReset"
-        @submit="onSubmit"
+        @submit="signIn"
       >
         <q-input
-          v-model="login"
-          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите ваш логин']"
+          v-model="email"
+          :rules="[ val => val && val.length > 0 || 'Пожалуйста, введите вашу почту']"
           filled
-          hint="Логин"
-          label="Ваш логин *"
+          hint="Почта"
+          label="Ваша почта *"
           lazy-rules
         />
         
@@ -64,4 +69,12 @@ function onReset() {
     margin: 0 auto
     padding-top: 200px
     width: 650px
+  
+  &__text
+    color: var(--accent, #333)
+    text-align: center
+    font-family: Raleway, serif
+    font-size: 28px
+    font-weight: 800
+    margin-bottom: 60px
 </style>

@@ -151,6 +151,11 @@ const getImgUrl = (id)=> {
   height: 300px
   &__title
     font-size: 16px
+    font-family: Raleway, serif
+    font-weight: 600
+  &__price
+    font-family: Poppins, serif
+    font-weight: 400
     
 .questions
   background: url(../static/Rectangle.png) center (center/cover) no-repeat
