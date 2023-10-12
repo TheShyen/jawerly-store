@@ -2,26 +2,26 @@
 import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.js";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
+import getImgUrl from "../utils/getImageUrl.js";
 
 const slide = ref('')
 const route = useRoute();
-const productId = computed(() => route.params.productId);
+const productId = ref(route.params.productId);
 const store = useAppStore()
 const product = ref({});
 
 onMounted(() => {
-  product.value = store.getCurrentProduct(productId);
+  product.value = store.getProduct(productId);
   slide.value = product.value.previewImageId;
 })
-function getUrlImg(id) {
-  return `https://saros-api-v3-production.up.railway.app/api/v3/images/${id}`
-}
+
 
 </script>
 
 <template>
   <div class="product">
-    <div class="product__wrapper">
+    <DefaultLayout>
       <div class="product__main">
         <div class="product__main__carousel">
           <q-carousel
@@ -34,7 +34,7 @@ function getUrlImg(id) {
             navigation
           >
             <q-carousel-slide v-for="img in product?.imagesIds" :name="img" class="product__main__carousel__slide">
-              <q-img :src="getUrlImg(img)" class="full-height"/>
+              <q-img :src="getImgUrl(img)" class="full-height"/>
             </q-carousel-slide>
 
           </q-carousel>
@@ -56,7 +56,7 @@ function getUrlImg(id) {
         </div>
           
       </div>
-    </div>
+    </DefaultLayout>
       
   </div>
 </template>
@@ -65,13 +65,10 @@ function getUrlImg(id) {
 .product
   background-color: #F9F9F9
   min-height: 100vh
-  &__wrapper
-    padding: 120px 0
-    margin: 0 auto
-    width: 1150px
   &__main
     display: flex
     justify-content: space-between
+    margin-top: 30px
     &__carousel
       width: 540px
       &__slide

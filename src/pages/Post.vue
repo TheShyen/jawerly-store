@@ -4,31 +4,34 @@ import {useRoute} from "vue-router";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAppStore} from "../stores/AppStore.js";
 import formatDateString from "../utils/formatDateString.js";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
+
 const route = useRoute();
 const store = useAppStore()
-const postId = computed(() => route.params.postId);
+const postId = ref(route.params.postId);
 const post = ref({});
+
 onMounted(() => {
-  post.value = store.getCurrentPost(postId);
+  post.value = store.getPost(postId);
 })
 </script>
 
 <template>
   <div class="post">
-    <div class="post__wrapper">
+    <DefaultLayout>
       <div class="post__main">
         <div class="post__main__img">
           <q-img :src="getImgUrl(post?.imageId)"/>
         </div>
         <div class="post__main__info">
           <div class="post__main__info__date">Дата создания:
-            <div class="post__main__info__date__create">{{formatDateString(post?.postDate)}}</div>
+            <div class="post__main__info__date__create">{{formatDateString(post?.postDate) }}</div>
           </div>
           <div class="post__main__info__title">{{post?.title}}</div>
           <div class="post__main__info__description">{{post?.text}}</div>
         </div>
       </div>
-    </div>
+    </DefaultLayout>
   </div>
 </template>
 
@@ -42,6 +45,7 @@ onMounted(() => {
     width: 1150px
   &__main
     display: flex
+    margin-top: 30px
     &__img
       width: 540px
       height: 580px

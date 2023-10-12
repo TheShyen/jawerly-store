@@ -1,15 +1,13 @@
 export default function formatDateString(dateString) {
-  let dateObject = new Date(dateString);
-  function addLeadingZero(number) {
-    if (number < 10) {
-      return '0' + number;
-    }
-    return number;
-  }
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
 
-  return addLeadingZero(dateObject.getDate()) + '.' +
-    addLeadingZero(dateObject.getMonth() + 1) + '.' +
-    dateObject.getFullYear() + ', ' +
-    addLeadingZero(dateObject.getHours()) + ':' +
-    addLeadingZero(dateObject.getMinutes());
+  const formatter = new Intl.DateTimeFormat('ru-RU', options);
+  const date = new Date(dateString ? dateString : null);
+  return formatter.format(date);
 }
