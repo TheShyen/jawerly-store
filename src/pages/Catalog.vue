@@ -2,8 +2,11 @@
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import CatalogFilters from "../components/CatalogFilters.vue";
 import CatalogProductList from "../components/CatalogProductList.vue";
-import CatalogProductListItem from "../components/CatalogProductListItem.vue";
+import CatalogProductItem from "../components/CatalogProductItem.vue";
 
+import {useAppStore} from "../stores/AppStore.js";
+
+const store = useAppStore()
 
 </script>
 
@@ -12,7 +15,7 @@ import CatalogProductListItem from "../components/CatalogProductListItem.vue";
     <DefaultLayout>
       <CatalogFilters/>
       <CatalogProductList>
-        <CatalogProductListItem/>
+        <CatalogProductItem v-for="card in store.products" :card="card" :key="card.id"/>
       </CatalogProductList>
     </DefaultLayout>
   </div>

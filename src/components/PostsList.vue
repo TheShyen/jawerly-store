@@ -12,6 +12,6 @@
 .posts__cards
   display: flex
   flex-wrap: wrap
-  justify-content: space-between
-  flex-direction: row
+  column-gap: 100px
+  row-gap: 20px
 </style>

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
   import router from "./router/router.js";
   import {onMounted} from "vue";
   let tabs;

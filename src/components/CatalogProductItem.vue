@@ -1,18 +1,28 @@
 <script setup>
 import router from "../router/router.js";
 import getImgUrl from "../utils/getImageUrl.js";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAuthStore} from "../stores/auth.js";
 
-const store = useAppStore()
+const store = useAuthStore();
+defineProps(['card'])
+
 </script>
 
 <template>
-  <q-card @click="router.push('/product/' + card.id)" v-for="card in store.products" class="catalog__card" :key="card.id" flat square>
+  <q-card class="catalog__card" flat square @click="router.push('/product/' + card.id)">
     <q-img :src=getImgUrl(card.previewImageId) class="catalog__card__img" ></q-img>
     <q-card-section class="catalog__card__section">
       <div class="catalog__card__category">{{ card.category }}</div>
       <div class="catalog__card__title">{{ card.title }}</div>
-      <q-btn class="catalog__card__btn">{{ card.price + ' ₽' }}</q-btn>
+      <div class="catalog__card__btns">
+        <q-btn class="catalog__card__btn">{{ card.price + ' ₽' }}</q-btn>
+        <q-btn v-if="store.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="router.push('/edit/' + card.id)">
+          <q-icon color='grey' name="edit"/>
+        </q-btn>
+        <q-btn v-if="store.isAuth" class="catalog__card__edit" flat rounded size="14px">
+          <q-icon color='red' name="delete"/>
+        </q-btn>
+      </div>
     </q-card-section>
   
   </q-card>
@@ -22,8 +32,12 @@ const store = useAppStore()
 .catalog__card
   margin-top: 15px
   width: 300px
-  height: 400px
+  height: 450px
   background: #F9F9F9
+  &:hover
+    background: rgba(0,0,0,.1)
+    transition: 0.6s
+    cursor: pointer
   
   &__section
     padding: 0 0
@@ -46,9 +60,11 @@ const store = useAppStore()
     font-weight: 800
     height: 60px
   
-  &__btn
+  &__btns
     display: flex
-    margin: 20px auto
+    margin-top: 20px
+  &__btn
+    margin: auto
     padding: 10px 20px
     font-family: Poppins, serif
     font-size: 18px
@@ -57,4 +73,5 @@ const store = useAppStore()
     border: 2px solid var(--white, #FFF)
     background: var(--accent, #333)
     color: var(--white, #FFF)
+
 </style>
