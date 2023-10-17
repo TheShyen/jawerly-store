@@ -4,10 +4,13 @@ import {useAppStore} from "../stores/AppStore.js";
 import getImgUrl from "../utils/getImageUrl.js";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import router from "../router/router.js";
+
 const store = useAppStore()
+
 onMounted(() => {
   store.getProducts()
 })
+
 const lastProducts = computed(()=> {
   return store.products.slice(-6);
 })

@@ -7,7 +7,7 @@
     <div>
       <div class="subhead subhead__questions">Есть вопросы?</div>
       <div class="head head__questions">Напишите нам в социальных сетях</div>
-      <q-btn class="questions__btn">Наши соцсети</q-btn>
+      <q-btn href='#socials' class="questions__btn">Наши соцсети</q-btn>
     </div>
   </div>
 </template>
@@ -19,6 +19,7 @@
   padding: 100px 0
   
   &__btn
+    width: 12%
     display: flex
     margin: 20px auto
     font-family: Raleway, serif

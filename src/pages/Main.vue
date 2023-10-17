@@ -3,6 +3,7 @@ import MainPromo from "../components/MainPromo.vue";
 import MainPreviewProducts from "../components/MainPreviewProducts.vue";
 import MainQuestions from "../components/MainQuestions.vue";
 import MainPreviewPosts from "../components/MainPreviewPosts.vue";
+import MainFooter from "../components/MainFooter.vue";
 
 
 </script>
@@ -12,6 +13,7 @@ import MainPreviewPosts from "../components/MainPreviewPosts.vue";
   <MainPreviewProducts/>
   <MainQuestions/>
   <MainPreviewPosts/>
+  <MainFooter/>
 </template>
 
 
