@@ -1,12 +1,13 @@
 <script setup>
 
+import router from "../router/router.js";
 </script>
 
 <template>
   <div class="promo">
     <div class="promo__wrapper">
       <div class="promo__slogan">Стильно, дорого, богато!</div>
-      <q-btn class="promo__btn" >каталог изделий</q-btn>
+      <q-btn class="promo__btn" @click="router.push('/catalog')">каталог изделий</q-btn>
     </div>
     
   </div>

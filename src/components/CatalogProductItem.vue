@@ -35,8 +35,8 @@ defineProps(['card'])
   height: 450px
   background: #F9F9F9
   &:hover
-    background: rgba(0,0,0,.1)
-    transition: 0.6s
+    background: rgba(0,0,0,.03)
+    transition: 0.7s
     cursor: pointer
   
   &__section
@@ -73,5 +73,9 @@ defineProps(['card'])
     border: 2px solid var(--white, #FFF)
     background: var(--accent, #333)
     color: var(--white, #FFF)
+    &:hover
+      transform: scale(1.05)
+      transition: 0.6s
+    
 
 </style>

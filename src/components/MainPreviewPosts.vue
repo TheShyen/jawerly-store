@@ -3,6 +3,7 @@ import getImgUrl from "../utils/getImageUrl.js";
 import {useAppStore} from "../stores/AppStore.js";
 import {computed, onMounted} from "vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import router from "../router/router.js";
 
 const store = useAppStore()
 onMounted(() => {
@@ -23,7 +24,7 @@ const firstPosts = computed(() => {
       </div>
       
       <div class="posts__cards">
-        <q-card class="posts__card" v-for="post in firstPosts" square>
+        <q-card class="posts__card" v-for="post in firstPosts" @click="router.push('/posts/' + post.id)" square>
           <q-img :src="getImgUrl(post.imageId)" class="posts__card__img">
             <div class="absolute-bottom posts__card__title">
               {{post.title}}
@@ -50,6 +51,11 @@ const firstPosts = computed(() => {
     width: 350px
     height: 370px
     background: #F9F9F9
+    &:hover
+      box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.7)
+      transition: 0.6s
+      cursor: pointer
+      transform: scale(1.03)
     &__img
       height: 370px
     &__title

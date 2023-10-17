@@ -3,6 +3,7 @@ import {computed, onMounted} from "vue";
 import {useAppStore} from "../stores/AppStore.js";
 import getImgUrl from "../utils/getImageUrl.js";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import router from "../router/router.js";
 const store = useAppStore()
 onMounted(() => {
   store.getProducts()
@@ -17,7 +18,7 @@ const lastProducts = computed(()=> {
     <DefaultLayout>
       <div class="lent">Последние товары</div>
       <div class="products__cards column ">
-        <q-card v-for="card in lastProducts" :key="card.id" class="products__cards__card" flat bordered square>
+        <q-card v-for="card in lastProducts" @click="router.push('/product/' + card.id)" :key="card.id" class="products__cards__card"  square>
           <q-img :src = getImgUrl(card.previewImageId)>
             <div class="products__cards__card__info absolute-bottom text-h6">
               <div class="products__cards__card__price text-white">
@@ -48,6 +49,11 @@ const lastProducts = computed(()=> {
       margin-top: 15px
       width: 300px
       height: 300px
+      &:hover
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.7)
+        transition: 0.6s
+        cursor: pointer
+        transform: scale(1.03)
       &__title
         font-size: 16px
         font-family: Raleway, serif
