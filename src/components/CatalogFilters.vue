@@ -16,18 +16,25 @@ const options = ref([
     <q-select :options="options" class="catalog__filter__option" label="Standard"/>
     <q-select :options="options" class="catalog__filter__option" label="Standard"/>
   </div>
-  <q-btn v-if="store.isAuth" @click="router.push('/add')">
-    Добавить товар
-  </q-btn>
+  <div class="catalog__btn">
+    <q-btn v-if="store.isAuth" @click="router.push('/add')" color="green" >
+      <q-icon name="add"/>
+      Добавить товар
+    </q-btn>
+  </div>
+  
 </template>
 
 <style lang="sass" scoped>
 .catalog__filter
   display: flex
   flex-wrap: wrap
-  padding-bottom: 50px
+  padding-bottom: 40px
   justify-content: space-between
-  
   &__option
     width: 200px
+.catalog__btn
+  display: flex
+  justify-content: center
+  margin-bottom: 15px
 </style>

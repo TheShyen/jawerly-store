@@ -5,6 +5,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   const news = ref([]);
   const products = ref([])
   const posts = ref([])
+
   async function getProducts() {
     try {
       const response = await axios.get('https://saros-api-v3-production.up.railway.app/api/v3/products');

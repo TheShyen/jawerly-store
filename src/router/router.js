@@ -7,6 +7,7 @@ import Post from "../pages/Post.vue";
 import Authorization from "../pages/Authorization.vue";
 import AddProduct from "../pages/AddProduct.vue";
 import EditProduct from "../pages/EditProduct.vue";
+import EditPost from "../pages/EditPost.vue";
 
 const routes = [
   {
@@ -39,8 +40,12 @@ const routes = [
     component: AddProduct
   },
   {
-    path: '/edit/:productId',
+    path: '/editProduct/:productId',
     component: EditProduct
+  },
+  {
+    path: '/editPost/:postId',
+    component: EditPost
   }
 ];
 

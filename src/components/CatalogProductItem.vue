@@ -2,9 +2,15 @@
 import router from "../router/router.js";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAuthStore} from "../stores/auth.js";
+import {useAppStore} from "../stores/AppStore.js";
 
-const store = useAuthStore();
+const authStore = useAuthStore();
+const store = useAppStore();
 defineProps(['card'])
+
+function openEditPage(id) {
+  router.push('/editProduct/' + id);
+}
 
 </script>
 
@@ -16,10 +22,10 @@ defineProps(['card'])
       <div class="catalog__card__title">{{ card.title }}</div>
       <div class="catalog__card__btns">
         <q-btn class="catalog__card__btn">{{ card.price + ' ₽' }}</q-btn>
-        <q-btn v-if="store.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="router.push('/edit/' + card.id)">
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(card.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
-        <q-btn v-if="store.isAuth" class="catalog__card__edit" flat rounded size="14px">
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px">
           <q-icon color='red' name="delete"/>
         </q-btn>
       </div>

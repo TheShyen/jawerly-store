@@ -4,7 +4,6 @@
 
 <template>
   <div class="socials" id="socials">
-    
     <div class="head head__questions">Мы в социальных сетях</div>
     <div class="socials__links">
       <img alt="vk" class="socials__links__img" src="../assets/vk.svg"/>
