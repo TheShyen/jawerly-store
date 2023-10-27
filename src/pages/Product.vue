@@ -13,6 +13,7 @@ const product = ref({});
 
 onMounted(() => {
   product.value = store.getProduct(productId);
+  console.log(product.value)
   slide.value = product.value.previewImageId;
 })
 

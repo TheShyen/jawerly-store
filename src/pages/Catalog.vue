@@ -5,9 +5,12 @@ import CatalogProductList from "../components/CatalogProductList.vue";
 import CatalogProductItem from "../components/CatalogProductItem.vue";
 
 import {useAppStore} from "../stores/AppStore.js";
+import {onMounted} from "vue";
 
 const store = useAppStore()
 
+onMounted(() => {
+})
 </script>
 
 <template>
@@ -15,7 +18,7 @@ const store = useAppStore()
     <DefaultLayout>
       <CatalogFilters/>
       <CatalogProductList>
-        <CatalogProductItem v-for="card in store.products" :card="card" :key="card.id"/>
+        <CatalogProductItem v-for="card in store.products" :card="card" />
       </CatalogProductList>
     </DefaultLayout>
   </div>
@@ -24,6 +27,6 @@ const store = useAppStore()
 <style lang="sass" scoped>
 .catalog
   background: #F9F9F9
-  min-height: 800px
+  min-height: 100vh
   
 </style>

@@ -7,7 +7,6 @@ import {useAppStore} from "../stores/AppStore.js";
 const authStore = useAuthStore();
 const store = useAppStore();
 defineProps(['card'])
-
 function openEditPage(id) {
   router.push('/editProduct/' + id);
 }

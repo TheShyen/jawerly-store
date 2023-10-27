@@ -5,9 +5,8 @@ import {useAppStore} from "../stores/AppStore.js";
 import uniqid from "uniqid";
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
-import FormInputPrice from "../components/FormInputPrice.vue";
 import FormInputImage from "../components/FormInputImage.vue";
-import FormInputCategory from "../components/FormInputCategory.vue";
+
 
 const appStore = useAppStore()
 const $q = useQuasar()
@@ -56,11 +55,8 @@ function onReset() {
       @reset="onReset"
       @submit="onSubmit"
     >
-      
       <FormInputTitle v-model="title"/>
       <FormInputDescription v-model="description"/>
-      <FormInputPrice v-model="price"/>
-      <FormInputCategory v-model="category"/>
       <FormInputImage @on-upload-file="onUploadFiles"/>
       
       <div class="col-md-6 ">
@@ -68,7 +64,6 @@ function onReset() {
         <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
       </div>
     </q-form>
-    <div>{{title}}</div>
   </div>
 </template>
 

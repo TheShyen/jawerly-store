@@ -12,7 +12,7 @@ onMounted(() => {
 })
 
 const lastProducts = computed(()=> {
-  return store.products.slice(-6);
+  return store.products?.slice(-6);
 })
 </script>
 
@@ -21,13 +21,13 @@ const lastProducts = computed(()=> {
     <DefaultLayout>
       <div class="lent">Последние товары</div>
       <div class="products__cards column ">
-        <q-card v-for="card in lastProducts" @click="router.push('/product/' + card.id)" :key="card.id" class="products__cards__card"  square>
-          <q-img :src = getImgUrl(card.previewImageId)>
-            <div class="products__cards__card__info absolute-bottom text-h6">
-              <div class="products__cards__card__price text-white">
+        <q-card v-for="card in lastProducts" @click="router.push('/product/' + card.id)" :key="card.id" class="productItem"  square>
+          <q-img :src = getImgUrl(card.previewImageId) class="productItem__img">
+            <div class="productItem__info absolute-bottom text-h6">
+              <div class="productItem__price text-white">
                 {{card.price}} ₽
               </div>
-              <div class="products__cards__card__title self-center text-white">
+              <div class="productItem__title self-center text-white">
                 {{card.title}}
               </div>
             </div>
@@ -42,28 +42,30 @@ const lastProducts = computed(()=> {
 <style lang="sass" scoped>
 .products
   background-color: #F9F9F9
-  
   &__cards
     display: flex
     flex-wrap: wrap
     justify-content: space-around
     flex-direction: row
-    &__card
-      margin-top: 15px
-      width: 300px
-      height: 300px
-      &:hover
-        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.7)
-        transition: 0.6s
-        cursor: pointer
-        transform: scale(1.03)
-      &__title
-        font-size: 16px
-        font-family: Raleway, serif
-        font-weight: 600
-      &__price
-        font-family: Poppins, serif
-        font-weight: 400
+    
+.productItem
+  margin-top: 15px
+  width: 300px
+  height: 300px
+  &:hover
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.7)
+    transition: 0.6s
+    cursor: pointer
+    transform: scale(1.03)
+  &__img
+    height: 300px
+  &__title
+    font-size: 16px
+    font-family: Raleway, serif
+    font-weight: 600
+  &__price
+    font-family: Poppins, serif
+    font-weight: 400
 
 .lent
   display: flex
