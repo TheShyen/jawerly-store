@@ -13,7 +13,6 @@ const product = ref({});
 
 onMounted(() => {
   product.value = store.getProduct(productId);
-  console.log(product.value)
   slide.value = product.value.previewImageId;
 })
 
@@ -30,7 +29,7 @@ onMounted(() => {
             swipeable
             animated
             arrows
-            control-color="white"
+            control-color="black"
             height="580px"
             navigation
           >

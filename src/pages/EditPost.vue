@@ -60,7 +60,7 @@ function onReset() {
               lazy-rules
             />
             <q-input
-              v-model="post.text"
+              v-model="post.description"
               filled
               label="Описание"
               type="textarea"

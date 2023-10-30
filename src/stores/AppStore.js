@@ -1,24 +1,32 @@
 import { defineStore } from 'pinia';
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import axios from "axios";
-import uniqid from "uniqid";
+
+const URL = import.meta.env.VITE_BASE_URL_DATABASE
+const IMAGE_URL = import.meta.env.VITE_BASE_URL_FORIMAGE
+
+function calculateIndex(array, element) {
+  return array.value?.findIndex((item) => item.id === element.id);
+}
 export const useAppStore = defineStore('appStore', ()=> {
   const news = ref([]);
   const products = ref([])
   const posts = ref([])
-
+  const fullDataProducts = ref([])
+  const isLoading = ref(false)
   async function getProducts() {
     try {
-      const response = await axios.get('https://jawerly-store-768cb-default-rtdb.europe-west1.firebasedatabase.app/products.json');
-      products.value = Object.values(response.data)
+      const response = await axios.get(`${URL}products.json`);
+      products.value = Object.values(response.data);
+      fullDataProducts.value = Object.entries(response.data);
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
   }
   async function getPosts () {
     try {
-      const response = await axios.get('http://147.78.66.209:8080/api/v3/posts');
-      posts.value = response.data
+      const response = await axios.get(`${URL}posts.json`);
+      posts.value = Object.values(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -29,46 +37,91 @@ export const useAppStore = defineStore('appStore', ()=> {
   function getPost(id) {
     return posts.value.find((item) => item.id == id.value)
   }
-
+  function getFullProductInfo(product) {
+    return fullDataProducts.value.find((item) => item[1] === product)
+  }
   async function addProduct(selectedFile, product) {
+    isLoading.value = true;
+    try {
+      await axios
+        .post(`${URL}products.json`, JSON.stringify(product))
+        .then(response => {
+          products.value.push(product)
+        })
+      for (let item of selectedFile.value) {
+        await axios
+          .post(`${IMAGE_URL + item.name}`, {
+            item
+          }, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }
+          })
+
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      isLoading.value = false;
+    }
+  }
+  async function addPost(selectedFile, post) {
+    isLoading.value = true;
     await axios
-      .post(`https://jawerly-store-768cb-default-rtdb.europe-west1.firebasedatabase.app/products.json`, JSON.stringify({
-        ...product
-      }), {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      })
+      .post(`${URL}posts.json`, JSON.stringify(post))
       .then(response => {
-        products.value.push(product)
+        posts.value.push(post)
       })
       .catch(error => {
         console.error(error);
       });
-
     for (let item of selectedFile.value) {
-      await axios
-        .post(`https://firebasestorage.googleapis.com/v0/b/jawerly-store-768cb.appspot.com/o/images%2F${item.name}`, {
-          item
-        }, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          }
-        })
-        .catch(error => {
-          console.error( error);
-        });
+      try {
+        await axios
+          .post(`${IMAGE_URL + item.name}`, {
+            item
+          }, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }
+          })
+      } catch (error) {
+        console.error(error);
+      } finally {
+        isLoading.value = false;
+      }
     }
+  }
+  async function deleteProduct(id, product) {
+    products.value.splice(calculateIndex(id, product),1);
+    await axios.delete(`${URL}/products/${id}.json`)
+      .catch(error => {
+        console.error(error);
+      })
+  }
+
+  async function updateProduct(id, product) {
+    await axios.patch(`${URL}/products/${id}.json`, JSON.stringify(product))
+      .then(response => console.log(response))
+      .catch(error => {
+        console.error(error);
+      })
   }
 
   return {
     news,
     products,
+    fullDataProducts,
     posts,
+    isLoading,
     getProducts,
     getPosts,
     getProduct,
+    getFullProductInfo,
     getPost,
-    addProduct
+    addProduct,
+    addPost,
+    deleteProduct,
+    updateProduct
   }
 })

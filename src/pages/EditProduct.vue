@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.js";
@@ -11,6 +11,7 @@ const route = useRoute();
 const productId = ref(route.params.productId);
 const store = useAppStore()
 const product = ref({});
+const updateKey = ref(1)
 
 const options = [
   'Браслеты', 'Серёжки', 'Цепочки'
@@ -23,35 +24,44 @@ onMounted(() => {
   
 })
 
+
 function onSubmit() {
+  const item = store.getFullProductInfo(product.value)
+  store.updateProduct(item[0], item[1])
 }
 
 function onReset() {
 }
+
+function deleteCurrentImage(id) {
+  product.value.imagesIds.splice(product.value.imagesIds.findIndex(item => item === id), 1)
+  product.value.previewImageId = product.value.imagesIds[0]
+  slide.value = product.value.imagesIds[0]
+  
+}
 </script>
 
 <template>
-  <div class="product">
+  <div class="product" :key="updateKey">
     <DefaultLayout>
       <div class="product__main">
-        <div class="product__main__carousel">
+        <div class="product__main__carousel" >
           <q-carousel
             v-model="slide"
             animated
             arrows
-            control-color="white"
+            control-color="black"
             height="580px"
             navigation
             swipeable
           >
-            <q-carousel-slide v-for="img in product?.imagesIds" :name="img" class="product__main__carousel__slide">
-              
+            <q-carousel-slide v-for="img in product?.imagesIds" :name="img" :key="img" class="product__main__carousel__slide">
               <q-img :src="getImgUrl(img)" class="full-height">
                 <div class="absolute-top-right">
                   <q-btn  flat round size="14px" >
                     <q-icon color='white' name="add"/>
                   </q-btn>
-                  <q-btn  flat round size="14px" class="q-ml-md" @click="console.log(`Вы удалили картинку с id ${img}`)">
+                  <q-btn  flat round size="14px" class="q-ml-md" @click="deleteCurrentImage(img)">
                     <q-icon color='red' name="delete"/>
                   </q-btn>
                 </div>

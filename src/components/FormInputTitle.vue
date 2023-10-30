@@ -4,14 +4,15 @@
 
 <template>
   <q-input
-    :rules="[ val => val && val.length > 0 || 'Please type something']"
-    class="col-md-6 text-h6"
+    :rules="[ val => val && val.length > 0 || 'Пожалуйста, напишите что-нибудь']"
+    class="input col-md-6 text-h6"
     filled
-    label="Title"
+    label="Заголовок"
     lazy-rules
   />
 </template>
 
 <style lang="sass" scoped>
-
+.input
+  padding-bottom: 0px
 </style>

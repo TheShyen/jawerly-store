@@ -11,7 +11,7 @@ const options = [
     :options="options"
     class="col-md-6 text-h6"
     filled
-    label="Category"
+    label="Категория"
   />
 
 </template>

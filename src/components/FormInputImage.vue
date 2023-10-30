@@ -1,11 +1,29 @@
 <script setup>
 const emit = defineEmits(['on-upload-file'])
+const images = [];
+function addFiles(files) {
+  images.value = files;
+  emit('on-upload-file', images.value)
+  console.log(images.value)
+}
+function deleteFiles(files) {
+  images.value.splice(images.value.findIndex(item => item === files[0]), 1)
+  emit('on-upload-file', images.value)
+  console.log(images.value)
+}
 
 </script>
 
 <template>
-  <div class="col-md-6">
-    <input type="file" multiple @change="emit('on-upload-file', $event)" accept="image/*" />
+  <div class="uploader col-lg-6">
+    <q-uploader
+      no-thumbnails
+      files
+      @added="addFiles"
+      @removed="deleteFiles"
+      label="Загрузите картинки"
+      multiple
+    />
   </div>
 </template>
 

@@ -17,7 +17,7 @@ const options = ref([
     <q-select :options="options" class="catalog__filter__option" label="Standard"/>
   </div>
   <div class="catalog__btn">
-    <q-btn v-if="store.isAuth" @click="router.push('/add')" color="green" >
+    <q-btn v-if="store.isAuth" @click="router.push('/addProduct')" color="green" >
       <q-icon name="add"/>
       Добавить товар
     </q-btn>

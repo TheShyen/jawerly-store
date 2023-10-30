@@ -28,7 +28,7 @@ onMounted(() => {
             <div class="post__main__info__date__create">{{formatDateString(post?.postDate) }}</div>
           </div>
           <div class="post__main__info__title">{{post?.title}}</div>
-          <div class="post__main__info__description">{{post?.text}}</div>
+          <div class="post__main__info__description">{{post?.description}}</div>
         </div>
       </div>
     </DefaultLayout>

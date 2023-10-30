@@ -15,6 +15,12 @@ const isPasswordVisible = ref(true)
 async function signIn() {
   authStore.isLoading = true;
   await authStore.signIn({email: email.value, password: password.value})
+  $q.notify({
+    message: 'Вы авторизовались!',
+    color: 'green',
+    timeout: 3000,
+    position: 'top'
+  })
 }
 
 

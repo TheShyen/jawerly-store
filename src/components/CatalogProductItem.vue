@@ -10,6 +10,10 @@ defineProps(['card'])
 function openEditPage(id) {
   router.push('/editProduct/' + id);
 }
+function deleteProduct(card) {
+  const item = store.getFullProductInfo(card);
+  store.deleteProduct(item[0], item[1])
+}
 
 </script>
 
@@ -24,7 +28,7 @@ function openEditPage(id) {
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(card.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
-        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px">
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="deleteProduct(card)">
           <q-icon color='red' name="delete"/>
         </q-btn>
       </div>

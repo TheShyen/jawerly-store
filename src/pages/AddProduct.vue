@@ -2,7 +2,7 @@
 import {useQuasar} from "quasar";
 import { ref} from "vue";
 import {useAppStore} from "../stores/AppStore.js";
-import uniqid from "uniqid";
+import { nanoid } from 'nanoid'
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputPrice from "../components/FormInputPrice.vue";
@@ -12,12 +12,12 @@ import FormInputCategory from "../components/FormInputCategory.vue";
 const appStore = useAppStore()
 const $q = useQuasar()
 
-const title = ref(null);
+const title = ref('');
 const description = ref('')
-const category = ref(null);
+const category = ref('');
 const price = ref('')
 const selectedFiles = ref(null)
-
+const isAddMoreProduct = ref(false)
 
 function getImagesName() {
   const arr = []
@@ -26,9 +26,9 @@ function getImagesName() {
   }
   return arr;
 }
-function onSubmit() {
-  appStore.addProduct(selectedFiles, {
-    id: uniqid(),
+async function onSubmit() {
+  await appStore.addProduct(selectedFiles, {
+    id: nanoid(),
     title: title.value,
     category: category.value,
     description: description.value,
@@ -36,12 +36,23 @@ function onSubmit() {
     previewImageId: getImagesName()[0],
     imagesIds: getImagesName()
   })
-  
+  if(isAddMoreProduct) {
+    title.value = '';
+    description.value = '';
+    category.value = '';
+    price.value = '';
+    selectedFiles.value = null;
+  }
+  $q.notify({
+    message: 'Товар добавлен!',
+    color: 'green',
+    timeout: 3000,
+  })
 }
-function onUploadFiles(event) {
-  selectedFiles.value = event.target.files;
+function onUploadFiles(files) {
+  selectedFiles.value = files;
+  console.log(selectedFiles.value)
 }
-
 
 function onReset() {
   title.value = null
@@ -52,7 +63,8 @@ function onReset() {
 <template>
   <div>
     <q-form
-      class="q-gutter-md q-ma-xl row wrap justify-center"
+      v-if="!appStore.isLoading"
+      class="form q-gutter-md row wrap justify-center"
       @reset="onReset"
       @submit="onSubmit"
     >
@@ -62,16 +74,32 @@ function onReset() {
       <FormInputPrice v-model="price"/>
       <FormInputCategory v-model="category"/>
       <FormInputImage @on-upload-file="onUploadFiles"/>
-      
+      <q-checkbox class="checkbox col-md-6" v-model="isAddMoreProduct" label="Добавить еще"/>
       <div class="col-md-6 ">
         <q-btn color="primary" label="Submit" size="17px" type="submit"/>
         <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
       </div>
     </q-form>
-    <div>{{title}}</div>
+    <div class="spinner" v-if="appStore.isLoading">
+      <q-spinner
+        color="primary"
+        size="10em"
+        :thickness="10"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="sass" scoped>
-
+.form
+  padding: 100px 40px
+  min-height: 100vh
+  background-color: #F9F9F9
+.spinner
+  width: 8.5vw
+  height: 900px
+  margin: 39vh auto
+  align-items: center
+.checkbox
+  padding: 0 0
 </style>

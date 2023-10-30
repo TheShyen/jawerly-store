@@ -1,4 +1,4 @@
 export default function getImgUrl(id) {
-  return `https://firebasestorage.googleapis.com/v0/b/jawerly-store-768cb.appspot.com/o/images%2F${id}?alt=media`
+  return `${import.meta.env.VITE_BASE_URL_FORIMAGE}${id}?alt=media`
 }
 

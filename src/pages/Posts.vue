@@ -16,7 +16,7 @@ const store = useAuthStore()
   <div class="posts">
     <DefaultLayout>
       <div class="posts__btn">
-        <q-btn v-if="store.isAuth" @click="router.push('/add')" color="green" >
+        <q-btn v-if="store.isAuth" @click="router.push('/addPost')" color="green" >
           <q-icon name="add"/>
           Добавить пост
         </q-btn>

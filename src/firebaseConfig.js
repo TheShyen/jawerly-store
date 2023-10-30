@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {getStorage} from "firebase/storage"
 const firebaseConfig = {
-  apiKey: "AIzaSyBQIZ7gnJaHFSNOsJ62BfWaReGKdjGknK4",
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "jawerly-store-768cb.firebaseapp.com",
   projectId: "jawerly-store-768cb",
   storageBucket: "jawerly-store-768cb.appspot.com",

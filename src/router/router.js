@@ -8,6 +8,10 @@ import Authorization from "../pages/Authorization.vue";
 import AddProduct from "../pages/AddProduct.vue";
 import EditProduct from "../pages/EditProduct.vue";
 import EditPost from "../pages/EditPost.vue";
+import AddPost from "../pages/AddPost.vue";
+import {useAuthStore} from "../stores/auth.js";
+
+
 
 const routes = [
   {
@@ -33,19 +37,35 @@ const routes = [
   },
   {
     path: '/login',
-    component: Authorization
+    component: Authorization,
   },
   {
-    path: '/add',
-    component: AddProduct
+    path: '/addProduct',
+    component: AddProduct,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/addPost',
+    component: AddPost,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/editProduct/:productId',
-    component: EditProduct
+    component: EditProduct,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/editPost/:postId',
-    component: EditPost
+    component: EditPost,
+    meta: {
+      auth: true
+    }
   }
 ];
 
@@ -53,5 +73,12 @@ const router = createRouter({
   history: createWebHistory('/jawerly-store/'),
   routes,
 });
-
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  if(to.meta.auth && !authStore.userInfo.token) {
+    next('/login')
+  } else {
+    next()
+  }
+})
 export default router;

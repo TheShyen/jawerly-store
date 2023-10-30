@@ -2,10 +2,10 @@
 import {useQuasar} from "quasar";
 import { ref} from "vue";
 import {useAppStore} from "../stores/AppStore.js";
-import uniqid from "uniqid";
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
+import {nanoid} from "nanoid";
 
 
 const appStore = useAppStore()
@@ -13,8 +13,7 @@ const $q = useQuasar()
 
 const title = ref(null);
 const description = ref('')
-const category = ref(null);
-const price = ref('')
+
 const selectedFiles = ref(null)
 
 
@@ -26,32 +25,29 @@ function getImagesName() {
   return arr;
 }
 function onSubmit() {
-  appStore.addProduct(selectedFiles, {
-    id: uniqid(),
+  appStore.addPost(selectedFiles, {
+    id: nanoid(),
     title: title.value,
-    category: category.value,
     description: description.value,
-    price: price.value,
-    previewImageId: getImagesName()[0],
-    imagesIds: getImagesName()
+    postDate: new Date().toISOString(),
+    imageId: getImagesName()[0]
   })
   
 }
-function onUploadFiles(event) {
-  selectedFiles.value = event.target.files;
+function onUploadFiles(files) {
+  selectedFiles.value = files;
 }
 
 
 function onReset() {
   title.value = null
-  category.value = null
 }
 </script>
 
 <template>
   <div>
     <q-form
-      class="q-gutter-md q-ma-xl row wrap justify-center"
+      class="form q-gutter-md q-ma-xl row wrap justify-center"
       @reset="onReset"
       @submit="onSubmit"
     >
@@ -68,5 +64,6 @@ function onReset() {
 </template>
 
 <style lang="sass" scoped>
-
+.form
+  margin-top: 80px
 </style>
