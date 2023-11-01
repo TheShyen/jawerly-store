@@ -13,6 +13,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   const products = ref([])
   const posts = ref([])
   const fullDataProducts = ref([])
+  const fullDataPosts = ref([])
   const isLoading = ref(false)
   async function getProducts() {
     try {
@@ -27,6 +28,7 @@ export const useAppStore = defineStore('appStore', ()=> {
     try {
       const response = await axios.get(`${URL}posts.json`);
       posts.value = Object.values(response.data)
+      fullDataPosts.value = Object.entries(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -39,6 +41,9 @@ export const useAppStore = defineStore('appStore', ()=> {
   }
   function getFullProductInfo(product) {
     return fullDataProducts.value.find((item) => item[1] === product)
+  }
+  function getFullPostInfo(post) {
+    return fullDataPosts.value.find((item) => item[1] === post)
   }
   async function addProduct(selectedFile, product) {
     isLoading.value = true;
@@ -99,6 +104,13 @@ export const useAppStore = defineStore('appStore', ()=> {
         console.error(error);
       })
   }
+  async function deletePost(id, post) {
+    posts.value.splice(calculateIndex(id, post),1);
+    await axios.delete(`${URL}/posts/${id}.json`)
+      .catch(error => {
+        console.error(error);
+      })
+  }
 
   async function updateProduct(id, product) {
     await axios.patch(`${URL}/products/${id}.json`, JSON.stringify(product))
@@ -118,10 +130,12 @@ export const useAppStore = defineStore('appStore', ()=> {
     getPosts,
     getProduct,
     getFullProductInfo,
+    getFullPostInfo,
     getPost,
     addProduct,
     addPost,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    deletePost
   }
 })

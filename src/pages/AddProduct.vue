@@ -8,6 +8,7 @@ import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputPrice from "../components/FormInputPrice.vue";
 import FormInputImage from "../components/FormInputImage.vue";
 import FormInputCategory from "../components/FormInputCategory.vue";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 const appStore = useAppStore()
 const $q = useQuasar()
@@ -36,13 +37,15 @@ async function onSubmit() {
     previewImageId: getImagesName()[0],
     imagesIds: getImagesName()
   })
-  if(isAddMoreProduct) {
-    title.value = '';
-    description.value = '';
-    category.value = '';
-    price.value = '';
-    selectedFiles.value = null;
-  }
+  
+  title.value = '';
+  description.value = '';
+  category.value = '';
+  price.value = '';
+  selectedFiles.value = null;
+  
+  
+  
   $q.notify({
     message: 'Товар добавлен!',
     color: 'green',
@@ -61,40 +64,48 @@ function onReset() {
 </script>
 
 <template>
-  <div>
-    <q-form
-      v-if="!appStore.isLoading"
-      class="form q-gutter-md row wrap justify-center"
-      @reset="onReset"
-      @submit="onSubmit"
-    >
-      
-      <FormInputTitle v-model="title"/>
-      <FormInputDescription v-model="description"/>
-      <FormInputPrice v-model="price"/>
-      <FormInputCategory v-model="category"/>
-      <FormInputImage @on-upload-file="onUploadFiles"/>
-      <q-checkbox class="checkbox col-md-6" v-model="isAddMoreProduct" label="Добавить еще"/>
-      <div class="col-md-6 ">
-        <q-btn color="primary" label="Submit" size="17px" type="submit"/>
-        <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
+  <div class="form">
+    <DefaultLayout style="width: 900px">
+      <div>
+        <q-form
+          v-if="!appStore.isLoading"
+          class="column form__input justify-center"
+          @reset="onReset"
+          @submit="onSubmit"
+        >
+          
+          <FormInputTitle v-model="title"/>
+          <FormInputDescription v-model="description"/>
+          <FormInputPrice v-model="price"/>
+          <FormInputCategory v-model="category"/>
+          <FormInputImage @on-upload-file="onUploadFiles"/>
+          <q-checkbox v-model="isAddMoreProduct" class="checkbox col-md-6" label="Добавить еще"/>
+          <div class="col-md-6 ">
+            <q-btn color="primary" label="Submit" size="17px" type="submit"/>
+            <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
+          </div>
+        </q-form>
+        <div v-if="appStore.isLoading" class="spinner">
+          <q-spinner
+            :thickness="10"
+            color="primary"
+            size="10em"
+          />
+        </div>
       </div>
-    </q-form>
-    <div class="spinner" v-if="appStore.isLoading">
-      <q-spinner
-        color="primary"
-        size="10em"
-        :thickness="10"
-      />
-    </div>
+    </DefaultLayout>
   </div>
+
 </template>
 
 <style lang="sass" scoped>
 .form
-  padding: 100px 40px
+  padding: 50px 40px
   min-height: 100vh
   background-color: #F9F9F9
+  
+  &__input
+    row-gap: 20px
 .spinner
   width: 8.5vw
   height: 900px

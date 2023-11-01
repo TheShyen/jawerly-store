@@ -11,6 +11,11 @@ const authStore = useAuthStore();
 function openEditPage(id) {
   router.push('/editPost/' + id);
 }
+
+function deletePost(card) {
+  const item = store.getFullPostInfo(card);
+  store.deletePost(item[0], item[1])
+}
 </script>
 
 <template>
@@ -24,7 +29,7 @@ function openEditPage(id) {
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(post.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
-        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px">
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="deletePost(post)">
           <q-icon color='red' name="delete"/>
         </q-btn>
       </div>
