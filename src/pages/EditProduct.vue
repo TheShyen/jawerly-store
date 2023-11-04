@@ -1,9 +1,13 @@
 <script setup>
-import {nextTick, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.js";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import FormInputTitle from "../components/FormInputTitle.vue";
+import FormInputDescription from "../components/FormInputDescription.vue";
+import FormInputPrice from "../components/FormInputPrice.vue";
+import FormInputCategory from "../components/FormInputCategory.vue";
 import router from "../router/router.js";
 
 const slide = ref('')
@@ -11,26 +15,15 @@ const route = useRoute();
 const productId = ref(route.params.productId);
 const store = useAppStore()
 const product = ref({});
-const updateKey = ref(1)
 
-const options = [
-  'Браслеты', 'Серёжки', 'Цепочки'
-]
 
 onMounted(() => {
   product.value = store.getProduct(productId);
   slide.value = product.value.previewImageId;
-  
-  
 })
 
-
-function onSubmit() {
-  const item = store.getFullProductInfo(product.value)
-  store.updateProduct(item[0], item[1])
-}
-
-function onReset() {
+function onSave() {
+  store.updateProduct(product.value)
 }
 
 function deleteCurrentImage(id) {
@@ -42,7 +35,7 @@ function deleteCurrentImage(id) {
 </script>
 
 <template>
-  <div class="product" :key="updateKey">
+  <div class="product">
     <DefaultLayout>
       <div class="product__main">
         <div class="product__main__carousel" >
@@ -67,44 +60,18 @@ function deleteCurrentImage(id) {
                 </div>
               </q-img>
             </q-carousel-slide>
-          
           </q-carousel>
         </div>
-        <div class="product__form">
-          <q-form
-            class="q-gutter-md column wrap justify-center"
-            @reset="onReset"
-            @submit="onSubmit"
-          >
-            <q-input
-              v-model="product.title"
-              :rules="[ val => val && val.length > 0 || 'Please type something']"
-              class="text-h6"
-              filled
-              label="Заголовок"
-              lazy-rules
-            />
-            <q-input
-              v-model="product.description"
-              filled
-              label="Описание"
-              type="textarea"
-            />
-            <q-input
-              v-model="product.price"
-              class="text-h6"
-              filled
-              label="Цена"
-            />
-            
-            <q-select v-model="product.category" :options="options" class="col-md-8 text-h6" filled label="Категория"/>
-            
-            <div class="q-mt-lg">
-              <q-btn color="green" label="Изменить" size="17px" type="submit"/>
-              <q-btn class="q-ml-sm" color="primary" flat label="Назад" size="17px" @click="router.push('/catalog')"/>
-              <q-btn class="q-ml-sm" color="red" flat label="Удалить" size="17px"/>
-            </div>
-          </q-form>
+        <div class="form column wrap">
+          <FormInputTitle v-model="product.title"/>
+          <FormInputDescription v-model="product.description"/>
+          <FormInputPrice v-model="product.price"/>
+          <FormInputCategory v-model="product.category"/>
+          <div class="q-mt-lg">
+            <q-btn color="green" label="Сохранить" size="17px" @click="onSave"/>
+            <q-btn class="q-ml-sm" color="primary" flat label="Назад" size="17px" @click="router.push('/catalog')"/>
+            <q-btn class="q-ml-sm" color="red" flat label="Удалить" size="17px"/>
+          </div>
         </div>
       </div>
     </DefaultLayout>
@@ -125,8 +92,4 @@ function deleteCurrentImage(id) {
       &__slide
         padding: 0 0
        
-  &__form
-    width: 540px
-    height: 580px
-    margin-left: 40px
 </style>

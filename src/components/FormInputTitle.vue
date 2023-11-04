@@ -5,7 +5,7 @@
 <template>
   <q-input
     :rules="[ val => val && val.length > 0 || 'Пожалуйста, напишите что-нибудь']"
-    class="input col-md-6 text-h6"
+    class="input text-h6"
     filled
     label="Заголовок"
     lazy-rules

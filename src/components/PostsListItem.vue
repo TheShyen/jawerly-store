@@ -12,9 +12,8 @@ function openEditPage(id) {
   router.push('/editPost/' + id);
 }
 
-function deletePost(card) {
-  const item = store.getFullPostInfo(card);
-  store.deletePost(item[0], item[1])
+function deletePost(post) {
+  store.deletePost(post)
 }
 </script>
 

@@ -1,6 +1,8 @@
 <script setup>
+import {ref} from "vue";
+
 const emit = defineEmits(['on-upload-file'])
-const images = [];
+const images = ref([]);
 function addFiles(files) {
   images.value = files;
   emit('on-upload-file', images.value)

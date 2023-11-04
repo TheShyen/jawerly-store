@@ -5,7 +5,7 @@
 <template>
   <q-input
     filled
-    class="col-md-6 text-h6"
+    class="text-h6"
     label="Цена"
   />
   

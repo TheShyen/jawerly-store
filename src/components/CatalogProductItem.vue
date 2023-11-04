@@ -11,8 +11,7 @@ function openEditPage(id) {
   router.push('/editProduct/' + id);
 }
 function deleteProduct(card) {
-  const item = store.getFullProductInfo(card);
-  store.deleteProduct(item[0], item[1])
+  store.deleteProduct(card)
 }
 
 </script>

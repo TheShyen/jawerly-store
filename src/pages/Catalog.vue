@@ -10,6 +10,7 @@ import {onMounted} from "vue";
 const store = useAppStore()
 
 onMounted(() => {
+  store.getProducts()
 })
 </script>
 

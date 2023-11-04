@@ -27,9 +27,9 @@ function getImagesName() {
   }
   return arr;
 }
-async function onSubmit() {
+async function onCreate() {
   await appStore.addProduct(selectedFiles, {
-    id: nanoid(),
+    id: '',
     title: title.value,
     category: category.value,
     description: description.value,
@@ -67,13 +67,7 @@ function onReset() {
   <div class="form">
     <DefaultLayout style="width: 900px">
       <div>
-        <q-form
-          v-if="!appStore.isLoading"
-          class="column form__input justify-center"
-          @reset="onReset"
-          @submit="onSubmit"
-        >
-          
+        <div v-if="!appStore.isLoading" class="column form__input justify-center">
           <FormInputTitle v-model="title"/>
           <FormInputDescription v-model="description"/>
           <FormInputPrice v-model="price"/>
@@ -81,10 +75,10 @@ function onReset() {
           <FormInputImage @on-upload-file="onUploadFiles"/>
           <q-checkbox v-model="isAddMoreProduct" class="checkbox col-md-6" label="Добавить еще"/>
           <div class="col-md-6 ">
-            <q-btn color="primary" label="Submit" size="17px" type="submit"/>
-            <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
+            <q-btn color="primary" label="Создать" size="17px" @click="onCreate"/>
+            <q-btn class="q-ml-sm" color="primary" flat label="Очистить" size="17px" @click="onReset"/>
           </div>
-        </q-form>
+        </div>
         <div v-if="appStore.isLoading" class="spinner">
           <q-spinner
             :thickness="10"
@@ -100,16 +94,16 @@ function onReset() {
 
 <style lang="sass" scoped>
 .form
-  padding: 50px 40px
+  padding: 30px 40px
   min-height: 100vh
   background-color: #F9F9F9
   
   &__input
-    row-gap: 20px
+    row-gap: 25px
 .spinner
   width: 8.5vw
   height: 900px
-  margin: 39vh auto
+  margin: 25vh auto
   align-items: center
 .checkbox
   padding: 0 0

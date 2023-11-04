@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
 import {ref} from "vue";
 import axios from "axios";
 
@@ -8,6 +8,7 @@ const IMAGE_URL = import.meta.env.VITE_BASE_URL_FORIMAGE
 function calculateIndex(array, element) {
   return array.value?.findIndex((item) => item.id === element.id);
 }
+
 export const useAppStore = defineStore('appStore', ()=> {
   const news = ref([]);
   const products = ref([])
@@ -15,11 +16,17 @@ export const useAppStore = defineStore('appStore', ()=> {
   const fullDataProducts = ref([])
   const fullDataPosts = ref([])
   const isLoading = ref(false)
+
+  function reformatData(data) {
+    return data.forEach(item => {
+      item[1].id = item[0]
+    })
+  }
   async function getProducts() {
     try {
       const response = await axios.get(`${URL}products.json`);
-      products.value = Object.values(response.data);
-      fullDataProducts.value = Object.entries(response.data);
+      reformatData(Object.entries(response.data))
+      products.value = Object.values(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -27,8 +34,8 @@ export const useAppStore = defineStore('appStore', ()=> {
   async function getPosts () {
     try {
       const response = await axios.get(`${URL}posts.json`);
+      reformatData(Object.entries(response.data))
       posts.value = Object.values(response.data)
-      fullDataPosts.value = Object.entries(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -97,23 +104,23 @@ export const useAppStore = defineStore('appStore', ()=> {
       }
     }
   }
-  async function deleteProduct(id, product) {
-    products.value.splice(calculateIndex(id, product),1);
-    await axios.delete(`${URL}/products/${id}.json`)
+  async function deleteProduct(product) {
+    await axios.delete(`${URL}/products/${product.id}.json`)
+      .then(() => products.value.splice(calculateIndex(products, product),1))
       .catch(error => {
         console.error(error);
       })
   }
-  async function deletePost(id, post) {
-    posts.value.splice(calculateIndex(id, post),1);
-    await axios.delete(`${URL}/posts/${id}.json`)
+  async function deletePost(post) {
+    await axios.delete(`${URL}/posts/${post.id}.json`)
+      .then(() => posts.value.splice(calculateIndex(posts, post),1))
       .catch(error => {
         console.error(error);
       })
   }
 
-  async function updateProduct(id, product) {
-    await axios.patch(`${URL}/products/${id}.json`, JSON.stringify(product))
+  async function updateProduct(product) {
+    await axios.patch(`${URL}/products/${product.id}.json`, JSON.stringify(product))
       .then(response => console.log(response))
       .catch(error => {
         console.error(error);
