@@ -4,10 +4,15 @@ import PostsList from "../components/PostsList.vue";
 import PostsListItem from "../components/PostsListItem.vue";
 import router from "../router/router.js";
 import {useAuthStore} from "../stores/auth.js";
+import {onMounted} from "vue";
+import {useAppStore} from "../stores/AppStore.js";
 
 const store = useAuthStore()
+const appStore = useAppStore()
 
-
+onMounted(() => {
+  appStore.getPosts()
+})
 
 
 </script>

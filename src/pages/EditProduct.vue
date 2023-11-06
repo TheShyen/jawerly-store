@@ -9,8 +9,14 @@ import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputPrice from "../components/FormInputPrice.vue";
 import FormInputCategory from "../components/FormInputCategory.vue";
 import router from "../router/router.js";
+import {useQuasar} from "quasar";
+import FormInputImage from "../components/FormInputImage.vue";
 
+const $q = useQuasar()
+
+const isShowModal = ref(false)
 const slide = ref('')
+const selectedFiles = ref(null)
 const route = useRoute();
 const productId = ref(route.params.productId);
 const store = useAppStore()
@@ -22,23 +28,33 @@ onMounted(() => {
   slide.value = product.value.previewImageId;
 })
 
-function onSave() {
-  store.updateProduct(product.value)
+async function onSave() {
+  await store.updateProduct(product.value)
+  
+  $q.notify({
+    message: 'Товар отредактирован!',
+    color: 'green',
+    timeout: 3000,
+  })
 }
 
 function deleteCurrentImage(id) {
   product.value.imagesIds.splice(product.value.imagesIds.findIndex(item => item === id), 1)
   product.value.previewImageId = product.value.imagesIds[0]
   slide.value = product.value.imagesIds[0]
-  
 }
+
+function onUploadFiles(files) {
+  selectedFiles.value = files;
+}
+
 </script>
 
 <template>
   <div class="product">
     <DefaultLayout>
-      <div class="product__main">
-        <div class="product__main__carousel" >
+      <div v-if="!store.isLoading" class="product__main">
+        <div v-if="product.imagesIds?.length" class="product__main__carousel">
           <q-carousel
             v-model="slide"
             animated
@@ -62,6 +78,20 @@ function deleteCurrentImage(id) {
             </q-carousel-slide>
           </q-carousel>
         </div>
+        <q-btn v-else class="add-btn" color="green" size="14px" @click="isShowModal = true">
+          <q-icon color='white' name="add"/>
+          Добавить картинку
+        </q-btn>
+        <q-dialog v-model="isShowModal" class="column wrap" persistent transition-hide="scale" transition-show="scale">
+          <div>
+            <FormInputImage @on-upload-file="onUploadFiles"/>
+            <q-card-actions align="right">
+              <q-btn color="red" size="14px" v-close-popup>
+              Закрыть
+              </q-btn>
+            </q-card-actions>
+          </div>
+        </q-dialog>
         <div class="form column wrap">
           <FormInputTitle v-model="product.title"/>
           <FormInputDescription v-model="product.description"/>
@@ -74,11 +104,21 @@ function deleteCurrentImage(id) {
           </div>
         </div>
       </div>
+      <div v-else class="spinner">
+        <q-spinner
+          :thickness="10"
+          color="primary"
+          size="10em"
+        />
+      </div>
     </DefaultLayout>
   </div>
 </template>
 
 <style lang="sass" scoped>
+.form
+  width: 540px
+  row-gap: 20px
 .product
   background-color: #F9F9F9
   min-height: 100vh
@@ -91,5 +131,14 @@ function deleteCurrentImage(id) {
       width: 540px
       &__slide
         padding: 0 0
-       
+
+.spinner
+  width: 8.5vw
+  height: 900px
+  margin: 25vh auto
+  align-items: center
+
+.add-btn
+  display: flex
+  height: 50px
 </style>

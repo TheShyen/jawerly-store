@@ -5,15 +5,14 @@ import {useAppStore} from "../stores/AppStore.js";
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
-import {nanoid} from "nanoid";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 
 const appStore = useAppStore()
 const $q = useQuasar()
 
-const title = ref(null);
+const title = ref('');
 const description = ref('')
-
 const selectedFiles = ref(null)
 
 
@@ -24,15 +23,23 @@ function getImagesName() {
   }
   return arr;
 }
-function onSubmit() {
-  appStore.addPost(selectedFiles, {
-    id: nanoid(),
+async function onSubmit() {
+  await appStore.addPost(selectedFiles, {
+    id: '',
     title: title.value,
     description: description.value,
     postDate: new Date().toISOString(),
     imageId: getImagesName()[0]
   })
+  title.value = '';
+  description.value = '';
+  selectedFiles.value = null;
   
+  $q.notify({
+    message: 'Пост добавлен!',
+    color: 'green',
+    timeout: 3000,
+  })
 }
 function onUploadFiles(files) {
   selectedFiles.value = files;
@@ -45,25 +52,44 @@ function onReset() {
 </script>
 
 <template>
-  <div>
-    <q-form
-      class="form q-gutter-md q-ma-xl row wrap justify-center"
-      @reset="onReset"
-      @submit="onSubmit"
-    >
-      <FormInputTitle v-model="title"/>
-      <FormInputDescription v-model="description"/>
-      <FormInputImage @on-upload-file="onUploadFiles"/>
-      
-      <div class="col-md-6 ">
-        <q-btn color="primary" label="Submit" size="17px" type="submit"/>
-        <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
+  <div class="form">
+    <DefaultLayout style="width: 900px">
+      <q-form
+        v-if="!appStore.isLoading"
+        class="form__input column wrap justify-center"
+        @reset="onReset"
+        @submit="onSubmit"
+      >
+        <FormInputTitle v-model="title"/>
+        <FormInputDescription v-model="description"/>
+        <FormInputImage @on-upload-file="onUploadFiles"/>
+        
+        <div class="col-md-6 ">
+          <q-btn color="primary" label="Submit" size="17px" type="submit"/>
+          <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
+        </div>
+      </q-form>
+      <div v-else class="spinner">
+        <q-spinner
+          :thickness="10"
+          color="primary"
+          size="10em"
+        />
       </div>
-    </q-form>
+    </DefaultLayout>
   </div>
 </template>
 
 <style lang="sass" scoped>
 .form
-  margin-top: 80px
+  padding: 30px 40px
+  min-height: 100vh
+  background-color: #F9F9F9
+  &__input
+    row-gap: 25px
+.spinner
+  width: 8.5vw
+  height: 900px
+  margin: 25vh auto
+  align-items: center
 </style>

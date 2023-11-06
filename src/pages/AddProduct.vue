@@ -28,33 +28,42 @@ function getImagesName() {
   return arr;
 }
 async function onCreate() {
-  await appStore.addProduct(selectedFiles, {
-    id: '',
-    title: title.value,
-    category: category.value,
-    description: description.value,
-    price: price.value,
-    previewImageId: getImagesName()[0],
-    imagesIds: getImagesName()
-  })
+  if (!selectedFiles.value) {
+    $q.notify({
+      message: 'Загрузите изображение',
+      color: 'red',
+      timeout: 3000,
+      icon: 'warning'
+    })
+  } else {
+    await appStore.addProduct(selectedFiles, {
+      id: '',
+      title: title.value,
+      category: category.value,
+      description: description.value,
+      price: price.value,
+      previewImageId: getImagesName()[0],
+      imagesIds: getImagesName()
+    })
+    
+    title.value = '';
+    description.value = '';
+    category.value = '';
+    price.value = '';
+    selectedFiles.value = null;
+    
+    
+    
+    $q.notify({
+      message: 'Товар добавлен!',
+      color: 'green',
+      timeout: 3000,
+    })
+  }
   
-  title.value = '';
-  description.value = '';
-  category.value = '';
-  price.value = '';
-  selectedFiles.value = null;
-  
-  
-  
-  $q.notify({
-    message: 'Товар добавлен!',
-    color: 'green',
-    timeout: 3000,
-  })
 }
 function onUploadFiles(files) {
   selectedFiles.value = files;
-  console.log(selectedFiles.value)
 }
 
 function onReset() {
@@ -79,7 +88,7 @@ function onReset() {
             <q-btn class="q-ml-sm" color="primary" flat label="Очистить" size="17px" @click="onReset"/>
           </div>
         </div>
-        <div v-if="appStore.isLoading" class="spinner">
+        <div v-else class="spinner">
           <q-spinner
             :thickness="10"
             color="primary"

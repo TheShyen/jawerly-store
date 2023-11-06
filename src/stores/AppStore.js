@@ -57,7 +57,7 @@ export const useAppStore = defineStore('appStore', ()=> {
     try {
       await axios
         .post(`${URL}products.json`, JSON.stringify(product))
-        .then(response => {
+        .then(() => {
           products.value.push(product)
         })
       for (let item of selectedFile.value) {
@@ -79,16 +79,16 @@ export const useAppStore = defineStore('appStore', ()=> {
   }
   async function addPost(selectedFile, post) {
     isLoading.value = true;
-    await axios
-      .post(`${URL}posts.json`, JSON.stringify(post))
-      .then(response => {
-        posts.value.push(post)
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    for (let item of selectedFile.value) {
-      try {
+    try {
+      await axios
+        .post(`${URL}posts.json`, JSON.stringify(post))
+        .then(() => {
+          posts.value.push(post)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      for (let item of selectedFile.value) {
         await axios
           .post(`${IMAGE_URL + item.name}`, {
             item
@@ -97,12 +97,13 @@ export const useAppStore = defineStore('appStore', ()=> {
               "Content-Type": "multipart/form-data",
             }
           })
-      } catch (error) {
-        console.error(error);
-      } finally {
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
         isLoading.value = false;
       }
-    }
+
   }
   async function deleteProduct(product) {
     await axios.delete(`${URL}/products/${product.id}.json`)
@@ -120,11 +121,16 @@ export const useAppStore = defineStore('appStore', ()=> {
   }
 
   async function updateProduct(product) {
-    await axios.patch(`${URL}/products/${product.id}.json`, JSON.stringify(product))
-      .then(response => console.log(response))
-      .catch(error => {
-        console.error(error);
-      })
+    isLoading.value = true;
+    try {
+      await axios.patch(`${URL}/products/${product.id}.json`, JSON.stringify(product))
+    } catch(error) {
+      console.log(error)
+    } finally {
+      isLoading.value = false
+    }
+
+
   }
 
   return {
