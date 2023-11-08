@@ -19,6 +19,7 @@ function deleteFiles(files) {
 <template>
   <div class="uploader col-lg-6">
     <q-uploader
+      v-bind="$attrs"
       no-thumbnails
       files
       @added="addFiles"

@@ -7,6 +7,7 @@
     filled
     class="text-h6"
     label="Цена"
+    type="number"
   />
   
 </template>

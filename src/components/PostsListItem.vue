@@ -44,6 +44,10 @@ function deletePost(post) {
   width: 300px
   height: 450px
   background: #F9F9F9
+  &:hover
+    background: rgba(0,0,0,.03)
+    transition: 0.7s
+    cursor: pointer
   &__img
     border-radius: 10px
     height: 220px
@@ -80,7 +84,7 @@ function deletePost(post) {
     font-weight: 500
     text-transform: uppercase
     border: 2px solid var(--white, #FFF)
-    border-radius: 30px
+    
     background: var(--accent, #333)
     color: var(--white, #FFF)
 </style>

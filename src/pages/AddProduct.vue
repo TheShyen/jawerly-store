@@ -9,6 +9,7 @@ import FormInputPrice from "../components/FormInputPrice.vue";
 import FormInputImage from "../components/FormInputImage.vue";
 import FormInputCategory from "../components/FormInputCategory.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import Spinner from "../components/UI/spinner.vue";
 
 const appStore = useAppStore()
 const $q = useQuasar()
@@ -88,13 +89,7 @@ function onReset() {
             <q-btn class="q-ml-sm" color="primary" flat label="Очистить" size="17px" @click="onReset"/>
           </div>
         </div>
-        <div v-else class="spinner">
-          <q-spinner
-            :thickness="10"
-            color="primary"
-            size="10em"
-          />
-        </div>
+        <Spinner v-else/>
       </div>
     </DefaultLayout>
   </div>
@@ -109,11 +104,6 @@ function onReset() {
   
   &__input
     row-gap: 25px
-.spinner
-  width: 8.5vw
-  height: 900px
-  margin: 25vh auto
-  align-items: center
 .checkbox
   padding: 0 0
 </style>

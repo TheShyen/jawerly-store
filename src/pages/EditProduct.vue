@@ -11,6 +11,8 @@ import FormInputCategory from "../components/FormInputCategory.vue";
 import router from "../router/router.js";
 import {useQuasar} from "quasar";
 import FormInputImage from "../components/FormInputImage.vue";
+import uploadImages from "../services/uploadImages.js";
+import Spinner from "../components/UI/spinner.vue";
 
 const $q = useQuasar()
 
@@ -25,11 +27,14 @@ const product = ref({});
 
 onMounted(() => {
   product.value = store.getProduct(productId);
-  slide.value = product.value.previewImageId;
+  slide.value = product.value?.previewImageId;
 })
 
 async function onSave() {
   await store.updateProduct(product.value)
+  if (selectedFiles.value) {
+    await uploadImages(selectedFiles)
+  }
   
   $q.notify({
     message: 'Товар отредактирован!',
@@ -46,6 +51,10 @@ function deleteCurrentImage(id) {
 
 function onUploadFiles(files) {
   selectedFiles.value = files;
+  for (let img of selectedFiles.value) {
+    product.value.imagesIds?.push(img.name)
+  }
+  product.value.previewImageId = product.value.imagesIds[0]
 }
 
 </script>
@@ -104,13 +113,7 @@ function onUploadFiles(files) {
           </div>
         </div>
       </div>
-      <div v-else class="spinner">
-        <q-spinner
-          :thickness="10"
-          color="primary"
-          size="10em"
-        />
-      </div>
+      <Spinner v-else/>
     </DefaultLayout>
   </div>
 </template>
@@ -132,11 +135,6 @@ function onUploadFiles(files) {
       &__slide
         padding: 0 0
 
-.spinner
-  width: 8.5vw
-  height: 900px
-  margin: 25vh auto
-  align-items: center
 
 .add-btn
   display: flex

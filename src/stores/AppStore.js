@@ -1,9 +1,12 @@
 import {defineStore} from 'pinia';
 import {ref} from "vue";
-import axios from "axios";
+import getDataFromApi from "../services/getData.js";
+import uploadData from "../services/uploadData.js";
+import uploadImages from "../services/uploadImages.js";
+import deleteData from "../services/deleteData.js";
+import updateData from "../services/updateData.js";
 
-const URL = import.meta.env.VITE_BASE_URL_DATABASE
-const IMAGE_URL = import.meta.env.VITE_BASE_URL_FORIMAGE
+
 
 function calculateIndex(array, element) {
   return array.value?.findIndex((item) => item.id === element.id);
@@ -24,7 +27,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   }
   async function getProducts() {
     try {
-      const response = await axios.get(`${URL}products.json`);
+      const response = await getDataFromApi('products');
       reformatData(Object.entries(response.data))
       products.value = Object.values(response.data)
     } catch (error) {
@@ -33,7 +36,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   }
   async function getPosts () {
     try {
-      const response = await axios.get(`${URL}posts.json`);
+      const response = await getDataFromApi('posts');
       reformatData(Object.entries(response.data))
       posts.value = Object.values(response.data)
     } catch (error) {
@@ -55,22 +58,11 @@ export const useAppStore = defineStore('appStore', ()=> {
   async function addProduct(selectedFile, product) {
     isLoading.value = true;
     try {
-      await axios
-        .post(`${URL}products.json`, JSON.stringify(product))
+      await uploadData(product, 'products')
         .then(() => {
           products.value.push(product)
         })
-      for (let item of selectedFile.value) {
-        await axios
-          .post(`${IMAGE_URL + item.name}`, {
-            item
-          }, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            }
-          })
-
-      }
+      await uploadImages(selectedFile)
     } catch (error) {
       console.log(error)
     } finally {
@@ -80,24 +72,11 @@ export const useAppStore = defineStore('appStore', ()=> {
   async function addPost(selectedFile, post) {
     isLoading.value = true;
     try {
-      await axios
-        .post(`${URL}posts.json`, JSON.stringify(post))
+      await uploadData(post, 'posts')
         .then(() => {
           posts.value.push(post)
         })
-        .catch(error => {
-          console.error(error);
-        });
-      for (let item of selectedFile.value) {
-        await axios
-          .post(`${IMAGE_URL + item.name}`, {
-            item
-          }, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            }
-          })
-      }
+      await uploadImages(selectedFile)
     } catch (error) {
       console.error(error);
     } finally {
@@ -106,14 +85,14 @@ export const useAppStore = defineStore('appStore', ()=> {
 
   }
   async function deleteProduct(product) {
-    await axios.delete(`${URL}/products/${product.id}.json`)
+    await deleteData(product, 'products')
       .then(() => products.value.splice(calculateIndex(products, product),1))
       .catch(error => {
         console.error(error);
       })
   }
   async function deletePost(post) {
-    await axios.delete(`${URL}/posts/${post.id}.json`)
+   await deleteData(post, 'posts')
       .then(() => posts.value.splice(calculateIndex(posts, post),1))
       .catch(error => {
         console.error(error);
@@ -123,14 +102,22 @@ export const useAppStore = defineStore('appStore', ()=> {
   async function updateProduct(product) {
     isLoading.value = true;
     try {
-      await axios.patch(`${URL}/products/${product.id}.json`, JSON.stringify(product))
+      await updateData(product, 'products')
     } catch(error) {
       console.log(error)
     } finally {
       isLoading.value = false
     }
-
-
+  }
+  async function updatePost(post) {
+    isLoading.value = true;
+    try {
+      await updateData(post, 'posts')
+    } catch(error) {
+      console.log(error)
+    } finally {
+      isLoading.value = false
+    }
   }
 
   return {
@@ -149,6 +136,7 @@ export const useAppStore = defineStore('appStore', ()=> {
     addPost,
     deleteProduct,
     updateProduct,
+    updatePost,
     deletePost
   }
 })

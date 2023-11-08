@@ -6,6 +6,7 @@ import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import Spinner from "../components/UI/spinner.vue";
 
 
 const appStore = useAppStore()
@@ -69,13 +70,7 @@ function onReset() {
           <q-btn class="q-ml-sm" color="primary" flat label="Reset" size="17px" type="reset"/>
         </div>
       </q-form>
-      <div v-else class="spinner">
-        <q-spinner
-          :thickness="10"
-          color="primary"
-          size="10em"
-        />
-      </div>
+      <Spinner v-else/>
     </DefaultLayout>
   </div>
 </template>
@@ -87,9 +82,5 @@ function onReset() {
   background-color: #F9F9F9
   &__input
     row-gap: 25px
-.spinner
-  width: 8.5vw
-  height: 900px
-  margin: 25vh auto
-  align-items: center
+
 </style>
