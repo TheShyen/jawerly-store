@@ -14,7 +14,7 @@ const $q = useQuasar()
 
 const title = ref('');
 const description = ref('')
-const selectedFiles = ref(null)
+const selectedFiles = ref([])
 
 
 function getImagesName() {
@@ -24,23 +24,33 @@ function getImagesName() {
   }
   return arr;
 }
-async function onSubmit() {
-  await appStore.addPost(selectedFiles, {
-    id: '',
-    title: title.value,
-    description: description.value,
-    postDate: new Date().toISOString(),
-    imageId: getImagesName()[0]
-  })
-  title.value = '';
-  description.value = '';
-  selectedFiles.value = null;
+async function onCreate() {
+  if (!selectedFiles.value.length) {
+    $q.notify({
+      message: 'Загрузите изображение',
+      color: 'red',
+      timeout: 3000,
+      icon: 'warning'
+    })
+  } else {
+    await appStore.addPost(selectedFiles, {
+      id: '',
+      title: title.value,
+      description: description.value,
+      postDate: new Date().toISOString(),
+      imageId: getImagesName()[0]
+    })
+    title.value = '';
+    description.value = '';
+    selectedFiles.value = null;
+    
+    $q.notify({
+      message: 'Пост добавлен!',
+      color: 'green',
+      timeout: 3000,
+    })
+  }
   
-  $q.notify({
-    message: 'Пост добавлен!',
-    color: 'green',
-    timeout: 3000,
-  })
 }
 function onUploadFiles(files) {
   selectedFiles.value = files;
@@ -59,11 +69,11 @@ function onReset() {
         v-if="!appStore.isLoading"
         class="form__input column wrap justify-center"
         @reset="onReset"
-        @submit="onSubmit"
+        @submit="onCreate"
       >
         <FormInputTitle v-model="title"/>
         <FormInputDescription v-model="description"/>
-        <FormInputImage @on-upload-file="onUploadFiles"/>
+        <FormInputImage @on-upload-file="onUploadFiles" max-files="1"/>
         
         <div class="col-md-6 ">
           <q-btn color="primary" label="Submit" size="17px" type="submit"/>

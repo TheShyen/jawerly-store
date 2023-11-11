@@ -7,9 +7,11 @@ const options = [
 
 <template>
   <q-select
-    color="grey" popup-content-style="{width: '300px'}"
+    color="grey"
+    popup-content-style="{width: '300px'}"
     :options="options"
-    class="text-h6"
+    :rules="[ val => val && val.length > 0 || 'Пожалуйста, выберите категорию']"
+    class="input text-h6"
     filled
     label="Категория"
   />
@@ -17,5 +19,6 @@ const options = [
 </template>
 
 <style lang="sass" scoped>
-
+.input
+  padding-bottom: 0px
 </style>

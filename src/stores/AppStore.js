@@ -7,7 +7,6 @@ import deleteData from "../services/deleteData.js";
 import updateData from "../services/updateData.js";
 
 
-
 function calculateIndex(array, element) {
   return array.value?.findIndex((item) => item.id === element.id);
 }
@@ -21,15 +20,17 @@ export const useAppStore = defineStore('appStore', ()=> {
   const isLoading = ref(false)
 
   function reformatData(data) {
-    return data.forEach(item => {
-      item[1].id = item[0]
-    })
+    return Object.keys(data).map(key => {
+      return {
+        ...data[key],
+        id: key
+      };
+    });
   }
   async function getProducts() {
     try {
       const response = await getDataFromApi('products');
-      reformatData(Object.entries(response.data))
-      products.value = Object.values(response.data)
+      products.value = reformatData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -37,8 +38,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   async function getPosts () {
     try {
       const response = await getDataFromApi('posts');
-      reformatData(Object.entries(response.data))
-      posts.value = Object.values(response.data)
+      posts.value = reformatData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
@@ -59,10 +59,8 @@ export const useAppStore = defineStore('appStore', ()=> {
     isLoading.value = true;
     try {
       await uploadData(product, 'products')
-        .then(() => {
-          products.value.push(product)
-        })
       await uploadImages(selectedFile)
+      products.value.push(product)
     } catch (error) {
       console.log(error)
     } finally {
@@ -73,10 +71,8 @@ export const useAppStore = defineStore('appStore', ()=> {
     isLoading.value = true;
     try {
       await uploadData(post, 'posts')
-        .then(() => {
-          posts.value.push(post)
-        })
       await uploadImages(selectedFile)
+      posts.value.push(post)
     } catch (error) {
       console.error(error);
     } finally {
@@ -85,18 +81,20 @@ export const useAppStore = defineStore('appStore', ()=> {
 
   }
   async function deleteProduct(product) {
-    await deleteData(product, 'products')
-      .then(() => products.value.splice(calculateIndex(products, product),1))
-      .catch(error => {
-        console.error(error);
-      })
+    try {
+      await deleteData(product, 'products')
+      products.value.splice(calculateIndex(products, product),1)
+    } catch (error) {
+      console.log(error)
+    }
   }
   async function deletePost(post) {
-   await deleteData(post, 'posts')
-      .then(() => posts.value.splice(calculateIndex(posts, post),1))
-      .catch(error => {
-        console.error(error);
-      })
+    try {
+      await deleteData(post, 'posts')
+      posts.value.splice(calculateIndex(posts, post),1)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function updateProduct(product) {

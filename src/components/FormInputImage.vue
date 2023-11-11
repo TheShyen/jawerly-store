@@ -6,20 +6,19 @@ const images = ref([]);
 function addFiles(files) {
   images.value = files;
   emit('on-upload-file', images.value)
-  console.log(images.value)
 }
 function deleteFiles(files) {
   images.value.splice(images.value.findIndex(item => item === files[0]), 1)
   emit('on-upload-file', images.value)
-  console.log(images.value)
 }
 
 </script>
 
 <template>
-  <div class="uploader col-lg-6">
+  <div>
     <q-uploader
       v-bind="$attrs"
+      hide-upload-btn
       no-thumbnails
       files
       @added="addFiles"

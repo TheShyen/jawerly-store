@@ -18,12 +18,11 @@ const $q = useQuasar()
 
 const isShowModal = ref(false)
 const slide = ref('')
-const selectedFiles = ref(null)
+const selectedFiles = ref([])
 const route = useRoute();
 const productId = ref(route.params.productId);
 const store = useAppStore()
 const product = ref({});
-
 
 onMounted(() => {
   product.value = store.getProduct(productId);
@@ -31,24 +30,28 @@ onMounted(() => {
 })
 
 async function onSave() {
-  await store.updateProduct(product.value)
-  if (selectedFiles.value) {
+  if (selectedFiles.value.length) {
+    await store.updateProduct(product.value)
     await uploadImages(selectedFiles)
+    $q.notify({
+      message: 'Товар отредактирован!',
+      color: 'green',
+      timeout: 3000,
+    })
+  } else {
+    $q.notify({
+      message: 'Загрузите изображения',
+      color: 'red',
+      timeout: 3000,
+    })
   }
-  
-  $q.notify({
-    message: 'Товар отредактирован!',
-    color: 'green',
-    timeout: 3000,
-  })
 }
+
 
 function deleteCurrentImage(id) {
   product.value.imagesIds.splice(product.value.imagesIds.findIndex(item => item === id), 1)
   product.value.previewImageId = product.value.imagesIds[0]
-  slide.value = product.value.imagesIds[0]
 }
-
 function onUploadFiles(files) {
   selectedFiles.value = files;
   for (let img of selectedFiles.value) {
@@ -56,30 +59,29 @@ function onUploadFiles(files) {
   }
   product.value.previewImageId = product.value.imagesIds[0]
 }
-
 </script>
 
 <template>
   <div class="product">
     <DefaultLayout>
       <div v-if="!store.isLoading" class="product__main">
-        <div v-if="product.imagesIds?.length" class="product__main__carousel">
+        <div v-if="product?.imagesIds?.length" class="product__main__carousel">
           <q-carousel
             v-model="slide"
             animated
             arrows
-            control-color="black"
+            control-color="accent"
             height="580px"
             navigation
             swipeable
           >
-            <q-carousel-slide v-for="img in product?.imagesIds" :name="img" :key="img" class="product__main__carousel__slide">
+            <q-carousel-slide v-for="img in product.imagesIds" :key="img" :name="img" class="product__main__carousel__slide">
               <q-img :src="getImgUrl(img)" class="full-height">
                 <div class="absolute-top-right">
-                  <q-btn  flat round size="14px" >
+                  <q-btn flat round size="14px">
                     <q-icon color='white' name="add"/>
                   </q-btn>
-                  <q-btn  flat round size="14px" class="q-ml-md" @click="deleteCurrentImage(img)">
+                  <q-btn class="q-ml-md" flat round size="14px" @click="deleteCurrentImage(img)">
                     <q-icon color='red' name="delete"/>
                   </q-btn>
                 </div>
@@ -93,7 +95,7 @@ function onUploadFiles(files) {
         </q-btn>
         <q-dialog v-model="isShowModal" class="column wrap" persistent transition-hide="scale" transition-show="scale">
           <div>
-            <FormInputImage @on-upload-file="onUploadFiles"/>
+            <FormInputImage @on-upload-file="onUploadFiles" :thumbails="true"/>
             <q-card-actions align="right">
               <q-btn color="red" size="14px" v-close-popup>
               Закрыть

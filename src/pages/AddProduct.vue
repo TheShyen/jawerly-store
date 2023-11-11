@@ -18,7 +18,7 @@ const title = ref('');
 const description = ref('')
 const category = ref('');
 const price = ref('')
-const selectedFiles = ref(null)
+const selectedFiles = ref([])
 const isAddMoreProduct = ref(false)
 
 function getImagesName() {
@@ -29,7 +29,7 @@ function getImagesName() {
   return arr;
 }
 async function onCreate() {
-  if (!selectedFiles.value) {
+  if (!selectedFiles.value.length) {
     $q.notify({
       message: 'Загрузите изображение',
       color: 'red',
@@ -77,7 +77,12 @@ function onReset() {
   <div class="form">
     <DefaultLayout style="width: 900px">
       <div>
-        <div v-if="!appStore.isLoading" class="column form__input justify-center">
+        <q-form
+          v-if="!appStore.isLoading"
+          class="column form__input justify-center"
+          @reset="onReset"
+          @submit="onCreate"
+        >
           <FormInputTitle v-model="title"/>
           <FormInputDescription v-model="description"/>
           <FormInputPrice v-model="price"/>
@@ -85,10 +90,10 @@ function onReset() {
           <FormInputImage @on-upload-file="onUploadFiles"/>
           <q-checkbox v-model="isAddMoreProduct" class="checkbox col-md-6" label="Добавить еще"/>
           <div class="col-md-6 ">
-            <q-btn color="primary" label="Создать" size="17px" @click="onCreate"/>
-            <q-btn class="q-ml-sm" color="primary" flat label="Очистить" size="17px" @click="onReset"/>
+            <q-btn color="primary" label="Создать" size="17px" type="submit"/>
+            <q-btn class="q-ml-sm" color="primary" flat label="Очистить" size="17px" type="reset"/>
           </div>
-        </div>
+        </q-form>
         <Spinner v-else/>
       </div>
     </DefaultLayout>

@@ -5,7 +5,8 @@
 <template>
   <q-input
     filled
-    class="text-h6"
+    class="input text-h6"
+    :rules="[ val => val && val.length > 0 || 'Пожалуйста, укажите цену']"
     label="Цена"
     type="number"
   />
@@ -13,5 +14,6 @@
 </template>
 
 <style lang="sass" scoped>
-
+.input
+  padding-bottom: 0px
 </style>

@@ -1,12 +1,30 @@
 <script setup>
   import router from "./router/router.js";
-  import {onMounted} from "vue";
+  import {onMounted, ref, watch} from "vue";
   import {useAuthStore} from "./stores/auth.js";
   import {useQuasar} from "quasar";
+  import {useRoute} from "vue-router";
   
   const $q = useQuasar();
   let tabs;
   const authStore = useAuthStore();
+  
+  const route = useRoute();
+  const activeRoute = ref(route.path);
+  
+  const isRouteActive = (path) => {
+    return activeRoute.value === path;
+  };
+  
+
+  watch(() => route.path, (newPath) => {
+    activeRoute.value = newPath;
+  });
+  
+ 
+  onMounted(() => {
+    activeRoute.value = route.path;
+  });
   
   function checkUser() {
     const users = JSON.parse(localStorage.getItem('users'))
@@ -19,12 +37,6 @@
   onMounted(() => {
     tabs = document.querySelectorAll(".tab");
   })
-  function removeActiveClassAndRedirect() {
-    for(const item of tabs) {
-      item.classList.remove("q-tab--active")
-    }
-    router.push('/login')
-  }
   function logOut() {
     authStore.logOut()
     $q.notify({
@@ -49,14 +61,14 @@
           SaRoS BiJoU
         </q-toolbar-title>
         <q-tabs class="tabs text-h7 q-mt-xs">
-          <q-tab class="tab" name="images" @click="router.push('/')">Главная</q-tab>
-          <q-tab class="tab" name="videos" @click="router.push('/catalog')">Каталог</q-tab>
-          <q-tab class="tab" name="articles" @click="router.push('/posts')">Посты</q-tab>
+          <q-route-tab class="tab" name="images" @click="router.push('/')" :class="{ 'q-tab--active': isRouteActive('/')}">Главная</q-route-tab>
+          <q-route-tab class="tab" name="videos" @click="router.push('/catalog')" :class="{ 'q-tab--active': isRouteActive('/catalog')}">Каталог</q-route-tab>
+          <q-route-tab class="tab" name="articles" @click="router.push('/posts')" :class="{ 'q-tab--active': isRouteActive('/posts')}">Посты</q-route-tab>
         </q-tabs>
-        <div class="login">
-          <q-btn v-if="!authStore.isAuth" color="white" flat label="Войти" @click="removeActiveClassAndRedirect()">
+        <div class="login" @click.prevent="router.push('/login')">
+          <q-btn v-if="!authStore.isAuth" color="white" flat label="Войти" >
             <q-icon class="q-ml-xs" left name="login"></q-icon>
-            <div class="login__info">( только для администраторов )</div>
+            <div class="login__info"></div>
           </q-btn>
           <q-btn-dropdown
             v-if="authStore.isAuth"
@@ -95,7 +107,6 @@
 .logo
   width: 300px
   
-
 .tabs
   width: 500px
 
