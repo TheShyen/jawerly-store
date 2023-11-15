@@ -1,8 +1,9 @@
 <script setup>
 
-const options = [
-  'Браслеты', 'Серёжки', 'Цепочки'
-]
+import {getCategory} from "../utils/getSelectOptions.js";
+import {ref} from "vue";
+
+const options = ref(getCategory())
 </script>
 
 <template>

@@ -73,15 +73,22 @@ function onReset() {
           <q-icon color='white' name="add"/>
           Добавить картинку
         </q-btn>
-        <q-dialog v-model="isShowModal" class="column wrap" persistent transition-hide="scale" transition-show="scale">
-          <div>
-            <FormInputImage @on-upload-file="onUploadFiles" max-files="1"/>
+        <q-dialog v-model="isShowModal" transition-hide="scale" transition-show="scale">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6">Форма для загрузки изображений</div>
+            </q-card-section>
+            <q-separator />
+            <q-card-section >
+              <FormInputImage @on-upload-file="onUploadFiles" max-files="1"/>
+            </q-card-section>
             <q-card-actions align="right">
-              <q-btn color="red" size="14px" v-close-popup>
+              <q-btn v-close-popup color="red" size="14px">
                 Закрыть
               </q-btn>
             </q-card-actions>
-          </div>
+          </q-card>
+        
         </q-dialog>
         <div class="form column wrap">
           <FormInputTitle v-model="post.title"/>

@@ -5,6 +5,7 @@ import uploadData from "../services/uploadData.js";
 import uploadImages from "../services/uploadImages.js";
 import deleteData from "../services/deleteData.js";
 import updateData from "../services/updateData.js";
+import getFilteredData from "../services/getFilteredData.js";
 
 
 function calculateIndex(array, element) {
@@ -26,6 +27,21 @@ export const useAppStore = defineStore('appStore', ()=> {
         id: key
       };
     });
+  }
+  async function getProductsByCategory(params) {
+    try {
+      const response = await getFilteredData('products', params);
+      products.value = reformatData(response.data)
+    } catch (error) {
+      console.error('Произошла ошибка:', error);
+    }
+  }
+  function sortProductsByPrice(sort) {
+    if (sort === 'По цене ↑') {
+      products.value.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+    } else {
+      products.value.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+    }
   }
   async function getProducts() {
     try {
@@ -125,6 +141,8 @@ export const useAppStore = defineStore('appStore', ()=> {
     posts,
     isLoading,
     getProducts,
+    getProductsByCategory,
+    sortProductsByPrice,
     getPosts,
     getProduct,
     getFullProductInfo,

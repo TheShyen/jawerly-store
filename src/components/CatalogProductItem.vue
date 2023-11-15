@@ -3,10 +3,13 @@ import router from "../router/router.js";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAuthStore} from "../stores/auth.js";
 import {useAppStore} from "../stores/AppStore.js";
+import {ref} from "vue";
 
 const authStore = useAuthStore();
 const store = useAppStore();
 defineProps(['card'])
+
+const isShowConfirmDialog = ref(false)
 function openEditPage(id) {
   router.push('/editProduct/' + id);
 }
@@ -27,13 +30,23 @@ function deleteProduct(card) {
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(card.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
-        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="deleteProduct(card)">
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="isShowConfirmDialog = true">
           <q-icon color='red' name="delete"/>
         </q-btn>
       </div>
     </q-card-section>
-  
   </q-card>
+  <q-dialog v-model="isShowConfirmDialog" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <span class="text-h6">Хотите удалить товар?</span>
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn flat label="Отмена" color="red" v-close-popup />
+        <q-btn flat label="Удалить" color="green" v-close-popup @click="deleteProduct(card)"/>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <style lang="sass" scoped>

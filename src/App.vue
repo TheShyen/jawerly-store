@@ -65,13 +65,13 @@
           <q-route-tab class="tab" name="videos" @click="router.push('/catalog')" :class="{ 'q-tab--active': isRouteActive('/catalog')}">Каталог</q-route-tab>
           <q-route-tab class="tab" name="articles" @click="router.push('/posts')" :class="{ 'q-tab--active': isRouteActive('/posts')}">Посты</q-route-tab>
         </q-tabs>
-        <div class="login" @click.prevent="router.push('/login')">
-          <q-btn v-if="!authStore.isAuth" color="white" flat label="Войти" >
+        <div class="login">
+          <q-btn v-if="!authStore.isAuth" color="white" flat label="Войти" @click.prevent="router.push('/login')">
             <q-icon class="q-ml-xs" left name="login"></q-icon>
             <div class="login__info"></div>
           </q-btn>
           <q-btn-dropdown
-            v-if="authStore.isAuth"
+            v-else
             color="green"
           >
             <template v-slot:label>
