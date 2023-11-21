@@ -10,6 +10,7 @@ import FormInputImage from "../components/FormInputImage.vue";
 import FormInputCategory from "../components/FormInputCategory.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import Spinner from "../components/UI/spinner.vue";
+import router from "../router/router.js";
 
 const appStore = useAppStore()
 const $q = useQuasar()
@@ -46,14 +47,11 @@ async function onCreate() {
       previewImageId: getImagesName()[0],
       imagesIds: getImagesName()
     })
+    onReset()
     
-    title.value = '';
-    description.value = '';
-    category.value = '';
-    price.value = '';
-    selectedFiles.value = null;
-    
-    
+    if (!isAddMoreProduct.value) {
+      router.push('/catalog')
+    }
     
     $q.notify({
       message: 'Товар добавлен!',
@@ -68,8 +66,11 @@ function onUploadFiles(files) {
 }
 
 function onReset() {
-  title.value = null
-  category.value = null
+  title.value = '';
+  description.value = '';
+  category.value = '';
+  price.value = '';
+  selectedFiles.value = [];
 }
 </script>
 
@@ -87,7 +88,7 @@ function onReset() {
           <FormInputDescription v-model="description"/>
           <FormInputPrice v-model="price"/>
           <FormInputCategory v-model="category"/>
-          <FormInputImage @on-upload-file="onUploadFiles"/>
+          <FormInputImage @on-upload-file="onUploadFiles" multiple/>
           <q-checkbox v-model="isAddMoreProduct" class="checkbox col-md-6" label="Добавить еще"/>
           <div class="col-md-6 ">
             <q-btn color="primary" label="Создать" size="17px" type="submit"/>

@@ -42,8 +42,8 @@ function deleteProduct(card) {
         <span class="text-h6">Хотите удалить товар?</span>
       </q-card-section>
       <q-card-actions align="right">
-        <q-btn flat label="Отмена" color="red" v-close-popup />
-        <q-btn flat label="Удалить" color="green" v-close-popup @click="deleteProduct(card)"/>
+        <q-btn flat label="Отмена" color="grey" v-close-popup />
+        <q-btn label="Удалить" color="red" v-close-popup @click="deleteProduct(card)"/>
       </q-card-actions>
     </q-card>
   </q-dialog>

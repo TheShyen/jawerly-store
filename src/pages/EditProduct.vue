@@ -25,23 +25,22 @@ const route = useRoute();
 const productId = ref(route.params.productId);
 const store = useAppStore()
 const product = ref({});
-const images = ref([])
 
 onMounted(() => {
   product.value = store.getProduct(productId);
   imageConversion()
-  
 })
 
 function switchSlide() {
-  slide.value = blobImages.value[0].blob
+  slide.value = blobImages.value[0].blobLink
 }
 
 async function imageConversion() {
   store.isLoading = true;
-  for (let img of product.value.imagesIds) {
-    await loadImageAsBlob(getImgUrl(img), img)
-  }
+  const loadImage = product.value.imagesIds.map(async (img) => {
+    return loadImageAsBlob(getImgUrl(img), img);
+  });
+  await Promise.all(loadImage);
   store.isLoading = false;
   switchSlide()
 }
@@ -50,11 +49,11 @@ async function loadImageAsBlob(url, id) {
   try {
     const response = await getBlobFromImage(url)
     blobImages.value.push({
-      blob: URL.createObjectURL(response.data),
+      blobLink: URL.createObjectURL(response.data),
       id: id
     })
   } catch (error) {
-    throw new Error('Ошибка загрузки изображения');
+    console.error(error)
   }
 }
 
@@ -80,7 +79,8 @@ async function onSave() {
 
 function deleteCurrentImage(img) {
   product.value.imagesIds.splice(product.value.imagesIds.findIndex(item => item === img.id), 1)
-  blobImages.value.splice(blobImages.value.findIndex(item => item.blob === img.blob), 1)
+  blobImages.value.splice(blobImages.value.findIndex(item => item.blobLink === img.blobLink), 1)
+  URL.revokeObjectURL(img.blobLink);
   product.value.previewImageId = product.value.imagesIds[0]
   if (blobImages.value.length) {
     switchSlide()
@@ -92,9 +92,8 @@ function onUploadFiles(files) {
   selectedFiles.value = files;
   for (let img of selectedFiles.value) {
     product.value.imagesIds?.push(img.name)
-    const blob = new Blob([img], {type: img.type});
-    const imageUrl = URL.createObjectURL(blob);
-    blobImages.value.push({blob: imageUrl, id: img.name});
+    const imageUrl = URL.createObjectURL(img);
+    blobImages.value.push({blobLink: imageUrl, id: img.name});
   }
   product.value.previewImageId = product.value.imagesIds[0]
   switchSlide()
@@ -116,9 +115,8 @@ function onUploadFiles(files) {
             swipeable
           >
             
-            <q-carousel-slide v-for="img in blobImages" :key="img.blob" :name="img.blob"
-                              class="product__main__carousel__slide">
-              <q-img :src="img.blob" class="full-height">
+            <q-carousel-slide v-for="img in blobImages" :key="img.blobLink" :name="img.blobLink" class="product__main__carousel__slide">
+              <q-img :src="img.blobLink" class="full-height">
                 <div class="absolute-top-right">
                   <q-btn flat round size="14px" @click="isShowModal = true">
                     <q-icon color='white' name="add"/>
@@ -142,7 +140,7 @@ function onUploadFiles(files) {
             </q-card-section>
             <q-separator />
             <q-card-section >
-              <FormInputImage @on-upload-file="onUploadFiles"/>
+              <FormInputImage @on-upload-file="onUploadFiles" multiple/>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn v-close-popup color="red" size="14px">

@@ -11,6 +11,7 @@ import {useQuasar} from "quasar";
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
+import getBlobFromImage from "../services/getImageForBlob.js";
 
 const $q = useQuasar()
 
@@ -21,35 +22,64 @@ const postId = ref(route.params.postId);
 const store = useAppStore()
 const post = ref({});
 const isShowModal = ref(false)
-
+const blobImage = ref({})
 
 onMounted(() => {
   post.value = store.getPost(postId);
+  imageConversion()
 })
 
 function onUploadFiles(files) {
   selectedFiles.value = files;
-  post.value.imageId = selectedFiles.value[0].name;
+  const img = selectedFiles.value[0];
+  post.value.imageId = img.name;
+  const imageUrl = URL.createObjectURL(img);
+  blobImage.value = {blobLink: imageUrl, id: img.name};
 }
 
-function deleteCurrentImage() {
+function deleteCurrentImage(blobLink) {
   post.value.imageId = ''
+  blobImage.value = null
+  URL.revokeObjectURL(blobLink);
 }
 
-async function onSave() {
-  await store.updatePost(post.value)
-  if (selectedFiles.value) {
-    await uploadImages(selectedFiles)
+
+async function imageConversion() {
+  store.isLoading = true;
+  await loadImageAsBlob(getImgUrl(post.value.imageId), post.value.imageId)
+  store.isLoading = false;
+}
+
+async function loadImageAsBlob(url, id) {
+  try {
+    const response = await getBlobFromImage(url)
+    blobImage.value = {
+      blobLink: URL.createObjectURL(response.data),
+      id: id
+    };
+  } catch (error) {
+    console.error(error)
   }
+}
+async function onSave() {
+  if (post.value.imageId) {
+    await store.updatePost(post.value)
+    await uploadImages(selectedFiles)
     $q.notify({
-    message: 'Пост отредактирован!',
-    color: 'green',
-    timeout: 3000,
-  })
+      message: 'Пост отредактирован!',
+      color: 'green',
+      timeout: 3000,
+    })
+  } else {
+    $q.notify({
+      message: 'Загрузите изображения',
+      color: 'red',
+      timeout: 3000,
+    })
+  }
+  
 }
 
-function onReset() {
-}
 </script>
 
 <template>
@@ -57,13 +87,10 @@ function onReset() {
     <DefaultLayout>
       <div v-if="!store.isLoading" class="post__main">
         <div v-if="post.imageId" class="post__main__img">
-          <q-img :src="getImgUrl(post?.imageId)" class="full-height">
+          <q-img :src="blobImage.blobLink" class="full-height">
             <div class="absolute-top-right">
-              <q-btn flat round size="14px">
-                <q-icon color='white' name="add"/>
-              </q-btn>
-              <q-btn class="q-ml-md" flat round size="14px"
-                     @click="deleteCurrentImage">
+              <q-btn  flat round size="14px"
+                     @click="deleteCurrentImage(blobImage.blobLink)">
                 <q-icon color='red' name="delete"/>
               </q-btn>
             </div>
@@ -109,7 +136,7 @@ function onReset() {
 .post
   background-color: #F9F9F9
   min-height: 100vh
-  
+
   &__main
     display: flex
     justify-content: space-between
@@ -119,7 +146,7 @@ function onReset() {
       
 .form
   width: 540px
-  row-gap: 20px
+  row-gap: 23px
   
 .add-btn
   display: flex

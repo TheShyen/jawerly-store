@@ -24,7 +24,6 @@ function deleteFiles(files) {
       @added="addFiles"
       @removed="deleteFiles"
       label="Загрузите картинки"
-      multiple
     />
   </div>
 </template>

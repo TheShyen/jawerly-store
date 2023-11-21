@@ -24,23 +24,27 @@ export const useAppStore = defineStore('appStore', ()=> {
     return Object.keys(data).map(key => {
       return {
         ...data[key],
-        id: key
+        id: key,
+        price: parseInt(data[key].price)
       };
     });
   }
-  async function getProductsByCategory(params) {
+  async function getProductsByCategory(categoryValue) {
     try {
-      const response = await getFilteredData('products', params);
+      isLoading.value = true;
+      const response = await getFilteredData('products.json', {orderBy: '"category"', equalTo: `"${categoryValue}"`});
       products.value = reformatData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
+    } finally {
+      isLoading.value = false;
     }
   }
   function sortProductsByPrice(sort) {
     if (sort === 'По цене ↑') {
-      products.value.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+      products.value.sort((a, b) => a.price - b.price);
     } else {
-      products.value.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+      products.value.sort((a, b) => b.price - a.price);
     }
   }
   async function getProducts() {

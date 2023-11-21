@@ -6,7 +6,6 @@
   import {useRoute} from "vue-router";
   
   const $q = useQuasar();
-  let tabs;
   const authStore = useAuthStore();
   
   const route = useRoute();
@@ -32,11 +31,8 @@
       authStore.userInfo = users;
     }
   }
-  
   checkUser()
-  onMounted(() => {
-    tabs = document.querySelectorAll(".tab");
-  })
+ 
   function logOut() {
     authStore.logOut()
     $q.notify({

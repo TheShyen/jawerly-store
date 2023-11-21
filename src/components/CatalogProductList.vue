@@ -1,9 +1,14 @@
 <script setup>
 
+import Spinner from "./UI/spinner.vue";
+import {useAppStore} from "../stores/AppStore.js";
+
+const appStore = useAppStore();
 </script>
 
 <template>
-  <div class="catalog__cards">
+  <Spinner v-if="appStore.isLoading"/>
+  <div v-else class="catalog__cards">
     <slot></slot>
   </div>
 </template>

@@ -40,9 +40,7 @@ async function onCreate() {
       postDate: new Date().toISOString(),
       imageId: getImagesName()[0]
     })
-    title.value = '';
-    description.value = '';
-    selectedFiles.value = null;
+    onReset()
     
     $q.notify({
       message: 'Пост добавлен!',
@@ -58,7 +56,9 @@ function onUploadFiles(files) {
 
 
 function onReset() {
-  title.value = null
+  title.value = '';
+  description.value = '';
+  selectedFiles.value = [];
 }
 </script>
 

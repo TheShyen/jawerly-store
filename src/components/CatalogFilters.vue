@@ -5,6 +5,7 @@ import router from "../router/router.js";
 import {getCategory, getFilters, getGender} from "../utils/getSelectOptions.js";
 import {useAppStore} from "../stores/AppStore.js";
 
+
 const store = useAuthStore()
 
 const appStore = useAppStore()
@@ -17,7 +18,7 @@ const sort = ref('')
 
 watch(() => category.value, () => {
   if (category.value) {
-    appStore.getProductsByCategory(`?orderBy="category"&equalTo="${category.value}"`)
+    appStore.getProductsByCategory(category.value)
   } else {
     appStore.getProducts()
   }
