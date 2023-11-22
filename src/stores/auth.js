@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import axios from 'axios'
 import {computed, ref} from "vue";
-import router from "../router/router.js";
+import router from "../router/router.ts";
 
 
 
@@ -34,14 +34,12 @@ export const useAuthStore = defineStore('auth', ()=> {
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn
       }
-      localStorage.setItem('users', JSON.stringify(userInfo.value))
+      localStorage.setItem('user', JSON.stringify(userInfo.value))
       errorMassage.value = '';
       router.push('/catalog')
       console.log(response.data)
     }
     catch(err) {
-      console.log(err)
-      console.log(err.response.data.error.message)
       switch (err.response.data.error.message) {
         case 'INVALID_LOGIN_CREDENTIALS':
           errorMassage.value = 'Неверная почта или пароль'
@@ -57,7 +55,7 @@ export const useAuthStore = defineStore('auth', ()=> {
     }
   }
   function logOut() {
-    localStorage.removeItem("users");
+    localStorage.removeItem("user");
     userInfo.value = {};
 
   }

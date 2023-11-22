@@ -2,7 +2,7 @@
 import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import getImgUrl from "../utils/getImageUrl.js";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 import formatDateString from "../utils/formatDateString.js";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 
@@ -12,7 +12,7 @@ const postId = ref(route.params.postId);
 const post = ref({});
 
 onMounted(() => {
-  post.value = store.getPost(postId);
+  post.value = store.getPost(postId.value);
 })
 </script>
 

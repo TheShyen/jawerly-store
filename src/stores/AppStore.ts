@@ -6,18 +6,20 @@ import uploadImages from "../services/uploadImages.js";
 import deleteData from "../services/deleteData.js";
 import updateData from "../services/updateData.js";
 import getFilteredData from "../services/getFilteredData.js";
+import {ProductInfo} from "../types/ProductData.ts";
+import {PostInfo} from "../types/PostData.ts";
 
 
-function calculateIndex(array, element) {
-  return array.value?.findIndex((item) => item.id === element.id);
+function calculateIndex(array: ProductInfo[] | PostInfo[], element: PostInfo | ProductInfo) {
+  return array.findIndex((item: ProductInfo | PostInfo) => item.id === element.id);
 }
 
 export const useAppStore = defineStore('appStore', ()=> {
-  const products = ref([])
-  const posts = ref([])
-  const isLoading = ref(false)
+  const products = ref<ProductInfo[]>([])
+  const posts = ref<PostInfo[]>([])
+  const isLoading = ref<boolean>(false)
 
-  function reformatData(data) {
+  function reformatProductData(data: Record<string, any>): ProductInfo[] {
     return Object.keys(data).map(key => {
       return {
         ...data[key],
@@ -26,48 +28,56 @@ export const useAppStore = defineStore('appStore', ()=> {
       };
     });
   }
-  async function getProductsByCategory(categoryValue) {
+    function reformatPostData(data: Record<string, any>): PostInfo[] {
+        return Object.keys(data).map(key => {
+            return {
+                ...data[key],
+                id: key,
+            };
+        });
+    }
+  async function getProductsByCategory(categoryValue: string): Promise<void> {
     try {
       isLoading.value = true;
       const response = await getFilteredData('products.json', {orderBy: '"category"', equalTo: `"${categoryValue}"`});
-      products.value = reformatData(response.data)
+      products.value = reformatProductData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     } finally {
       isLoading.value = false;
     }
   }
-  function sortProductsByPrice(sort) {
+  function sortProductsByPrice(sort: string): void {
     if (sort === 'По цене ↑') {
       products.value.sort((a, b) => a.price - b.price);
     } else {
       products.value.sort((a, b) => b.price - a.price);
     }
   }
-  async function getProducts() {
+  async function getProducts(): Promise<void> {
     try {
       const response = await getDataFromApi('products');
-      products.value = reformatData(response.data)
+      products.value = reformatProductData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
   }
-  async function getPosts () {
+  async function getPosts (): Promise<void> {
     try {
       const response = await getDataFromApi('posts');
-      posts.value = reformatData(response.data)
+      posts.value = reformatPostData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
   }
-  function getProduct(id) {
-    return products.value.find((item) => item.id == id.value)
+  function getProduct(id: string): ProductInfo | undefined {
+    return products.value.find((item) => item.id == id)
   }
-  function getPost(id) {
-    return posts.value.find((item) => item.id == id.value)
+  function getPost(id: string): PostInfo | undefined {
+    return posts.value.find((item) => item.id == id)
   }
 
-  async function addProduct(selectedFile, product) {
+  async function addProduct(selectedFile: object[], product: ProductInfo): Promise<void>  {
     isLoading.value = true;
     try {
       await uploadData(product, 'products')
@@ -79,7 +89,7 @@ export const useAppStore = defineStore('appStore', ()=> {
       isLoading.value = false;
     }
   }
-  async function addPost(selectedFile, post) {
+  async function addPost(selectedFile: object[], post: PostInfo): Promise<void> {
     isLoading.value = true;
     try {
       await uploadData(post, 'posts')
@@ -92,24 +102,24 @@ export const useAppStore = defineStore('appStore', ()=> {
       }
 
   }
-  async function deleteProduct(product) {
+  async function deleteProduct(product: ProductInfo): Promise<void> {
     try {
       await deleteData(product, 'products')
-      products.value.splice(calculateIndex(products, product),1)
+      products.value.splice(calculateIndex(products.value, product),1)
     } catch (error) {
       console.log(error)
     }
   }
-  async function deletePost(post) {
+  async function deletePost(post: PostInfo): Promise<void> {
     try {
       await deleteData(post, 'posts')
-      posts.value.splice(calculateIndex(posts, post),1)
+      posts.value.splice(calculateIndex(posts.value, post),1)
     } catch (error) {
       console.log(error)
     }
   }
 
-  async function updateProduct(product) {
+  async function updateProduct(product: ProductInfo): Promise<void> {
     isLoading.value = true;
     try {
       await updateData(product, 'products')
@@ -119,7 +129,7 @@ export const useAppStore = defineStore('appStore', ()=> {
       isLoading.value = false
     }
   }
-  async function updatePost(post) {
+  async function updatePost(post: PostInfo): Promise<void> {
     isLoading.value = true;
     try {
       await updateData(post, 'posts')

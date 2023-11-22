@@ -1,33 +1,37 @@
-<script setup>
-import router from "../router/router.js";
+<script setup lang="ts">
+import router from "../router/router.ts";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAuthStore} from "../stores/auth.js";
 import {useAppStore} from "../stores/AppStore.js";
+import {ProductInfo} from "../types/ProductData.js";
 import {ref} from "vue";
+
 
 const authStore = useAuthStore();
 const store = useAppStore();
-defineProps(['card'])
+defineProps<{
+  product: ProductInfo
+}>();
 
-const isShowConfirmDialog = ref(false)
-function openEditPage(id) {
+const isShowConfirmDialog = ref<boolean>(false)
+function openEditPage(id: string): void {
   router.push('/editProduct/' + id);
 }
-function deleteProduct(card) {
-  store.deleteProduct(card)
+function deleteProduct(product: ProductInfo): void {
+  store.deleteProduct(product)
 }
 
 </script>
 
 <template>
-  <q-card class="catalog__card" flat square @click="router.push('/product/' + card.id)">
-    <q-img :src=getImgUrl(card.previewImageId) class="catalog__card__img" ></q-img>
+  <q-card class="catalog__card" flat square @click="router.push('/product/' + product.id)">
+    <q-img :src=getImgUrl(product.previewImageId) class="catalog__card__img" ></q-img>
     <q-card-section class="catalog__card__section">
-      <div class="catalog__card__category">{{ card.category }}</div>
-      <div class="catalog__card__title">{{ card.title }}</div>
+      <div class="catalog__card__category">{{ product.category }}</div>
+      <div class="catalog__card__title">{{ product.title }}</div>
       <div class="catalog__card__btns">
-        <q-btn class="catalog__card__btn">{{ card.price + ' ₽' }}</q-btn>
-        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(card.id)">
+        <q-btn class="catalog__card__btn">{{ product.price + ' ₽' }}</q-btn>
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(product.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="isShowConfirmDialog = true">
@@ -43,7 +47,7 @@ function deleteProduct(card) {
       </q-card-section>
       <q-card-actions align="right">
         <q-btn flat label="Отмена" color="grey" v-close-popup />
-        <q-btn label="Удалить" color="red" v-close-popup @click="deleteProduct(card)"/>
+        <q-btn label="Удалить" color="red" v-close-popup @click="deleteProduct(product)"/>
       </q-card-actions>
     </q-card>
   </q-dialog>

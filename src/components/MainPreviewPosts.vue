@@ -1,9 +1,9 @@
 <script setup>
 import getImgUrl from "../utils/getImageUrl.js";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 import {computed, onMounted} from "vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
-import router from "../router/router.js";
+import router from "../router/router.ts";
 
 const store = useAppStore()
 onMounted(() => {

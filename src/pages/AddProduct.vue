@@ -1,7 +1,7 @@
 <script setup>
 import {useQuasar} from "quasar";
 import { ref} from "vue";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 import { nanoid } from 'nanoid'
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
@@ -10,7 +10,7 @@ import FormInputImage from "../components/FormInputImage.vue";
 import FormInputCategory from "../components/FormInputCategory.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import Spinner from "../components/UI/spinner.vue";
-import router from "../router/router.js";
+import router from "../router/router.ts";
 
 const appStore = useAppStore()
 const $q = useQuasar()

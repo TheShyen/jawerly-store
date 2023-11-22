@@ -1,39 +1,40 @@
-<script setup>
-  import router from "./router/router.js";
-  import {onMounted, ref, watch} from "vue";
-  import {useAuthStore} from "./stores/auth.js";
-  import {useQuasar} from "quasar";
-  import {useRoute} from "vue-router";
-  
-  const $q = useQuasar();
-  const authStore = useAuthStore();
-  
-  const route = useRoute();
-  const activeRoute = ref(route.path);
-  
-  const isRouteActive = (path) => {
-    return activeRoute.value === path;
-  };
-  
+<script setup lang="ts">
+import router from "./router/router.js";
+import {onMounted, ref, watch} from "vue";
+import {useAuthStore} from "./stores/auth.js";
+import {useQuasar} from "quasar";
+import {useRoute} from "vue-router";
+import {AuthUserInfo} from "./types/AuthUserInfo.ts";
 
-  watch(() => route.path, (newPath) => {
-    activeRoute.value = newPath;
-  });
+const $q = useQuasar();
+const authStore = useAuthStore();
+
+const route = useRoute();
+const activeRoute = ref<string>(route.path);
+
+const isRouteActive = (path: string): boolean => {
+  return activeRoute.value === path;
+};
+
+
+watch(() => route.path, (newPath: string) => {
+  activeRoute.value = newPath;
+});
   
  
   onMounted(() => {
     activeRoute.value = route.path;
   });
   
-  function checkUser() {
-    const users = JSON.parse(localStorage.getItem('users'))
-    if (users) {
-      authStore.userInfo = users;
+  function checkUser(): void  {
+    const user: AuthUserInfo | null = JSON.parse(localStorage.getItem('user') || 'null')
+    if (user) {
+      authStore.userInfo = user;
     }
   }
   checkUser()
  
-  function logOut() {
+  function logOut(): void {
     authStore.logOut()
     $q.notify({
       message: 'Вы вышли из аккаунта',

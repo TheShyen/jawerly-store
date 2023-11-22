@@ -4,7 +4,7 @@ import CatalogFilters from "../components/CatalogFilters.vue";
 import CatalogProductList from "../components/CatalogProductList.vue";
 import CatalogProductItem from "../components/CatalogProductItem.vue";
 
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 import {onMounted} from "vue";
 
 const store = useAppStore()
@@ -19,7 +19,7 @@ onMounted(() => {
     <DefaultLayout>
       <CatalogFilters/>
       <CatalogProductList>
-        <CatalogProductItem v-for="card in store.products" :card="card" :key="card.id"/>
+        <CatalogProductItem v-for="card in store.products" :product="card" :key="card.id"/>
       </CatalogProductList>
     </DefaultLayout>
   </div>

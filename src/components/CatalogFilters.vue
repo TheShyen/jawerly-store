@@ -1,14 +1,14 @@
 <script setup>
 import {ref, watch} from "vue";
 import {useAuthStore} from "../stores/auth.js";
-import router from "../router/router.js";
+import router from "../router/router.ts";
 import {getCategory, getFilters, getGender} from "../utils/getSelectOptions.js";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 
 
 const store = useAuthStore()
-
 const appStore = useAppStore()
+
 const categoryOptions = ref(getCategory())
 const genderOptions = ref(getGender())
 const sortOptions = ref(getFilters())

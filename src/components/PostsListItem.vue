@@ -1,8 +1,8 @@
 <script setup>
-import router from "../router/router.js";
+import router from "../router/router.ts";
 import formatDateString from "../utils/formatDateString.js";
 import getImgUrl from "../utils/getImageUrl.js";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 import {useAuthStore} from "../stores/auth.js";
 
 const store = useAppStore();

@@ -2,10 +2,10 @@
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import PostsList from "../components/PostsList.vue";
 import PostsListItem from "../components/PostsListItem.vue";
-import router from "../router/router.js";
+import router from "../router/router.ts";
 import {useAuthStore} from "../stores/auth.js";
 import {onMounted} from "vue";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 
 const store = useAuthStore()
 const appStore = useAppStore()

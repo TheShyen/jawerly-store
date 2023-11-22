@@ -1,7 +1,7 @@
 <script setup>
 
 import Spinner from "./UI/spinner.vue";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 
 const appStore = useAppStore();
 </script>

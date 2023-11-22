@@ -1,4 +1,4 @@
-interface UserData {
+export interface AuthUserInfo {
     email: string,
     expiresIn: string,
     refreshToken: string,

@@ -1,7 +1,7 @@
 <script setup>
 import {useQuasar} from "quasar";
-import { ref} from "vue";
-import {useAppStore} from "../stores/AppStore.js";
+import {ref} from "vue";
+import {useAppStore} from "../stores/AppStore.ts";
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";

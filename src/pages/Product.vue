@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import {useAppStore} from "../stores/AppStore.js";
+import {useAppStore} from "../stores/AppStore.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import getImgUrl from "../utils/getImageUrl.js";
 
@@ -12,7 +12,7 @@ const store = useAppStore()
 const product = ref({});
 
 onMounted(() => {
-  product.value = store.getProduct(productId);
+  product.value = store.getProduct(productId.value);
   slide.value = product.value.previewImageId;
 })
 

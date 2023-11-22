@@ -11,16 +11,9 @@ import EditPost from "../pages/EditPost.vue";
 import AddPost from "../pages/AddPost.vue";
 import {useAuthStore} from "../stores/auth.js";
 
-interface CustomRoute extends RouteRecordRaw {
-  meta?: {
-    auth?: boolean;
-  };
-}
-
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Main',
     component: Main,
   },
   {
@@ -77,9 +70,9 @@ const router = createRouter({
   history: createWebHistory('/jawerly-store/'),
   routes,
 });
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   const authStore = useAuthStore();
-  if(to.meta.auth && !authStore.userInfo.token) {
+  if(to.meta?.auth && !authStore.userInfo.token) {
     next('/login')
   } else {
     next()
