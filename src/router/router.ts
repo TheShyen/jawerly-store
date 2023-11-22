@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router';
 import Main from "../pages/Main.vue";
 import Catalog from "../pages/Catalog.vue";
 import Product from "../pages/Product.vue";
@@ -11,7 +11,11 @@ import EditPost from "../pages/EditPost.vue";
 import AddPost from "../pages/AddPost.vue";
 import {useAuthStore} from "../stores/auth.js";
 
-
+interface CustomRoute extends RouteRecordRaw {
+  meta?: {
+    auth?: boolean;
+  };
+}
 
 const routes = [
   {

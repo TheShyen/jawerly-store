@@ -13,11 +13,8 @@ function calculateIndex(array, element) {
 }
 
 export const useAppStore = defineStore('appStore', ()=> {
-  const news = ref([]);
   const products = ref([])
   const posts = ref([])
-  const fullDataProducts = ref([])
-  const fullDataPosts = ref([])
   const isLoading = ref(false)
 
   function reformatData(data) {
@@ -69,12 +66,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   function getPost(id) {
     return posts.value.find((item) => item.id == id.value)
   }
-  function getFullProductInfo(product) {
-    return fullDataProducts.value.find((item) => item[1] === product)
-  }
-  function getFullPostInfo(post) {
-    return fullDataPosts.value.find((item) => item[1] === post)
-  }
+
   async function addProduct(selectedFile, product) {
     isLoading.value = true;
     try {
@@ -139,9 +131,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   }
 
   return {
-    news,
     products,
-    fullDataProducts,
     posts,
     isLoading,
     getProducts,
@@ -149,8 +139,6 @@ export const useAppStore = defineStore('appStore', ()=> {
     sortProductsByPrice,
     getPosts,
     getProduct,
-    getFullProductInfo,
-    getFullPostInfo,
     getPost,
     addProduct,
     addPost,
