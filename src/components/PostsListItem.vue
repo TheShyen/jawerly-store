@@ -4,6 +4,7 @@ import formatDateString from "../utils/formatDateString.js";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAppStore} from "../stores/AppStore.ts";
 import {useAuthStore} from "../stores/auth.js";
+import MainButton from "./UI/MainButton.vue";
 
 const store = useAppStore();
 const authStore = useAuthStore();
@@ -24,7 +25,7 @@ function deletePost(post) {
       <div class="posts__card__date">{{ formatDateString(post.postDate) }}</div>
       <div class="posts__card__title">{{ post.title }}</div>
       <div class="posts__card__btns">
-        <q-btn class="posts__card__btn" @click="router.push('/posts/' + post.id)">Подробнее</q-btn>
+        <MainButton @click="router.push('/posts/' + post.id)" style="font-family: Raleway, serif">Подробнее</MainButton>
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(post.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
@@ -75,16 +76,4 @@ function deletePost(post) {
   &__btns
     display: flex
     margin-top: 20px
-  &__btn
-    display: flex
-    padding: 10px 20px
-    margin-right: 10px
-    font-family: Raleway, serif
-    font-size: 18px
-    font-weight: 500
-    text-transform: uppercase
-    border: 2px solid var(--white, #FFF)
-    
-    background: var(--accent, #333)
-    color: var(--white, #FFF)
 </style>

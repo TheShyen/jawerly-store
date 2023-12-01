@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import CatalogFilters from "../components/CatalogFilters.vue";
 import CatalogProductList from "../components/CatalogProductList.vue";

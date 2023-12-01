@@ -10,6 +10,7 @@
       "./types"
     ],
     "allowJs": true,
+    "esModuleInterop": true,
     /* Bundler mode */
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
@@ -18,7 +19,6 @@
     "noEmit": true,
     "jsx": "preserve",
 
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -26,5 +26,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
 }
