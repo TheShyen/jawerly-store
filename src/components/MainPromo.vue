@@ -22,7 +22,6 @@ import router from "../router/router.ts";
   &__wrapper
     display: flex
     flex-direction: column
-  
   &__slogan
     display: flex
     justify-content: center
@@ -31,6 +30,8 @@ import router from "../router/router.ts";
     font-family:'Noto Serif', serif
     font-size: 36px
     font-weight: 700
+    @media (max-width: 575px)
+      font-size: 24px
   
   &__btn
     display: flex
@@ -41,4 +42,5 @@ import router from "../router/router.ts";
     text-transform: uppercase
     border: 2px solid var(--white, #FFF)
     background: var(--accent, #333)
+    
 </style>

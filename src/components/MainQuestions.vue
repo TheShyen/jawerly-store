@@ -28,4 +28,14 @@
     text-transform: uppercase
     border: 1px solid var(--accent, #333)
     background: var(--white, #FFF)
+    @media (max-width: 1199px)
+      width: 19%
+    @media (max-width: 991px)
+      width: 25%
+      font-size: 14px
+      font-weight: 800
+    @media (max-width: 575px)
+      width: 50%
+      font-size: 14px
+      font-weight: 800
 </style>

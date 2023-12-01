@@ -30,7 +30,7 @@ onMounted(() => {
             animated
             arrows
             control-color="black"
-            height="580px"
+            class="product__main__carousel__img"
             navigation
           >
             <q-carousel-slide v-for="img in product?.imagesIds" :name="img" class="product__main__carousel__slide">
@@ -67,24 +67,46 @@ onMounted(() => {
   min-height: 100vh
   &__main
     display: flex
-    justify-content: space-between
+    justify-content: space-around
+    flex-wrap: wrap
     margin-top: 30px
+    @media (max-width: 991px)
+      row-gap: 15px
     &__carousel
       width: 540px
+      @media (max-width: 1199px)
+        width: 480px
+      @media (max-width: 575px)
+        width: 80vw
+      &__img
+        height: 580px
+        @media (max-width: 575px)
+          height: 60vh
       &__slide
         padding: 0 0
     &__border
       display: flex
-      justify-content: space-between
+      justify-content: space-around
       &__one
         width: 540px
         height: 580px
         border: 2px solid var(--grey, #D6D6D6)
+        @media (max-width: 1199px)
+          width: 480px
+          height: 520px
+        @media (max-width: 575px)
+          width: 80vw
+          height: 81.6vh
       &__two
         margin: 8px auto
         width: 520px
         height: 560px
         border: 2px solid var(--grey, #D6D6D6)
+        @media (max-width: 1199px)
+          width: 460px
+          height: 500px
+        @media (max-width: 575px)
+          width: 76vw
     &__info
       padding: 40px 30px
       &__title
@@ -107,6 +129,11 @@ onMounted(() => {
         background: #D6D6D6
         width: 460px
         height: 1px
+        @media (max-width: 1199px)
+          width: 390px
+        @media (max-width: 575px)
+          width: 60vw
+        
       &__description
         margin-top: 30px
         font-family: Raleway, serif

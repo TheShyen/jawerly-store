@@ -40,17 +40,24 @@ const firstPosts = computed(() => {
 .posts
   background-color: #F9F9F9
   min-height: 700px
-
+  @media (max-width: 1199px)
+    padding: 0 10px
+  @media (max-width: 575px)
+    padding: 0 0
   &__cards
     display: flex
     flex-wrap: wrap
-    justify-content: space-between
+    justify-content: space-around
     flex-direction: row
+    gap: 5px 5px
   &__card
     margin-top: 15px
     width: 350px
     height: 370px
     background: #F9F9F9
+    @media (max-width: 575px)
+      width: 250px
+      height: 270px
     &:hover
       box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.7)
       transition: 0.6s
@@ -58,6 +65,9 @@ const firstPosts = computed(() => {
       transform: scale(1.03)
     &__img
       height: 370px
+      @media (max-width: 575px)
+        height: 270px
+    
     &__title
       color: #FFF
       text-align: center
@@ -65,4 +75,7 @@ const firstPosts = computed(() => {
       font-size: 21px
       background: none
       padding-bottom: 22px
+      
+
+  
 </style>

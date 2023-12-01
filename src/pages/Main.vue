@@ -38,4 +38,6 @@ import MainFooter from "../components/MainFooter.vue";
     color: var(--white, #FFF)
   &__posts
     color: var(--accent, #333)
+  @media (max-width: 575px)
+    font-size: 18px
 </style>

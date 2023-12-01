@@ -54,8 +54,16 @@ watch(() => sort.value, () => {
   flex-wrap: wrap
   padding-bottom: 40px
   justify-content: space-between
+  @media (max-width: 575px)
+    justify-content: center
+  @media (max-width: 1199px)
+    justify-content: space-around
   &__option
     width: 200px
+    @media (max-width: 767px)
+      width: 150px
+    @media (max-width: 575px)
+      width: 220px
 .catalog__btn
   display: flex
   justify-content: center
