@@ -19,7 +19,7 @@ onMounted(() => {
     <DefaultLayout>
       <CatalogFilters/>
       <CatalogProductList>
-        <CatalogProductItem v-for="card in store.products" :product="card" :key="card.id"/>
+        <CatalogProductItem v-for="card in store.products" :producasdasfsdgt="card" :key="card.id"/>
       </CatalogProductList>
     </DefaultLayout>
   </div>
