@@ -5,6 +5,7 @@ import {useAuthStore} from "../stores/auth.js";
 import {useAppStore} from "../stores/AppStore.js";
 import {ProductInfo} from "../types/ProductData.js";
 import {ref} from "vue";
+import MainButton from "./UI/MainButton.vue";
 
 
 const authStore = useAuthStore();
@@ -30,7 +31,7 @@ function deleteProduct(product: ProductInfo): void {
       <div class="catalog__card__category">{{ product.category }}</div>
       <div class="catalog__card__title">{{ product.title }}</div>
       <div class="catalog__card__btns">
-        <q-btn class="catalog__card__btn">{{ product.price + ' ₽' }}</q-btn>
+        <MainButton>{{ product.price + ' ₽' }}</MainButton>
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(product.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
@@ -88,19 +89,7 @@ function deleteProduct(product: ProductInfo): void {
   &__btns
     display: flex
     margin-top: 20px
-  &__btn
-    margin: auto
-    padding: 10px 20px
-    font-family: Poppins, serif
-    font-size: 18px
-    font-weight: 500
-    text-transform: uppercase
-    border: 2px solid var(--white, #FFF)
-    background: var(--accent, #333)
-    color: var(--white, #FFF)
-    &:hover
-      transform: scale(1.05)
-      transition: 0.6s
+
     
 
 </style>

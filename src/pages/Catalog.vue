@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import CatalogFilters from "../components/CatalogFilters.vue";
 import CatalogProductList from "../components/CatalogProductList.vue";
@@ -19,7 +19,7 @@ onMounted(() => {
     <DefaultLayout>
       <CatalogFilters/>
       <CatalogProductList>
-        <CatalogProductItem v-for="card in store.products" :producasdasfsdgt="card" :key="card.id"/>
+        <CatalogProductItem v-for="card in store.products" :product="card" :key="card.id"/>
       </CatalogProductList>
     </DefaultLayout>
   </div>
