@@ -17,6 +17,7 @@ function deleteFiles(files) {
 <template>
   <div>
     <q-uploader
+      class="uploader"
       v-bind="$attrs"
       hide-upload-btn
       no-thumbnails
@@ -29,5 +30,7 @@ function deleteFiles(files) {
 </template>
 
 <style lang="sass" scoped>
-
+.uploader
+  @media (max-width: 575px)
+    width: 80vw
 </style>

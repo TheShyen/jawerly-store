@@ -25,7 +25,7 @@ const isShowModal = ref(false)
 const blobImage = ref({})
 
 onMounted(() => {
-  post.value = store.getPost(postId);
+  post.value = store.getPost(postId.value);
   imageConversion()
 })
 

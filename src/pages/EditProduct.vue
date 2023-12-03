@@ -27,7 +27,7 @@ const store = useAppStore()
 const product = ref({});
 
 onMounted(() => {
-  product.value = store.getProduct(productId);
+  product.value = store.getProduct(productId.value);
   imageConversion()
 })
 

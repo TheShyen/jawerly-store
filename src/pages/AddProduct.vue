@@ -76,7 +76,7 @@ function onReset() {
 
 <template>
   <div class="form">
-    <DefaultLayout style="width: 900px; padding-top: 60px; padding-bottom: 0">
+    <DefaultLayout class="wrapper">
       <div>
         <q-form
           v-if="!appStore.isLoading"
@@ -103,8 +103,13 @@ function onReset() {
 </template>
 
 <style lang="sass" scoped>
+
+.wrapper
+  max-width: 900px
+  padding-top: 60px
+  padding-bottom: 0
 .form
-  padding: 30px 0px
+  padding: 30px 40px
   min-height: 100vh
   background-color: #F9F9F9
   

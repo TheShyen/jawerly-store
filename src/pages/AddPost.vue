@@ -64,7 +64,7 @@ function onReset() {
 
 <template>
   <div class="form">
-    <DefaultLayout style="width: 900px">
+    <DefaultLayout style="max-width: 900px">
       <q-form
         v-if="!appStore.isLoading"
         class="form__input column wrap justify-center"

@@ -96,7 +96,7 @@ onMounted(() => {
           height: 520px
         @media (max-width: 575px)
           width: 80vw
-          height: 81.6vh
+
       &__two
         margin: 8px auto
         width: 520px

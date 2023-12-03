@@ -21,7 +21,7 @@ onMounted(() => {
     <DefaultLayout>
       <div class="post__main">
         <div class="post__main__img">
-          <q-img :src="getImgUrl(post?.imageId)"/>
+          <q-img :src="getImgUrl(post?.imageId)" class="post__main__img"/>
         </div>
         <div class="post__main__info">
           <div class="post__main__info__date">Дата создания:
@@ -39,19 +39,27 @@ onMounted(() => {
 .post
   background-color: #F9F9F9
   min-height: 100vh
-  &__wrapper
-    padding: 120px 0
-    margin: 0 auto
-    width: 1150px
   &__main
     display: flex
     margin-top: 30px
+    padding: 0 20px
+    @media (max-width: 767px)
+      flex-wrap: wrap
+      justify-content: center
     &__img
       width: 540px
       height: 580px
+      @media (max-width: 991px)
+        width: 45vw
+        height: 48vh
+      @media (max-width: 767px)
+        width: 80vw
+        height: 50vh
     &__info
       padding: 0 40px
       max-width: 600px
+      @media (max-width: 767px)
+        margin-top: 40px
       &__date
         display: flex
         flex-direction: row
@@ -70,10 +78,16 @@ onMounted(() => {
         font-size: 28px
         color: #333
         text-transform: uppercase
+        @media (max-width: 991px)
+          font-size: 24px
+        @media (max-width: 575px)
+          font-size: 20px
       &__description
         margin-top: 20px
         font-family: Raleway, serif
         font-weight: 800
         font-size: 18px
         color: #333
+        @media (max-width: 575px)
+          font-size: 15px
 </style>
