@@ -121,9 +121,9 @@ async function onSave() {
           <FormInputTitle v-model="post.title"/>
           <FormInputDescription v-model="post.description"/>
           <div class="q-mt-lg">
-            <q-btn color="green" label="Изменить" size="17px" @click="onSave"/>
-            <q-btn class="q-ml-sm" color="primary" flat label="Назад" size="17px" @click="router.push('/posts')"/>
-            <q-btn class="q-ml-sm" color="red" flat label="Удалить" size="17px"/>
+            <q-btn color="green" class="button" label="Изменить" size="17px" @click="onSave"/>
+            <q-btn class="q-ml-sm button" color="primary" flat label="Назад" size="17px" @click="router.push('/posts')"/>
+            <q-btn class="q-ml-sm button" color="red" flat label="Удалить" size="17px"/>
           </div>
         </div>
       </div>
@@ -141,14 +141,37 @@ async function onSave() {
     display: flex
     justify-content: space-between
     margin-top: 30px
+    flex-wrap: wrap
+    @media (max-width: 1199px)
+      padding: 0 25px
+    @media (max-width: 767px)
+      justify-content: center
     &__img
       width: 540px
+      @media (max-width: 1199px)
+        width: 450px
+      @media (max-width: 991px)
+        width: 45vw
+      @media (max-width: 767px)
+        width: 500px
       
 .form
   width: 540px
   row-gap: 23px
+  @media (max-width: 1199px)
+    width: 45vw
+  @media (max-width: 767px)
+    width: 80vw
+    margin-top: 20px
   
 .add-btn
   display: flex
   height: 50px
+.button
+  @media (max-width: 991px)
+    width: 100px
+    font-size: 14px !important
+  @media (max-width: 575px)
+    width: 80px
+    font-size: 12px !important
 </style>

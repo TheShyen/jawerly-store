@@ -110,9 +110,9 @@ function onUploadFiles(files) {
             animated
             arrows
             control-color="accent"
-            height="580px"
             navigation
             swipeable
+            class="slides"
           >
             
             <q-carousel-slide v-for="img in blobImages" :key="img.blobLink" :name="img.blobLink" class="product__main__carousel__slide">
@@ -155,9 +155,9 @@ function onUploadFiles(files) {
           <FormInputPrice v-model="product.price"/>
           <FormInputCategory v-model="product.category"/>
           <div class="q-mt-lg">
-            <q-btn color="green" label="Сохранить" size="17px" @click="onSave"/>
-            <q-btn class="q-ml-sm" color="primary" flat label="Назад" size="17px" @click="router.push('/catalog')"/>
-            <q-btn class="q-ml-sm" color="red" flat label="Удалить" size="17px"/>
+            <q-btn color="green" class="button" size="17px" @click="onSave">Сохранить</q-btn>
+            <q-btn class="q-ml-sm button" color="primary" flat size="17px" @click="router.push('/catalog')">Назад</q-btn>
+            <q-btn class="q-ml-sm button" color="red" flat  size="17px">Удалить</q-btn>
           </div>
         </div>
       </div>
@@ -170,22 +170,46 @@ function onUploadFiles(files) {
 .form
   width: 540px
   row-gap: 20px
+  @media (max-width: 1199px)
+    width: 45vw
+  @media (max-width: 767px)
+    width: 80vw
+    margin-top: 20px
 .product
   background-color: #F9F9F9
   min-height: 100vh
-  
+
   &__main
     display: flex
     justify-content: space-between
+    flex-wrap: wrap
     margin-top: 30px
+    @media (max-width: 1199px)
+      padding: 0 25px
+    @media (max-width: 767px)
+      justify-content: center
     &__carousel
       width: 540px
+      @media (max-width: 1199px)
+        width: 450px
+      @media (max-width: 991px)
+        width: 45vw
+      @media (max-width: 767px)
+        width: 500px
       &__slide
         padding: 0 0
-
-
 .add-btn
   display: flex
   height: 50px
-
+.slides
+  height: 580px
+  @media (max-width: 991px)
+    height: 65vh
+.button
+  @media (max-width: 991px)
+    width: 100px
+    font-size: 14px !important
+  @media (max-width: 575px)
+    width: 80px
+    font-size: 12px !important
 </style>

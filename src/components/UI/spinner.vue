@@ -14,8 +14,9 @@
 
 <style lang="sass" scoped>
 .spinner
-  width: 8.5vw
-  height: 900px
-  margin: 25vh auto
-  align-items: center
+  position: absolute
+  top: 50%
+  left: 50%
+  margin-right: -50%
+  transform: translate(-50%, -50%)
 </style>

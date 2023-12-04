@@ -15,4 +15,6 @@
 <style lang="sass" scoped>
 .input
   padding-bottom: 0px
+  @media (max-width: 575px)
+    font-size: 15px
 </style>

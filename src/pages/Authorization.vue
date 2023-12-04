@@ -3,6 +3,7 @@ import {useQuasar} from "quasar";
 import {ref} from "vue";
 import {useAuthStore} from "../stores/auth.js";
 import {validationEmail, validationPassword} from "../utils/validation.js";
+import Spinner from "../components/UI/spinner.vue";
 
 
 const $q = useQuasar()
@@ -75,13 +76,7 @@ function onReset() {
           <div class="errorMassage__text">{{authStore.errorMassage}}</div>
         </q-banner>
       </q-form>
-      <div class="spinner" v-if="authStore.isLoading">
-        <q-spinner
-          color="primary"
-          size="5sem"
-          :thickness="10"
-        />
-      </div>
+      <Spinner v-if="authStore.isLoading"/>
     </div>
   </div>
 </template>
@@ -95,6 +90,8 @@ function onReset() {
     margin: 0 auto
     padding-top: 200px
     width: 650px
+    @media (max-width: 767px)
+      width: 80vw
   
   &__text
     color: var(--accent, #333)
@@ -103,11 +100,7 @@ function onReset() {
     font-size: 28px
     font-weight: 800
     margin-bottom: 60px
-    
-.spinner
-  width: 70px
-  height: 100px
-  margin: 120px auto
+
 .errorMassage
   margin-top: 20px
   text-align: center
