@@ -19,16 +19,16 @@ export const useAppStore = defineStore('appStore', ()=> {
   const posts = ref<PostInfo[]>([])
   const isLoading = ref<boolean>(false)
 
-  function reformatProductData(data: Record<string, any>): ProductInfo[] {
+  function reformatProductData(data: Record<string, ProductInfo>): ProductInfo[] {
     return Object.keys(data).map(key => {
       return {
         ...data[key],
         id: key,
-        price: parseInt(data[key].price)
+        price: parseInt(String(data[key].price))
       };
     });
   }
-    function reformatPostData(data: Record<string, any>): PostInfo[] {
+    function reformatPostData(data: Record<string, PostInfo>): PostInfo[] {
         return Object.keys(data).map(key => {
             return {
                 ...data[key],

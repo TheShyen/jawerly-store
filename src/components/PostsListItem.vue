@@ -1,19 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import router from "../router/router.ts";
 import formatDateString from "../utils/formatDateString.js";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAppStore} from "../stores/AppStore.ts";
 import {useAuthStore} from "../stores/auth.js";
 import MainButton from "./UI/MainButton.vue";
+import {PostInfo} from "../types/PostData.ts";
 
 const store = useAppStore();
 const authStore = useAuthStore();
 
-function openEditPage(id) {
+function openEditPage(id: number) {
   router.push('/editPost/' + id);
 }
 
-function deletePost(post) {
+function deletePost(post: PostInfo) {
   store.deletePost(post)
 }
 </script>

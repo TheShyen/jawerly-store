@@ -2,7 +2,6 @@
 import {useQuasar} from "quasar";
 import { ref} from "vue";
 import {useAppStore} from "../stores/AppStore.ts";
-import { nanoid } from 'nanoid'
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputPrice from "../components/FormInputPrice.vue";
@@ -11,6 +10,8 @@ import FormInputCategory from "../components/FormInputCategory.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import Spinner from "../components/UI/spinner.vue";
 import router from "../router/router.ts";
+import FormInputGender from "../components/FormInputGender.vue";
+import FormInputLink from "../components/FormInputLink.vue";
 
 const appStore = useAppStore()
 const $q = useQuasar()
@@ -18,9 +19,11 @@ const $q = useQuasar()
 const title = ref('');
 const description = ref('')
 const category = ref('');
-const price = ref('')
-const selectedFiles = ref([])
-const isAddMoreProduct = ref(false)
+const price = ref('');
+const gender = ref('');
+const link = ref('');
+const selectedFiles = ref([]);
+const isAddMoreProduct = ref(false);
 
 function getImagesName() {
   const arr = []
@@ -43,14 +46,16 @@ async function onCreate() {
       title: title.value,
       category: category.value,
       description: description.value,
-      price: price.value,
+      price: Number(price.value),
+      gender: gender.value,
+      link: link.value,
       previewImageId: getImagesName()[0],
       imagesIds: getImagesName()
     })
     onReset()
     
     if (!isAddMoreProduct.value) {
-      router.push('/catalog')
+      await router.push('/catalog')
     }
     
     $q.notify({
@@ -70,6 +75,8 @@ function onReset() {
   description.value = '';
   category.value = '';
   price.value = '';
+  gender.value = '';
+  link.value = '';
   selectedFiles.value = [];
 }
 </script>
@@ -88,6 +95,8 @@ function onReset() {
           <FormInputDescription v-model="description"/>
           <FormInputPrice v-model="price"/>
           <FormInputCategory v-model="category"/>
+          <FormInputGender v-model="gender"/>
+          <FormInputLink v-model="link"/>
           <FormInputImage @on-upload-file="onUploadFiles" multiple/>
           <q-checkbox v-model="isAddMoreProduct" class="checkbox col-md-6" label="Добавить еще"/>
           <div class="col-md-6 ">

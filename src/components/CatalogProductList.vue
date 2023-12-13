@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 import Spinner from "./UI/spinner.vue";
 import {useAppStore} from "../stores/AppStore.ts";

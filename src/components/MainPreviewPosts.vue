@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import getImgUrl from "../utils/getImageUrl.js";
 import {useAppStore} from "../stores/AppStore.ts";
 import {computed, onMounted} from "vue";

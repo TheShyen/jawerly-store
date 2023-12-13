@@ -2,16 +2,13 @@
 import {ref, watch} from "vue";
 import {useAuthStore} from "../stores/auth.js";
 import router from "../router/router.ts";
-import {getCategory, getFilters, getGender} from "../utils/getSelectOptions.js";
+import {categoryOptions, sortOptions, genderOptions} from "../utils/getSelectOptions.ts";
 import {useAppStore} from "../stores/AppStore.ts";
 
 
 const store = useAuthStore()
 const appStore = useAppStore()
 
-const categoryOptions = ref(getCategory())
-const genderOptions = ref(getGender())
-const sortOptions = ref(getFilters())
 const category = ref('')
 const gender = ref('')
 const sort = ref('')

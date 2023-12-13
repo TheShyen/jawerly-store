@@ -115,7 +115,6 @@ async function onSave() {
               </q-btn>
             </q-card-actions>
           </q-card>
-        
         </q-dialog>
         <div class="form column wrap">
           <FormInputTitle v-model="post.title"/>

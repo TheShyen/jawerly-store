@@ -4,6 +4,8 @@ export interface ProductInfo {
     description: string,
     category: string,
     price: number,
+    gender: string,
+    link: string,
     previewImageId: string,
     imagesIds: string[],
 }
