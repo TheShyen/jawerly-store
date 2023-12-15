@@ -3,7 +3,7 @@
 
 <template>
   <div class="questions">
-    <div>
+    <div class="questions__info">
       <div class="subhead subhead__questions">Есть вопросы?</div>
       <div class="head head__questions">Напишите нам в социальных сетях</div>
       <q-btn href='#socials' class="questions__btn">Наши соцсети</q-btn>
@@ -16,9 +16,11 @@
   background: url(../static/Rectangle.png) center (center/cover) no-repeat
   min-height: 400px
   padding: 100px 0
-  
+  &__info
+    display: flex
+    justify-content: center
+    flex-direction: column
   &__btn
-    width: 12%
     display: flex
     margin: 20px auto
     font-family: Raleway, serif
@@ -28,13 +30,10 @@
     border: 1px solid var(--accent, #333)
     background: var(--white, #FFF)
     @media (max-width: 1199px)
-      width: 19%
     @media (max-width: 991px)
-      width: 25%
       font-size: 14px
       font-weight: 800
     @media (max-width: 575px)
-      width: 50%
       font-size: 14px
       font-weight: 800
 </style>

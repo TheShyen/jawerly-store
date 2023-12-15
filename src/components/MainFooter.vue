@@ -23,7 +23,7 @@
   &__links
     display: flex
     justify-content: space-evenly
-    width: 100%
+    width: 30%
     margin: 40px auto
     
     &__img

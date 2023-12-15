@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {useQuasar} from "quasar";
 import {ref} from "vue";
 import {useAppStore} from "../stores/AppStore.ts";
@@ -12,9 +12,9 @@ import Spinner from "../components/UI/spinner.vue";
 const appStore = useAppStore()
 const $q = useQuasar()
 
-const title = ref('');
-const description = ref('')
-const selectedFiles = ref([])
+const title = ref<string>('');
+const description = ref<string>('')
+const selectedFiles = ref<File[]>([])
 
 
 function getImagesName() {
@@ -24,7 +24,7 @@ function getImagesName() {
   }
   return arr;
 }
-async function onCreate() {
+async function onCreate():Promise<void> {
   if (!selectedFiles.value.length) {
     $q.notify({
       message: 'Загрузите изображение',
@@ -33,7 +33,7 @@ async function onCreate() {
       icon: 'warning'
     })
   } else {
-    await appStore.addPost(selectedFiles, {
+    await appStore.addPost(selectedFiles.value, {
       id: '',
       title: title.value,
       description: description.value,
@@ -50,8 +50,9 @@ async function onCreate() {
   }
   
 }
-function onUploadFiles(files) {
+function onUploadFiles(files:File[]) {
   selectedFiles.value = files;
+  console.log(selectedFiles)
 }
 
 

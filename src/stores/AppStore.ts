@@ -36,10 +36,10 @@ export const useAppStore = defineStore('appStore', ()=> {
             };
         });
     }
-  async function getProductsByCategory(categoryValue: string): Promise<void> {
+  async function getProductsByFilters(params: {orderBy: string, equalTo: string}): Promise<void> {
     try {
       isLoading.value = true;
-      const response = await getFilteredData('products.json', {orderBy: '"category"', equalTo: `"${categoryValue}"`});
+      const response = await getFilteredData('products.json', params);
       products.value = reformatProductData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
@@ -70,11 +70,17 @@ export const useAppStore = defineStore('appStore', ()=> {
       console.error('Произошла ошибка:', error);
     }
   }
-  function getProduct(id: string): ProductInfo | undefined {
-    return products.value.find((item) => item.id == id)
+  function getProduct(id: string): ProductInfo | null {
+    return products.value.find((item) => item.id == id) || null
   }
-  function getPost(id: string): PostInfo | undefined {
-    return posts.value.find((item) => item.id == id)
+  function getPost(id: string): PostInfo {
+    return posts.value.find((item) => item.id == id) || {
+      id: '',
+      title: '',
+      description: '',
+      postDate: '',
+      imageId: '',
+    }
   }
 
   async function addProduct(selectedFile: object[], product: ProductInfo): Promise<void>  {
@@ -145,7 +151,7 @@ export const useAppStore = defineStore('appStore', ()=> {
     posts,
     isLoading,
     getProducts,
-    getProductsByCategory,
+    getProductsByFilters,
     sortProductsByPrice,
     getPosts,
     getProduct,

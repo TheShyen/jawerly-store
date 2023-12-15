@@ -10,7 +10,7 @@ import {PostInfo} from "../types/PostData.ts";
 const store = useAppStore();
 const authStore = useAuthStore();
 
-function openEditPage(id: number) {
+function openEditPage(id: string) {
   router.push('/editPost/' + id);
 }
 

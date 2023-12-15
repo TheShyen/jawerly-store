@@ -15,7 +15,14 @@ const sort = ref('')
 
 watch(() => category.value, () => {
   if (category.value) {
-    appStore.getProductsByCategory(category.value)
+    appStore.getProductsByFilters({orderBy: '"category"', equalTo: `"${category.value}"`})
+  } else {
+    appStore.getProducts()
+  }
+})
+watch(() => gender.value, () => {
+  if (gender.value) {
+    appStore.getProductsByFilters({orderBy: '"gender"', equalTo: `"${gender.value}"`})
   } else {
     appStore.getProducts()
   }

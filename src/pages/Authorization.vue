@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {useQuasar} from "quasar";
 import {ref} from "vue";
 import {useAuthStore} from "../stores/auth.js";
@@ -9,9 +9,9 @@ import Spinner from "../components/UI/spinner.vue";
 const $q = useQuasar()
 const authStore = useAuthStore();
 
-const email = ref('test@mail.ru')
-const password = ref(12345678)
-const isPasswordVisible = ref(true)
+const email = ref<string>('test@mail.ru')
+const password = ref<string>("12345678")
+const isPasswordVisible = ref<boolean>(true)
 
 async function signIn() {
   authStore.isLoading = true;
@@ -26,8 +26,8 @@ async function signIn() {
 
 
 function onReset() {
-  email.value = null
-  password.value = null
+  email.value = ""
+  password.value = ""
   
 }
 </script>

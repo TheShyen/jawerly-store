@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from "vue";
 import getImgUrl from "../utils/getImageUrl.js";
 import {useRoute} from "vue-router";
@@ -12,24 +12,31 @@ import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
 import getBlobFromImage from "../services/getImageForBlob.js";
+import {PostInfo} from "../types/PostData.ts";
 
 const $q = useQuasar()
 
 
-const selectedFiles = ref(null)
+const selectedFiles = ref<File[]>([])
 const route = useRoute();
-const postId = ref(route.params.postId);
+const postId = ref<string>(route.params.postId as string);
 const store = useAppStore()
-const post = ref({});
+const post = ref<PostInfo>({
+  id: '',
+  title: '',
+  description: '',
+  postDate: '',
+  imageId: '',
+});
 const isShowModal = ref(false)
-const blobImage = ref({})
+const blobImage = ref<{ blobLink: string; id: string }>({ blobLink: "", id: "" })
 
 onMounted(() => {
   post.value = store.getPost(postId.value);
   imageConversion()
 })
 
-function onUploadFiles(files) {
+function onUploadFiles(files: File[]) {
   selectedFiles.value = files;
   const img = selectedFiles.value[0];
   post.value.imageId = img.name;
@@ -37,9 +44,9 @@ function onUploadFiles(files) {
   blobImage.value = {blobLink: imageUrl, id: img.name};
 }
 
-function deleteCurrentImage(blobLink) {
+function deleteCurrentImage(blobLink: string) {
   post.value.imageId = ''
-  blobImage.value = null
+  blobImage.value = { blobLink: "", id: "" }
   URL.revokeObjectURL(blobLink);
 }
 
@@ -50,7 +57,7 @@ async function imageConversion() {
   store.isLoading = false;
 }
 
-async function loadImageAsBlob(url, id) {
+async function loadImageAsBlob(url: string, id: string) {
   try {
     const response = await getBlobFromImage(url)
     blobImage.value = {
@@ -77,7 +84,7 @@ async function onSave() {
       timeout: 3000,
     })
   }
-  
+
 }
 
 </script>
@@ -153,7 +160,7 @@ async function onSave() {
         width: 45vw
       @media (max-width: 767px)
         width: 500px
-      
+
 .form
   width: 540px
   row-gap: 23px
@@ -162,7 +169,7 @@ async function onSave() {
   @media (max-width: 767px)
     width: 80vw
     margin-top: 20px
-  
+
 .add-btn
   display: flex
   height: 50px
