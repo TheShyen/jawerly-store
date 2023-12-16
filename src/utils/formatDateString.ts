@@ -1,5 +1,5 @@
-export default function formatDateString(dateString) {
-  const options = {
+export default function formatDateString(dateString: string) {
+  const options:Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -8,6 +8,6 @@ export default function formatDateString(dateString) {
   };
 
   const formatter = new Intl.DateTimeFormat('ru-RU', options);
-  const date = new Date(dateString ? dateString : null);
+  const date = new Date(dateString);
   return formatter.format(date);
 }

@@ -1,18 +1,24 @@
-<script setup>
-import {computed, onMounted, ref} from "vue";
+<script setup lang="ts">
+import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
-import getImgUrl from "../utils/getImageUrl.js";
+import getImgUrl from "../utils/getImageUrl.ts";
 import {useAppStore} from "../stores/AppStore.ts";
-import formatDateString from "../utils/formatDateString.js";
+import formatDateString from "../utils/formatDateString.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import {PostInfo} from "../types/PostData.ts";
+import {defaultPostState} from "../utils/defaultPostState.ts";
+import router from "../router/router.ts";
 
 const route = useRoute();
 const store = useAppStore()
-const postId = ref(route.params.postId);
-const post = ref({});
+const postId = ref<string>(route.params.postId as string);
+const post = ref<PostInfo>(defaultPostState);
 
 onMounted(() => {
   post.value = store.getPost(postId.value);
+  if (!post.value.title || !post.value.description) {
+    router.push('/error')
+  }
 })
 </script>
 

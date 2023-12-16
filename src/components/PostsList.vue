@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import {useAppStore} from "../stores/AppStore.ts";
 
+const appStore = useAppStore()
+import Spinner from "./UI/spinner.vue";
 </script>
 
 <template>
+  <Spinner v-if="appStore.isLoading"/>
   <div class="posts__cards">
     <slot></slot>
   </div>

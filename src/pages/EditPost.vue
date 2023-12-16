@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import getImgUrl from "../utils/getImageUrl.js";
+import getImgUrl from "../utils/getImageUrl.ts";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import router from "../router/router.ts";
 import Spinner from "../components/UI/spinner.vue";
-import uploadImages from "../services/uploadImages.js";
+import uploadImages from "../services/uploadImages.ts";
 import {useQuasar} from "quasar";
 import FormInputTitle from "../components/FormInputTitle.vue";
 import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
-import getBlobFromImage from "../services/getImageForBlob.js";
+import getBlobFromImage from "../services/getImageForBlob.ts";
 import {PostInfo} from "../types/PostData.ts";
+import {defaultPostState} from "../utils/defaultPostState.ts";
 
 const $q = useQuasar()
 
@@ -21,19 +22,17 @@ const selectedFiles = ref<File[]>([])
 const route = useRoute();
 const postId = ref<string>(route.params.postId as string);
 const store = useAppStore()
-const post = ref<PostInfo>({
-  id: '',
-  title: '',
-  description: '',
-  postDate: '',
-  imageId: '',
-});
+const post = ref<PostInfo>(defaultPostState);
 const isShowModal = ref(false)
 const blobImage = ref<{ blobLink: string; id: string }>({ blobLink: "", id: "" })
 
 onMounted(() => {
   post.value = store.getPost(postId.value);
-  imageConversion()
+  if (!post.value.title || !post.value.description) {
+    router.push('/error')
+  } else {
+    imageConversion()
+  }
 })
 
 function onUploadFiles(files: File[]) {
@@ -71,7 +70,7 @@ async function loadImageAsBlob(url: string, id: string) {
 async function onSave() {
   if (post.value.imageId) {
     await store.updatePost(post.value)
-    await uploadImages(selectedFiles)
+    await uploadImages(selectedFiles.value)
     $q.notify({
       message: 'Пост отредактирован!',
       color: 'green',

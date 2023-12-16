@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, onMounted} from "vue";
 import {useAppStore} from "../stores/AppStore.ts";
-import getImgUrl from "../utils/getImageUrl.js";
+import getImgUrl from "../utils/getImageUrl.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import router from "../router/router.ts";
 

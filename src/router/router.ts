@@ -9,7 +9,8 @@ import AddProduct from "../pages/AddProduct.vue";
 import EditProduct from "../pages/EditProduct.vue";
 import EditPost from "../pages/EditPost.vue";
 import AddPost from "../pages/AddPost.vue";
-import {useAuthStore} from "../stores/auth.js";
+import {useAuthStore} from "../stores/auth.ts";
+import ErrorPage from "../pages/ErrorPage.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -63,7 +64,12 @@ const routes: RouteRecordRaw[] = [
     meta: {
       auth: true
     }
-  }
+  },
+  {
+    path: '/error',
+    component: ErrorPage,
+  },
+
 ];
 
 const router = createRouter({

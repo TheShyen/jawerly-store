@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import router from "../router/router.ts";
-import formatDateString from "../utils/formatDateString.js";
-import getImgUrl from "../utils/getImageUrl.js";
+import formatDateString from "../utils/formatDateString.ts";
+import getImgUrl from "../utils/getImageUrl.ts";
 import {useAppStore} from "../stores/AppStore.ts";
-import {useAuthStore} from "../stores/auth.js";
+import {useAuthStore} from "../stores/auth.ts";
 import MainButton from "./UI/MainButton.vue";
 import {PostInfo} from "../types/PostData.ts";
 
 const store = useAppStore();
 const authStore = useAuthStore();
 
+defineProps<{
+  post: PostInfo
+}>();
 function openEditPage(id: string) {
   router.push('/editPost/' + id);
 }
@@ -20,7 +23,7 @@ function deletePost(post: PostInfo) {
 </script>
 
 <template>
-  <q-card @click="router.push('/posts/' + post.id)" v-for="post in store.posts" class="posts__card" :key="post.id" flat>
+  <q-card @click="router.push('/posts/' + post.id)" class="posts__card" flat>
     <q-img :src=getImgUrl(post.imageId) class="posts__card__img" />
     <q-card-section class="posts__card__section">
       <div class="posts__card__date">{{ formatDateString(post.postDate) }}</div>

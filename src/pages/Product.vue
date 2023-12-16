@@ -1,19 +1,26 @@
-<script setup>
-import {computed, onMounted, ref} from "vue";
+<script setup lang="ts">
+import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
-import getImgUrl from "../utils/getImageUrl.js";
+import getImgUrl from "../utils/getImageUrl.ts";
+import {ProductInfo} from "../types/ProductData.ts";
+import {defaultProductState} from "../utils/defaultProductState.ts";
+import router from "../router/router.ts";
 
 const slide = ref('')
 const route = useRoute();
-const productId = ref(route.params.productId);
+const productId = ref<string>(route.params.productId as string);
 const store = useAppStore()
-const product = ref({});
+const product = ref<ProductInfo>(defaultProductState);
 
 onMounted(() => {
   product.value = store.getProduct(productId.value);
-  slide.value = product.value.previewImageId;
+  if (!product.value.title || !product.value.description) {
+    router.push('/error')
+  } else {
+    slide.value = product.value.previewImageId;
+  }
 })
 
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import getImgUrl from "../utils/getImageUrl.js";
+import getImgUrl from "../utils/getImageUrl.ts";
 import {useAppStore} from "../stores/AppStore.ts";
 import {computed, onMounted} from "vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";

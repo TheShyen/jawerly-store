@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from "./router/router.js";
 import {onMounted, ref, watch} from "vue";
-import {useAuthStore} from "./stores/auth.js";
+import {useAuthStore} from "./stores/auth.ts";
 import {useQuasar} from "quasar";
 import {useRoute} from "vue-router";
 import {AuthUserInfo} from "./types/AuthUserInfo.ts";

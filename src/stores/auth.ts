@@ -2,11 +2,12 @@ import {defineStore} from "pinia";
 import axios from 'axios'
 import {computed, ref} from "vue";
 import router from "../router/router.ts";
-
+import {useQuasar} from "quasar";
 
 
 const apiKey = import.meta.env.VITE_API_KEY;
 export const useAuthStore = defineStore('auth', ()=> {
+    const $q = useQuasar()
   const userInfo = ref({
     token: '',
     email: '',
@@ -19,7 +20,8 @@ export const useAuthStore = defineStore('auth', ()=> {
   })
   const isLoading = ref(false)
   const errorMassage = ref('')
-   async function signIn(payload) {
+
+    async function signIn(payload: { email: string, password: string }) {
     try {
       let response = await axios.post(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
@@ -27,6 +29,12 @@ export const useAuthStore = defineStore('auth', ()=> {
           ...payload,
           returnSecureToken: true
       })
+        $q.notify({
+            message: 'Вы авторизовались!',
+            color: 'green',
+            timeout: 3000,
+            position: 'top',
+        })
       userInfo.value = {
         token: response.data.idToken,
         email: response.data.email,
@@ -37,18 +45,17 @@ export const useAuthStore = defineStore('auth', ()=> {
       localStorage.setItem('user', JSON.stringify(userInfo.value))
       errorMassage.value = '';
       router.push('/catalog')
-      console.log(response.data)
-    }
-    catch(err) {
-      switch (err.response.data.error.message) {
-        case 'INVALID_LOGIN_CREDENTIALS':
-          errorMassage.value = 'Неверная почта или пароль'
-          break;
-        default:
-          errorMassage.value = 'Ошибка'
-          break;
+
+    } catch (err: unknown) {
+      const error = err as Error;
+      if (error.message == 'Network Error') {
+        console.error('Произошла ошибка:', error.message);
+        errorMassage.value = 'Нет интернета'
+      } else {
+        console.error('Произошла ошибка:', error.message);
+        errorMassage.value = 'Неверная почта или пароль'
       }
-      console.log(err.response)
+
     }
     finally {
       isLoading.value = false;
@@ -56,7 +63,7 @@ export const useAuthStore = defineStore('auth', ()=> {
   }
   function logOut() {
     localStorage.removeItem("user");
-    userInfo.value = {};
+      userInfo.value = {token: '', email: '', userId: '', expiresIn: '', refreshToken: ''};
 
   }
   return {

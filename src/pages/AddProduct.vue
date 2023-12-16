@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {useQuasar} from "quasar";
 import { ref} from "vue";
 import {useAppStore} from "../stores/AppStore.ts";
@@ -22,7 +22,7 @@ const category = ref('');
 const price = ref('');
 const gender = ref('');
 const link = ref('');
-const selectedFiles = ref([]);
+const selectedFiles = ref<File[]>([]);
 const isAddMoreProduct = ref(false);
 
 function getImagesName() {
@@ -41,7 +41,7 @@ async function onCreate() {
       icon: 'warning'
     })
   } else {
-    await appStore.addProduct(selectedFiles, {
+    await appStore.addProduct(selectedFiles.value, {
       id: '',
       title: title.value,
       category: category.value,
@@ -66,7 +66,7 @@ async function onCreate() {
   }
   
 }
-function onUploadFiles(files) {
+function onUploadFiles(files: File[]) {
   selectedFiles.value = files;
 }
 
