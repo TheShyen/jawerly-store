@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from "../router/router.ts";
-import getImgUrl from "../utils/getImageUrl.js";
-import {useAuthStore} from "../stores/auth.js";
+import getImgUrl from "../utils/getImageUrl.ts";
+import {useAuthStore} from "../stores/auth.ts";
 import {useAppStore} from "../stores/AppStore.js";
 import {ProductInfo} from "../types/ProductData.js";
 import {ref} from "vue";

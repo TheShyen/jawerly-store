@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from "vue";
-import getImgUrl from "../utils/getImageUrl.js";
+import getImgUrl from "../utils/getImageUrl.ts";
 import {useRoute} from "vue-router";
 import {useAppStore} from "../stores/AppStore.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
@@ -11,24 +11,30 @@ import FormInputCategory from "../components/FormInputCategory.vue";
 import router from "../router/router.ts";
 import {useQuasar} from "quasar";
 import FormInputImage from "../components/FormInputImage.vue";
-import uploadImages from "../services/uploadImages.js";
+import uploadImages from "../services/uploadImages.ts";
 import Spinner from "../components/UI/spinner.vue";
-import getBlobFromImage from "../services/getImageForBlob.js";
+import getBlobFromImage from "../services/getImageForBlob.ts";
+import {ProductInfo} from "../types/ProductData.ts";
+import {defaultProductState} from "../utils/defaultProductState.ts";
 
 const $q = useQuasar()
 
 const isShowModal = ref(false)
 const slide = ref('')
-const blobImages = ref([])
-const selectedFiles = ref([])
+const blobImages = ref<{ blobLink: string; id: string }[]>([])
+const selectedFiles = ref<File[]>([])
 const route = useRoute();
-const productId = ref(route.params.productId);
+const productId = ref<string>(route.params.productId as string);
 const store = useAppStore()
-const product = ref({});
+const product = ref<ProductInfo>(defaultProductState);
 
 onMounted(() => {
   product.value = store.getProduct(productId.value);
-  imageConversion()
+  if (!product.value.title || !product.value.description) {
+    router.push('/error')
+  } else {
+    imageConversion()
+  }
 })
 
 function switchSlide() {
@@ -45,7 +51,7 @@ async function imageConversion() {
   switchSlide()
 }
 
-async function loadImageAsBlob(url, id) {
+async function loadImageAsBlob(url: string, id: string) {
   try {
     const response = await getBlobFromImage(url)
     blobImages.value.push({
@@ -61,7 +67,7 @@ async function loadImageAsBlob(url, id) {
 async function onSave() {
   if (product.value.imagesIds.length) {
     await store.updateProduct(product.value)
-    await uploadImages(selectedFiles)
+    await uploadImages(selectedFiles.value)
     $q.notify({
       message: 'Товар отредактирован!',
       color: 'green',
@@ -77,7 +83,7 @@ async function onSave() {
 }
 
 
-function deleteCurrentImage(img) {
+function deleteCurrentImage(img: { blobLink: string; id: string }) {
   product.value.imagesIds.splice(product.value.imagesIds.findIndex(item => item === img.id), 1)
   blobImages.value.splice(blobImages.value.findIndex(item => item.blobLink === img.blobLink), 1)
   URL.revokeObjectURL(img.blobLink);
@@ -88,7 +94,7 @@ function deleteCurrentImage(img) {
   
 }
 
-function onUploadFiles(files) {
+function onUploadFiles(files: File[]) {
   selectedFiles.value = files;
   for (let img of selectedFiles.value) {
     product.value.imagesIds?.push(img.name)

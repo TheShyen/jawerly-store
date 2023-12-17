@@ -12,8 +12,8 @@ import Spinner from "../components/UI/spinner.vue";
 const appStore = useAppStore()
 const $q = useQuasar()
 
-const title = ref<string>('');
-const description = ref<string>('')
+const title = ref('');
+const description = ref('')
 const selectedFiles = ref<File[]>([])
 
 
@@ -52,7 +52,6 @@ async function onCreate():Promise<void> {
 }
 function onUploadFiles(files:File[]) {
   selectedFiles.value = files;
-  console.log(selectedFiles)
 }
 
 

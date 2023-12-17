@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import {useQuasar} from "quasar";
 import {ref} from "vue";
-import {useAuthStore} from "../stores/auth.js";
+import {useAuthStore} from "../stores/auth.ts";
 import {validationEmail, validationPassword} from "../utils/validation.js";
 import Spinner from "../components/UI/spinner.vue";
 
-
-const $q = useQuasar()
 const authStore = useAuthStore();
 
 const email = ref<string>('test@mail.ru')
@@ -16,12 +13,6 @@ const isPasswordVisible = ref<boolean>(true)
 async function signIn() {
   authStore.isLoading = true;
   await authStore.signIn({email: email.value, password: password.value})
-  $q.notify({
-    message: 'Вы авторизовались!',
-    color: 'green',
-    timeout: 3000,
-    position: 'top'
-  })
 }
 
 

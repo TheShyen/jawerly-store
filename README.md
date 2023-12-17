@@ -1,18 +1,51 @@
-# Vue 3 + TypeScript + Vite
+# Saros Bijou - Ювелирный магазин 💍
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Добро пожаловать в Saros Bijou - ваш источник элегантных и качественных украшений. Cайт предоставляет следующие возможности:
 
-## Recommended IDE Setup
+- **Управление товарами** 👜: Добавление, удаление и редактирование информации о продуктах через API или админ-интерфейс.
+- **Управление контентом** 📝: Создание, редактирование и удаление постов блога или новостей через админ-интерфейс.
+- **Админ-интерфейс** 🖥️: Простой и понятный интерфейс для настройки содержимого магазина и пользовательских данных.
+- **Модульность и расширяемость** 🧩: Возможность доработки и расширения функционала сайта благодаря гибкой архитектуре.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Технологии, используемые при разработке 🛠️
 
-## Type Support For `.vue` Imports in TS
+Этот проект разработан с использованием следующих технологий:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- **Vue 3** 🖼️
+- **TypeScript** 📝
+- **Quasar** 🚀
+- **Pinia** 🍍
+- **Firebase** 🔥
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## Демонстрация проекта 🌟
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+![Главная страница](/public/promo.jpg "Главная страница")
+
+## Развёртывание проекта 🚀
+
+Для развёртывания проекта на Vite с помощью npm, выполните следующие шаги:
+
+1. Установите Vite глобально, если он ещё не установлен:
+    ```bash
+    npm install -g create-vite
+    ```
+
+2. Создайте новый проект Vite:
+    ```bash
+    create-vite saros-bijou
+    ```
+
+3. Перейдите в созданную директорию проекта:
+    ```bash
+    cd saros-bijou
+    ```
+
+4. Установите зависимости проекта:
+    ```bash
+    npm install
+    ```
+
+5. Запустите проект:
+    ```bash
+    npm run dev
+    ```

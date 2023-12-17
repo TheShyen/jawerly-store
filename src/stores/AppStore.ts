@@ -1,13 +1,15 @@
 import {defineStore} from 'pinia';
 import {ref} from "vue";
-import getDataFromApi from "../services/getData.js";
-import uploadData from "../services/uploadData.js";
-import uploadImages from "../services/uploadImages.js";
-import deleteData from "../services/deleteData.js";
-import updateData from "../services/updateData.js";
-import getFilteredData from "../services/getFilteredData.js";
+import getDataFromApi from "../services/getData.ts";
+import uploadData from "../services/uploadData.ts";
+import uploadImages from "../services/uploadImages.ts";
+import deleteData from "../services/deleteData.ts";
+import updateData from "../services/updateData.ts";
+import getFilteredData from "../services/getFilteredData.ts";
 import {ProductInfo} from "../types/ProductData.ts";
 import {PostInfo} from "../types/PostData.ts";
+import {defaultPostState} from "../utils/defaultPostState.ts";
+import {defaultProductState} from "../utils/defaultProductState.ts";
 
 
 function calculateIndex(array: ProductInfo[] | PostInfo[], element: PostInfo | ProductInfo) {
@@ -70,20 +72,14 @@ export const useAppStore = defineStore('appStore', ()=> {
       console.error('Произошла ошибка:', error);
     }
   }
-  function getProduct(id: string): ProductInfo | null {
-    return products.value.find((item) => item.id == id) || null
+  function getProduct(id: string): ProductInfo {
+    return products.value.find((item) => item.id == id) || defaultProductState
   }
   function getPost(id: string): PostInfo {
-    return posts.value.find((item) => item.id == id) || {
-      id: '',
-      title: '',
-      description: '',
-      postDate: '',
-      imageId: '',
-    }
+    return posts.value.find((item) => item.id == id) || defaultPostState
   }
 
-  async function addProduct(selectedFile: object[], product: ProductInfo): Promise<void>  {
+  async function addProduct(selectedFile: File[], product: ProductInfo): Promise<void>  {
     isLoading.value = true;
     try {
       await uploadData(product, 'products')
@@ -95,7 +91,7 @@ export const useAppStore = defineStore('appStore', ()=> {
       isLoading.value = false;
     }
   }
-  async function addPost(selectedFile: object[], post: PostInfo): Promise<void> {
+  async function addPost(selectedFile: File[], post: PostInfo): Promise<void> {
     isLoading.value = true;
     try {
       await uploadData(post, 'posts')

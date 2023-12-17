@@ -1,6 +1,6 @@
 <script setup>
 import {ref, watch} from "vue";
-import {useAuthStore} from "../stores/auth.js";
+import {useAuthStore} from "../stores/auth.ts";
 import router from "../router/router.ts";
 import {categoryOptions, sortOptions, genderOptions} from "../utils/getSelectOptions.ts";
 import {useAppStore} from "../stores/AppStore.ts";
