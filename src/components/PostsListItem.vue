@@ -6,13 +6,17 @@ import {useAppStore} from "../stores/AppStore.ts";
 import {useAuthStore} from "../stores/auth.ts";
 import MainButton from "./UI/MainButton.vue";
 import {PostInfo} from "../types/PostData.ts";
-
-const store = useAppStore();
-const authStore = useAuthStore();
+import DeleteDialog from "./DeleteDialog.vue";
+import {ref} from "vue";
 
 defineProps<{
   post: PostInfo
 }>();
+
+const store = useAppStore();
+const authStore = useAuthStore();
+
+const isShowConfirmDialog = ref(false)
 function openEditPage(id: string) {
   router.push('/editPost/' + id);
 }
@@ -33,14 +37,13 @@ function deletePost(post: PostInfo) {
         <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="openEditPage(post.id)">
           <q-icon color='grey' name="edit"/>
         </q-btn>
-        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="deletePost(post)">
+        <q-btn v-if="authStore.isAuth" class="catalog__card__edit" flat rounded size="14px" @click.stop="isShowConfirmDialog = true">
           <q-icon color='red' name="delete"/>
         </q-btn>
       </div>
     </q-card-section>
-    
-    
   </q-card>
+  <DeleteDialog v-model="isShowConfirmDialog" @delete-item="deletePost(post)">Вы уверены, что хотите удалить пост?</DeleteDialog>
 </template>
 
 <style lang="sass" scoped>

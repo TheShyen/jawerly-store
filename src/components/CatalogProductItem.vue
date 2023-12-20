@@ -7,6 +7,8 @@ import {ProductInfo} from "../types/ProductData.js";
 import {ref} from "vue";
 import MainButton from "./UI/MainButton.vue";
 import redirect from "../utils/redirect.ts";
+import DeleteDialog from "./DeleteDialog.vue";
+
 
 
 const authStore = useAuthStore();
@@ -15,7 +17,7 @@ defineProps<{
   product: ProductInfo
 }>();
 
-const isShowConfirmDialog = ref<boolean>(false)
+const isShowConfirmDialog = ref(false)
 function openEditPage(id: string): void {
   router.push('/editProduct/' + id);
 }
@@ -42,17 +44,7 @@ function deleteProduct(product: ProductInfo): void {
       </div>
     </q-card-section>
   </q-card>
-  <q-dialog v-model="isShowConfirmDialog" persistent>
-    <q-card>
-      <q-card-section class="row items-center">
-        <span class="text-h6">Хотите удалить товар?</span>
-      </q-card-section>
-      <q-card-actions align="right">
-        <q-btn flat label="Отмена" color="grey" v-close-popup />
-        <q-btn label="Удалить" color="red" v-close-popup @click="deleteProduct(product)"/>
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
+  <DeleteDialog v-model="isShowConfirmDialog" @delete-item="deleteProduct(product)">Вы уверены, что хотите удалить товар?</DeleteDialog>
 </template>
 
 <style lang="sass" scoped>

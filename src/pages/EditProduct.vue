@@ -17,9 +17,13 @@ import getBlobFromImage from "../services/getImageForBlob.ts";
 import {ProductInfo} from "../types/ProductData.ts";
 import {generateDefaultProductState} from "../utils/defaultProductState.ts";
 import {validationFields} from "../utils/validationFields.ts";
+import FormInputGender from "../components/FormInputGender.vue";
+import FormInputLink from "../components/FormInputLink.vue";
+import DeleteDialog from "../components/DeleteDialog.vue";
 
 const $q = useQuasar()
 
+const isShowConfirmDialog = ref(false)
 const isShowModal = ref(false)
 const slide = ref('')
 const blobImages = ref<{ blobLink: string; id: string }[]>([])
@@ -165,14 +169,17 @@ async function deleteProduct(product: ProductInfo) {
           <FormInputDescription v-model="product.description"/>
           <FormInputPrice v-model="product.price"/>
           <FormInputCategory v-model="product.category"/>
+          <FormInputGender v-model="product.gender"/>
+          <FormInputLink v-model="product.link"/>
           <div class="q-mt-lg">
             <q-btn color="green" class="button" size="17px" @click="onSave">Сохранить</q-btn>
             <q-btn class="q-ml-sm button" color="primary" flat size="17px" @click="router.push('/catalog')">Назад</q-btn>
-            <q-btn class="q-ml-sm button" color="red" flat  size="17px" @click="deleteProduct(product)">Удалить</q-btn>
+            <q-btn class="q-ml-sm button" color="red" flat  size="17px" @click="isShowConfirmDialog = true">Удалить</q-btn>
           </div>
         </div>
       </div>
       <Spinner v-else/>
+      <DeleteDialog v-model="isShowConfirmDialog" @delete-item="deleteProduct(product)">Вы уверены, что хотите удалить товар?</DeleteDialog>
     </DefaultLayout>
   </div>
 </template>

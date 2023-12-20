@@ -15,6 +15,7 @@ import getBlobFromImage from "../services/getImageForBlob.ts";
 import {PostInfo} from "../types/PostData.ts";
 import {generateDefaultPostState} from "../utils/defaultPostState.ts";
 import {validationFields} from "../utils/validationFields.ts";
+import DeleteDialog from "../components/DeleteDialog.vue";
 
 const $q = useQuasar()
 
@@ -25,6 +26,7 @@ const postId = ref<string>(route.params.postId as string);
 const store = useAppStore()
 const post = ref<PostInfo>(generateDefaultPostState());
 const isShowModal = ref(false)
+const isShowConfirmDialog = ref(false)
 const blobImage = ref<{ blobLink: string; id: string }>({ blobLink: "", id: "" })
 
 onMounted(() => {
@@ -133,11 +135,13 @@ async function deletePost(post: PostInfo) {
           <div class="q-mt-lg">
             <q-btn color="green" class="button" label="Изменить" size="17px" @click="onSave"/>
             <q-btn class="q-ml-sm button" color="primary" flat label="Назад" size="17px" @click="router.push('/posts')"/>
-            <q-btn class="q-ml-sm button" color="red" flat label="Удалить" size="17px" @click="deletePost(post)"/>
+            <q-btn class="q-ml-sm button" color="red" flat label="Удалить" size="17px"
+                   @click="isShowConfirmDialog = true"/>
           </div>
         </div>
       </div>
       <Spinner v-else/>
+      <DeleteDialog v-model="isShowConfirmDialog" @delete-item="deletePost(post)">Вы уверены, что хотите удалить пост?</DeleteDialog>
     </DefaultLayout>
   </div>
 </template>

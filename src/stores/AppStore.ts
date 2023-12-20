@@ -39,8 +39,8 @@ export const useAppStore = defineStore('appStore', ()=> {
         });
     }
   async function getProductsByFilters(params: {orderBy: string, equalTo: string}): Promise<void> {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
       const response = await getFilteredData('products.json', params);
       products.value = reformatProductData(response.data)
     } catch (error) {
@@ -57,19 +57,25 @@ export const useAppStore = defineStore('appStore', ()=> {
     }
   }
   async function getProducts(): Promise<void> {
+    isLoading.value = true;
     try {
       const response = await getDataFromApi('products');
       products.value = reformatProductData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
+    } finally {
+      isLoading.value = false;
     }
   }
   async function getPosts (): Promise<void> {
+    isLoading.value = true;
     try {
       const response = await getDataFromApi('posts');
       posts.value = reformatPostData(response.data)
     } catch (error) {
       console.error('Произошла ошибка:', error);
+    } finally {
+      isLoading.value = false;
     }
   }
   function getProduct(id: string): ProductInfo {
