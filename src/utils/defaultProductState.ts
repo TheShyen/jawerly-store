@@ -1,6 +1,6 @@
 import {ProductInfo} from "../types/ProductData.ts";
 
-export const defaultProductState:ProductInfo = {
+export const generateDefaultProductState = () :ProductInfo => { return {
     id: '',
     title: '',
     category: '',
@@ -10,4 +10,4 @@ export const defaultProductState:ProductInfo = {
     link: '',
     previewImageId: '',
     imagesIds: []
-}
+}}

@@ -5,14 +5,14 @@ import {useAppStore} from "../stores/AppStore.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import getImgUrl from "../utils/getImageUrl.ts";
 import {ProductInfo} from "../types/ProductData.ts";
-import {defaultProductState} from "../utils/defaultProductState.ts";
+import {generateDefaultProductState} from "../utils/defaultProductState.ts";
 import router from "../router/router.ts";
 
 const slide = ref('')
 const route = useRoute();
 const productId = ref<string>(route.params.productId as string);
 const store = useAppStore()
-const product = ref<ProductInfo>(defaultProductState);
+const product = ref<ProductInfo>(generateDefaultProductState());
 
 onMounted(() => {
   product.value = store.getProduct(productId.value);

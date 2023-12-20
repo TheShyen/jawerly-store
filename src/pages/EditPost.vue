@@ -13,7 +13,8 @@ import FormInputDescription from "../components/FormInputDescription.vue";
 import FormInputImage from "../components/FormInputImage.vue";
 import getBlobFromImage from "../services/getImageForBlob.ts";
 import {PostInfo} from "../types/PostData.ts";
-import {defaultPostState} from "../utils/defaultPostState.ts";
+import {generateDefaultPostState} from "../utils/defaultPostState.ts";
+import {validationFields} from "../utils/validationFields.ts";
 
 const $q = useQuasar()
 
@@ -22,14 +23,14 @@ const selectedFiles = ref<File[]>([])
 const route = useRoute();
 const postId = ref<string>(route.params.postId as string);
 const store = useAppStore()
-const post = ref<PostInfo>(defaultPostState);
+const post = ref<PostInfo>(generateDefaultPostState());
 const isShowModal = ref(false)
 const blobImage = ref<{ blobLink: string; id: string }>({ blobLink: "", id: "" })
 
 onMounted(() => {
   post.value = store.getPost(postId.value);
   if (!post.value.title || !post.value.description) {
-    router.push('/error')
+    router.replace('/error')
   } else {
     imageConversion()
   }
@@ -68,7 +69,7 @@ async function loadImageAsBlob(url: string, id: string) {
   }
 }
 async function onSave() {
-  if (post.value.imageId) {
+  if (validationFields(post.value)) {
     await store.updatePost(post.value)
     await uploadImages(selectedFiles.value)
     $q.notify({
@@ -78,12 +79,16 @@ async function onSave() {
     })
   } else {
     $q.notify({
-      message: 'Загрузите изображения',
+      message: 'Загрузите изображения и заполните поля',
       color: 'red',
       timeout: 3000,
     })
   }
 
+}
+
+async function deletePost(post: PostInfo) {
+  await store.deletePost(post)
 }
 
 </script>
@@ -128,7 +133,7 @@ async function onSave() {
           <div class="q-mt-lg">
             <q-btn color="green" class="button" label="Изменить" size="17px" @click="onSave"/>
             <q-btn class="q-ml-sm button" color="primary" flat label="Назад" size="17px" @click="router.push('/posts')"/>
-            <q-btn class="q-ml-sm button" color="red" flat label="Удалить" size="17px"/>
+            <q-btn class="q-ml-sm button" color="red" flat label="Удалить" size="17px" @click="deletePost(post)"/>
           </div>
         </div>
       </div>

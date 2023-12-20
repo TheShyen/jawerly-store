@@ -8,8 +8,8 @@ import updateData from "../services/updateData.ts";
 import getFilteredData from "../services/getFilteredData.ts";
 import {ProductInfo} from "../types/ProductData.ts";
 import {PostInfo} from "../types/PostData.ts";
-import {defaultPostState} from "../utils/defaultPostState.ts";
-import {defaultProductState} from "../utils/defaultProductState.ts";
+import {generateDefaultPostState} from "../utils/defaultPostState.ts";
+import {generateDefaultProductState} from "../utils/defaultProductState.ts";
 
 
 function calculateIndex(array: ProductInfo[] | PostInfo[], element: PostInfo | ProductInfo) {
@@ -73,10 +73,10 @@ export const useAppStore = defineStore('appStore', ()=> {
     }
   }
   function getProduct(id: string): ProductInfo {
-    return products.value.find((item) => item.id == id) || defaultProductState
+    return products.value.find((item) => item.id == id) || generateDefaultProductState()
   }
   function getPost(id: string): PostInfo {
-    return posts.value.find((item) => item.id == id) || defaultPostState
+    return posts.value.find((item) => item.id == id) || generateDefaultPostState()
   }
 
   async function addProduct(selectedFile: File[], product: ProductInfo): Promise<void>  {

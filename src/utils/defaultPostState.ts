@@ -1,9 +1,9 @@
 import {PostInfo} from "../types/PostData.ts";
 
-export const defaultPostState: PostInfo = {
+export const generateDefaultPostState = ():PostInfo=> { return {
     id: '',
     title: '',
     description: '',
     postDate: '',
     imageId: '',
-}
+}}

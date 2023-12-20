@@ -15,7 +15,8 @@ import uploadImages from "../services/uploadImages.ts";
 import Spinner from "../components/UI/spinner.vue";
 import getBlobFromImage from "../services/getImageForBlob.ts";
 import {ProductInfo} from "../types/ProductData.ts";
-import {defaultProductState} from "../utils/defaultProductState.ts";
+import {generateDefaultProductState} from "../utils/defaultProductState.ts";
+import {validationFields} from "../utils/validationFields.ts";
 
 const $q = useQuasar()
 
@@ -26,12 +27,12 @@ const selectedFiles = ref<File[]>([])
 const route = useRoute();
 const productId = ref<string>(route.params.productId as string);
 const store = useAppStore()
-const product = ref<ProductInfo>(defaultProductState);
+const product = ref<ProductInfo>(generateDefaultProductState());
 
 onMounted(() => {
   product.value = store.getProduct(productId.value);
   if (!product.value.title || !product.value.description) {
-    router.push('/error')
+    router.replace('/error')
   } else {
     imageConversion()
   }
@@ -65,7 +66,7 @@ async function loadImageAsBlob(url: string, id: string) {
 
 
 async function onSave() {
-  if (product.value.imagesIds.length) {
+  if (product.value.imagesIds.length && validationFields(product.value)) {
     await store.updateProduct(product.value)
     await uploadImages(selectedFiles.value)
     $q.notify({
@@ -75,7 +76,7 @@ async function onSave() {
     })
   } else {
     $q.notify({
-      message: 'Загрузите изображения',
+      message: 'Загрузите изображения и заполните поля',
       color: 'red',
       timeout: 3000,
     })
@@ -103,6 +104,10 @@ function onUploadFiles(files: File[]) {
   }
   product.value.previewImageId = product.value.imagesIds[0]
   switchSlide()
+}
+
+async function deleteProduct(product: ProductInfo) {
+  await store.deleteProduct(product)
 }
 </script>
 
@@ -163,7 +168,7 @@ function onUploadFiles(files: File[]) {
           <div class="q-mt-lg">
             <q-btn color="green" class="button" size="17px" @click="onSave">Сохранить</q-btn>
             <q-btn class="q-ml-sm button" color="primary" flat size="17px" @click="router.push('/catalog')">Назад</q-btn>
-            <q-btn class="q-ml-sm button" color="red" flat  size="17px">Удалить</q-btn>
+            <q-btn class="q-ml-sm button" color="red" flat  size="17px" @click="deleteProduct(product)">Удалить</q-btn>
           </div>
         </div>
       </div>

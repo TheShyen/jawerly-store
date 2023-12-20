@@ -6,13 +6,13 @@ import {useAppStore} from "../stores/AppStore.ts";
 import formatDateString from "../utils/formatDateString.ts";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import {PostInfo} from "../types/PostData.ts";
-import {defaultPostState} from "../utils/defaultPostState.ts";
+import {generateDefaultPostState} from "../utils/defaultPostState.ts";
 import router from "../router/router.ts";
 
 const route = useRoute();
 const store = useAppStore()
 const postId = ref<string>(route.params.postId as string);
-const post = ref<PostInfo>(defaultPostState);
+const post = ref<PostInfo>(generateDefaultPostState());
 
 onMounted(() => {
   post.value = store.getPost(postId.value);
@@ -27,14 +27,14 @@ onMounted(() => {
     <DefaultLayout>
       <div class="post__main">
         <div class="post__main__img">
-          <q-img :src="getImgUrl(post?.imageId)" class="post__main__img"/>
+          <q-img :src="getImgUrl(post.imageId)" class="post__main__img"/>
         </div>
         <div class="post__main__info">
           <div class="post__main__info__date">Дата создания:
             <div class="post__main__info__date__create">{{formatDateString(post?.postDate) }}</div>
           </div>
-          <div class="post__main__info__title">{{post?.title}}</div>
-          <div class="post__main__info__description">{{post?.description}}</div>
+          <div class="post__main__info__title">{{post.title}}</div>
+          <div class="post__main__info__description">{{post.description}}</div>
         </div>
       </div>
     </DefaultLayout>
