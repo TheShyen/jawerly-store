@@ -10,6 +10,7 @@ import {ProductInfo} from "../types/ProductData.ts";
 import {PostInfo} from "../types/PostData.ts";
 import {generateDefaultPostState} from "../utils/defaultPostState.ts";
 import {generateDefaultProductState} from "../utils/defaultProductState.ts";
+import {ProductInfoApi} from "../types/ProductDataApi.ts";
 
 
 function calculateIndex(array: ProductInfo[] | PostInfo[], element: PostInfo | ProductInfo) {
@@ -21,7 +22,7 @@ export const useAppStore = defineStore('appStore', ()=> {
   const posts = ref<PostInfo[]>([])
   const isLoading = ref<boolean>(false)
 
-  function reformatProductData(data: Record<string, ProductInfo>): ProductInfo[] {
+  function reformatProductData(data: Record<string, ProductInfoApi>): ProductInfo[] {
     return Object.keys(data).map(key => {
       return {
         ...data[key],

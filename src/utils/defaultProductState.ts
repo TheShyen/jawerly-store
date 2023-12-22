@@ -5,7 +5,7 @@ export const generateDefaultProductState = () :ProductInfo => { return {
     title: '',
     category: '',
     description: '',
-    price: Number(''),
+    price: 0,
     gender: '',
     link: '',
     previewImageId: '',

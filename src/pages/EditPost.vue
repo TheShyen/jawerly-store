@@ -16,6 +16,8 @@ import {PostInfo} from "../types/PostData.ts";
 import {generateDefaultPostState} from "../utils/defaultPostState.ts";
 import {validationFields} from "../utils/validationFields.ts";
 import DeleteDialog from "../components/DeleteDialog.vue";
+import {BlobImage} from "../types/BlobImage.ts";
+import {generateDefaultBlob} from "../utils/defaultBlobImage.ts";
 
 const $q = useQuasar()
 
@@ -27,7 +29,7 @@ const store = useAppStore()
 const post = ref<PostInfo>(generateDefaultPostState());
 const isShowModal = ref(false)
 const isShowConfirmDialog = ref(false)
-const blobImage = ref<{ blobLink: string; id: string }>({ blobLink: "", id: "" })
+const blobImage = ref<BlobImage>(generateDefaultBlob())
 
 onMounted(() => {
   post.value = store.getPost(postId.value);

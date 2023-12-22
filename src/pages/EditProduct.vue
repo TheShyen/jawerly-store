@@ -20,13 +20,14 @@ import {validationFields} from "../utils/validationFields.ts";
 import FormInputGender from "../components/FormInputGender.vue";
 import FormInputLink from "../components/FormInputLink.vue";
 import DeleteDialog from "../components/DeleteDialog.vue";
+import {BlobImage} from "../types/BlobImage.ts";
 
 const $q = useQuasar()
 
 const isShowConfirmDialog = ref(false)
 const isShowModal = ref(false)
 const slide = ref('')
-const blobImages = ref<{ blobLink: string; id: string }[]>([])
+const blobImages = ref<BlobImage[]>([])
 const selectedFiles = ref<File[]>([])
 const route = useRoute();
 const productId = ref<string>(route.params.productId as string);
@@ -88,7 +89,7 @@ async function onSave() {
 }
 
 
-function deleteCurrentImage(img: { blobLink: string; id: string }) {
+function deleteCurrentImage(img: BlobImage) {
   product.value.imagesIds.splice(product.value.imagesIds.findIndex(item => item === img.id), 1)
   blobImages.value.splice(blobImages.value.findIndex(item => item.blobLink === img.blobLink), 1)
   URL.revokeObjectURL(img.blobLink);
