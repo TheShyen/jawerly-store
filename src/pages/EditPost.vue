@@ -93,6 +93,7 @@ async function onSave() {
 
 async function deletePost(post: PostInfo) {
   await store.deletePost(post)
+  await router.replace('/posts')
 }
 
 </script>

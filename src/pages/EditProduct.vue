@@ -113,6 +113,7 @@ function onUploadFiles(files: File[]) {
 
 async function deleteProduct(product: ProductInfo) {
   await store.deleteProduct(product)
+  await router.replace('/catalog')
 }
 </script>
 
